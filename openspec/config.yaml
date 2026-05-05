@@ -1,14 +1,38 @@
-schema: spec-driven
+schema: sdd-with-github-issues
 created: 2026-05-05
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Project: Abhilash Venkatesh's personal portfolio — static site deployed to Vercel at abhilash.dev.
+
+  Tech stack:
+  - Framework: Astro 6.x (islands architecture, zero-JS by default)
+  - UI components: React 19 (islands only — client:load / client:visible)
+  - Styling: Tailwind CSS 4.x via @tailwindcss/vite — NO tailwind.config.mjs
+  - Dark mode: CSS @custom-variant dark (&:where(.dark, .dark *)) in global.css; toggle .dark class on <html>; persist via localStorage('portfolio-theme')
+  - Content: Astro Content Collections — blog posts as .md in src/content/blog/
+  - Deployment: Vercel static output (output: 'static') — pure CDN, no serverless
+
+  Key constraints:
+  - No SSR, no serverless functions, no runtime API calls
+  - No CMS — all content in source files
+  - No new npm dependencies without strong justification
+  - React only where interactivity is needed; everything else is .astro
+  - Contact email: abhilashfeb30@gmail.com
+  - Résumé: public/resume.pdf
+
+  Project structure:
+  - src/components/layout/ — Nav.tsx (React island), Footer.astro
+  - src/components/blog/ — TagFilter.tsx (React island)
+  - src/components/ui/ — ScrollReveal.tsx (React island)
+  - src/data/index.ts — projects, experience, skills as typed arrays (no fetch)
+  - src/layouts/Base.astro — shared layout with Nav + Footer
+  - src/pages/ — file-based routing, all statically generated
+  - src/styles/global.css — Tailwind directives + dark mode variant
+
+  Conventions:
+  - Conventional commits (feat/fix/chore/docs/refactor)
+  - Active link detection via currentPath prop from Astro.url.pathname — never window.location in React
+  - FOUT prevention script in Base.astro <head> as is:inline
 
 # Per-artifact rules (optional)
 # Add custom rules for specific artifacts.
