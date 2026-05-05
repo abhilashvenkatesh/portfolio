@@ -20,8 +20,11 @@ jobs:
       - run: npm ci
 
       - run: npx astro check
-
-      - run: npm run build
+          
+      - run: npx vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Deploy to Vercel (preview)
         if: github.event_name == 'pull_request'
