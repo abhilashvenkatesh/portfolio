@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Nav from '../components/layout/Nav';
+import Footer from '../components/layout/Footer.astro';
 
 interface Props {
   title: string;
@@ -28,10 +29,11 @@ const currentPath = Astro.url.pathname;
       })();
     </script>
   </head>
-  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen overflow-x-hidden">
+  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen overflow-x-hidden flex flex-col">
     <Nav client:load currentPath={currentPath} />
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
+    <Footer />
   </body>
 </html>
