@@ -60,7 +60,7 @@ export default function Nav({ currentPath }: NavProps) {
                   key={href}
                   href={href}
                   className={[
-                    'text-sm font-medium transition-colors',
+                    'py-3 min-w-[44px] text-center text-sm font-medium transition-colors',
                     isActive
                       ? 'text-indigo-600 dark:text-indigo-400 underline underline-offset-4'
                       : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100',
@@ -80,7 +80,7 @@ export default function Nav({ currentPath }: NavProps) {
             <button
               onClick={() => setMenuOpen((o) => !o)}
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
+              className="p-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
             >
               {menuOpen ? (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -95,30 +95,35 @@ export default function Nav({ currentPath }: NavProps) {
           </div>
         </div>
 
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 py-2">
-            {NAV_LINKS.map(({ href, label }) => {
-              const isActive = normalizedPath === href;
-              return (
-                <a
-                  key={href}
-                  href={href}
-                  onClick={() => setMenuOpen(false)}
-                  className={[
-                    'block px-2 py-2 text-sm font-medium transition-colors',
-                    isActive
-                      ? 'text-indigo-600 dark:text-indigo-400'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100',
-                  ].join(' ')}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {label}
-                </a>
-              );
-            })}
+        {/* Mobile menu — grid height animation */}
+        <div className={[
+          'md:hidden grid overflow-hidden transition-[grid-template-rows] duration-200',
+          menuOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
+        ].join(' ')}>
+          <div className="min-h-0">
+            <div className="border-t border-gray-200 dark:border-gray-800 py-2">
+              {NAV_LINKS.map(({ href, label }) => {
+                const isActive = normalizedPath === href;
+                return (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={() => setMenuOpen(false)}
+                    className={[
+                      'block px-2 py-3 text-sm font-medium transition-colors',
+                      isActive
+                        ? 'text-indigo-600 dark:text-indigo-400'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100',
+                    ].join(' ')}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {label}
+                  </a>
+                );
+              })}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
@@ -129,7 +134,7 @@ function ThemeToggle({ theme, onToggle }: { theme: 'light' | 'dark' | null; onTo
     <button
       onClick={onToggle}
       aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+      className="p-3 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
     >
       {theme === 'dark' ? (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
