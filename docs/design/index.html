@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abhilash — Backend &amp; Product Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+function Hero() {
+  return (
+    <section style={{
+      minHeight: "100vh", display: "flex", flexDirection: "column",
+      justifyContent: "center", alignItems: "center", textAlign: "center",
+      padding: "120px clamp(20px, 5vw, 64px) 80px",
+      position: "relative", overflow: "hidden"
+    }}>
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none",
+        backgroundImage: `linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)`,
+        backgroundSize: "60px 60px",
+        maskImage: "radial-gradient(ellipse 80% 60% at 50% 30%, black 30%, transparent 100%)"
+      }}></div>
+      <div style={{
+        position: "absolute", top: "20%", left: "50%", transform: "translateX(-50%)",
+        width: "500px", height: "400px",
+        background: "oklch(0.58 0.18 38 / 0.08)",
+        borderRadius: "50%", filter: "blur(80px)", zIndex: 0, pointerEvents: "none"
+      }}></div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: "760px" }}>
+        <div style={{ marginBottom: "24px" }}>
+          <AccentTag label="Backend · Product · Systems" />
+        </div>
+        <h1 style={{
+          fontSize: "clamp(48px, 7vw, 88px)", fontWeight: 600,
+          lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "24px", color: "var(--heading)"
+        }}>
+          Hi, I'm Abhilash.<br />
+          <span style={{ color: "var(--muted)", fontWeight: 300 }}>I architect systems</span><br />
+          <span style={{ color: "var(--muted)", fontWeight: 300 }}>that <em style={{ color: "var(--accent)", fontStyle: "normal" }}>scale to millions.</em></span>
+        </h1>
+        <p style={{
+          fontSize: "clamp(16px, 2vw, 19px)", color: "var(--muted)",
+          maxWidth: "520px", lineHeight: 1.7, fontWeight: 300, margin: "0 auto 40px"
+        }}>
+          Lead Application Developer with 11+ years building distributed systems, cloud infrastructure,
+          and engineering teams across Australia and India. Currently at Fabric Group, Melbourne.
+        </p>
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center" }}>
+          <a href="projects.html" style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            padding: "12px 24px", borderRadius: "8px",
+            background: "var(--accent)", color: "#000",
+            fontSize: "14px", fontWeight: 600, textDecoration: "none", letterSpacing: "0.01em"
+          }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = "0.85"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+          >
+            View Projects
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+          <a href="contact.html" style={{
+            display: "inline-flex", alignItems: "center", gap: "8px",
+            padding: "12px 24px", borderRadius: "8px",
+            border: "1px solid var(--border)", color: "var(--text)",
+            fontSize: "14px", fontWeight: 500, textDecoration: "none"
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--accent-border)"; e.currentTarget.style.background = "var(--accent-dim)"; e.currentTarget.style.transform = "translateY(-1px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "transparent"; e.currentTarget.style.transform = "translateY(0)"; }}
+          >Contact me</a>
+        </div>
+
+        <div style={{ display: "flex", gap: "40px", marginTop: "72px", flexWrap: "wrap", justifyContent: "center" }}>
+          {[
+            { n: "11+", label: "years experience" },
+            { n: "30+", label: "microservices shipped" },
+            { n: "3",   label: "countries worked in" }
+          ].map(s => (
+            <div key={s.n}>
+              <div style={{ fontSize: "28px", fontWeight: 600, color: "var(--heading)", letterSpacing: "-0.02em" }}>{s.n}</div>
+              <div style={{ fontSize: "13px", color: "var(--muted)", fontFamily: "var(--mono)" }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{
+        position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", opacity: 0.35
+      }}>
+        <span style={{ fontSize: "11px", fontFamily: "var(--mono)", letterSpacing: "0.08em", color: "var(--muted)" }}>scroll</span>
+        <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
+          <rect x="0.75" y="0.75" width="10.5" height="18.5" rx="5.25" stroke="currentColor" strokeWidth="1.5"/>
+          <circle cx="6" cy="6" r="1.5" fill="currentColor">
+            <animate attributeName="cy" values="6;12;6" dur="1.8s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+    </section>
+  );
+}
+
+function App() {
+  const [isDark, toggleTheme] = useTheme();
+  return (
+    <>
+      <Nav active="home" isDark={isDark} onToggleTheme={toggleTheme} />
+      <main style={{ paddingTop: 0 }}>
+        <Hero />
+      </main>
+      <Footer />
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

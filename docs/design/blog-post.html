@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Abhilash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
+
+  <style>
+    /* Markdown-rendered prose styles */
+    .prose h2 {
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-weight: 600;
+      color: var(--heading);
+      letter-spacing: -0.02em;
+      margin: 40px 0 14px;
+      line-height: 1.25;
+    }
+    .prose p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+    .prose ul, .prose ol {
+      padding-left: 20px;
+      margin-bottom: 18px;
+    }
+    .prose li {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 6px;
+    }
+    .prose pre {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 20px 0;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .prose code {
+      font-family: var(--mono);
+      font-size: 13px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent);
+    }
+    .prose pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--text);
+    }
+    .prose strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .prose em {
+      color: var(--muted);
+      font-style: italic;
+    }
+    .prose blockquote {
+      border-left: 2px solid var(--accent);
+      padding: 12px 20px;
+      margin: 20px 0;
+      background: var(--accent-dim);
+      border-radius: 0 8px 8px 0;
+    }
+    .prose blockquote p {
+      margin: 0;
+      color: var(--accent);
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+/* ── Minimal markdown renderer ─────────────────────────── */
+function renderMarkdown(md) {
+  const lines = md.trim().split('\n');
+  const elements = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // h2
+    if (line.startsWith('## ')) {
+      elements.push(<h2 key={i}>{line.slice(3)}</h2>);
+      i++; continue;
+    }
+
+    // code block
+    if (line.startsWith('```')) {
+      const codeLines = [];
+      i++;
+      while (i < lines.length && !lines[i].startsWith('```')) {
+        codeLines.push(lines[i]);
+        i++;
+      }
+      elements.push(<pre key={i}><code>{codeLines.join('\n')}</code></pre>);
+      i++; continue;
+    }
+
+    // bullet list
+    if (line.startsWith('- ')) {
+      const items = [];
+      while (i < lines.length && lines[i].startsWith('- ')) {
+        items.push(<li key={i}>{inlineFormat(lines[i].slice(2))}</li>);
+        i++;
+      }
+      elements.push(<ul key={`ul-${i}`}>{items}</ul>);
+      continue;
+    }
+
+    // blockquote
+    if (line.startsWith('> ')) {
+      elements.push(<blockquote key={i}><p>{inlineFormat(line.slice(2))}</p></blockquote>);
+      i++; continue;
+    }
+
+    // blank line
+    if (line.trim() === '') { i++; continue; }
+
+    // paragraph
+    elements.push(<p key={i}>{inlineFormat(line)}</p>);
+    i++;
+  }
+
+  return elements;
+}
+
+function inlineFormat(text) {
+  // Bold + italic + code inline
+  const parts = [];
+  const re = /(\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`)/g;
+  let last = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) parts.push(text.slice(last, m.index));
+    if (m[0].startsWith('**')) parts.push(<strong key={m.index}>{m[2]}</strong>);
+    else if (m[0].startsWith('*')) parts.push(<em key={m.index}>{m[3]}</em>);
+    else parts.push(<code key={m.index}>{m[4]}</code>);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts.length === 1 && typeof parts[0] === 'string' ? parts[0] : parts;
+}
+
+/* ── Blog Post Page ─────────────────────────────────────── */
+function BlogPostPage() {
+  const id = new URLSearchParams(window.location.search).get('id');
+  const post = BLOGS.find(b => b.id === id);
+  const otherPosts = BLOGS.filter(b => b.id !== id).slice(0, 2);
+
+  if (!post) {
+    return (
+      <div style={{ padding: "120px clamp(20px,5vw,64px)", textAlign: "center" }}>
+        <p style={{ color: "var(--muted)", fontFamily: "var(--mono)" }}>Post not found.</p>
+        <a href="blog.html" style={{ color: "var(--accent)", fontFamily: "var(--mono)", fontSize: "13px" }}>← Back to blog</a>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ maxWidth: "720px", margin: "0 auto", padding: "60px clamp(20px,5vw,64px) 100px" }}>
+
+      {/* Back link */}
+      <FadeIn>
+        <a href="blog.html" style={{
+          display: "inline-flex", alignItems: "center", gap: "6px",
+          fontSize: "13px", fontFamily: "var(--mono)", color: "var(--muted)",
+          textDecoration: "none", marginBottom: "48px"
+        }}
+          onMouseEnter={e => e.currentTarget.style.color = "var(--accent)"}
+          onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M10 7H2M6 2L2 7l4 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          All posts
+        </a>
+      </FadeIn>
+
+      {/* Header */}
+      <FadeIn delay={40}>
+        <div style={{ marginBottom: "12px", display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+          <AccentTag label={post.tag} />
+          <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>{post.date}</span>
+          <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>·</span>
+          <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>{post.readTime}</span>
+        </div>
+        <h1 style={{
+          fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 600,
+          color: "var(--heading)", letterSpacing: "-0.03em",
+          lineHeight: 1.15, marginBottom: "16px"
+        }}>{post.title}</h1>
+        <p style={{ fontSize: "17px", color: "var(--muted)", lineHeight: 1.7, marginBottom: "48px" }}>{post.summary}</p>
+        <div style={{ height: "1px", background: "var(--border)", marginBottom: "48px" }}></div>
+      </FadeIn>
+
+      {/* Content */}
+      <FadeIn delay={80}>
+        <div className="prose">
+          {renderMarkdown(post.content)}
+        </div>
+      </FadeIn>
+
+      {/* Author card */}
+      <FadeIn delay={120}>
+        <div style={{
+          marginTop: "64px", padding: "24px 28px", borderRadius: "12px",
+          background: "var(--bg2)", border: "1px solid var(--border)",
+          display: "flex", gap: "20px", alignItems: "center"
+        }}>
+          <div style={{
+            width: "52px", height: "52px", borderRadius: "10px", flexShrink: 0,
+            background: "var(--bg3)", border: "1px solid var(--border)",
+            display: "flex", alignItems: "center", justifyContent: "center"
+          }}>
+            <svg width="24" height="24" viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="18" r="10" stroke="var(--muted)" strokeWidth="1.5"/>
+              <path d="M4 44c0-11 9-19 20-19s20 8 20 19" stroke="var(--muted)" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontWeight: 600, color: "var(--heading)", marginBottom: "3px" }}>Abhilash</div>
+            <div style={{ fontSize: "13px", color: "var(--muted)", lineHeight: 1.6 }}>
+              Backend &amp; product engineer. I write about systems, Go, and building reliable software.
+            </div>
+          </div>
+        </div>
+      </FadeIn>
+
+      {/* More posts */}
+      {otherPosts.length > 0 && (
+        <FadeIn delay={160}>
+          <div style={{ marginTop: "64px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
+              <div style={{ flex: 1, height: "1px", background: "var(--border)" }}></div>
+              <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)", letterSpacing: "0.08em", textTransform: "uppercase", flexShrink: 0 }}>More posts</span>
+              <div style={{ flex: 1, height: "1px", background: "var(--border)" }}></div>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {otherPosts.map(p => (
+                <a key={p.id} href={`blog-post.html?id=${p.id}`} style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  gap: "16px", padding: "16px 20px", borderRadius: "10px",
+                  border: "1px solid var(--border)", background: "var(--bg2)",
+                  textDecoration: "none", transition: "all 0.2s"
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--accent-border)"; e.currentTarget.style.background = "var(--accent-dim)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.background = "var(--bg2)"; }}
+                >
+                  <div>
+                    <div style={{ fontSize: "14px", fontWeight: 500, color: "var(--heading)", marginBottom: "2px" }}>{p.title}</div>
+                    <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>{p.date} · {p.readTime}</div>
+                  </div>
+                  <svg style={{ color: "var(--muted)", flexShrink: 0 }} width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const [isDark, toggleTheme] = useTheme();
+  // Update title based on post
+  React.useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('id');
+    const post = BLOGS.find(b => b.id === id);
+    if (post) document.title = `${post.title} — Abhilash`;
+  }, []);
+
+  return (
+    <>
+      <Nav active="blog" isDark={isDark} onToggleTheme={toggleTheme} />
+      <main><BlogPostPage /></main>
+      <Footer />
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

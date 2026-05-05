@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience — Abhilash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+function ExperiencePage() {
+  return (
+    <>
+      <PageHeader title="Experience" subtitle="Where I've worked" />
+      <div className="page-content" style={{ paddingTop: "40px" }}>
+        <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+
+          {/* Timeline */}
+          <div style={{ position: "relative" }}>
+            <div style={{ position: "absolute", left: "0", top: "8px", bottom: 0, width: "1px", background: "var(--border)" }}></div>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              {EXPERIENCE.map((exp, i) => (
+                <FadeIn key={i} delay={i * 80}>
+                  <div style={{ paddingLeft: "32px", paddingBottom: "56px", position: "relative" }}>
+                    <div style={{
+                      position: "absolute", left: "-5px", top: "8px",
+                      width: "11px", height: "11px", borderRadius: "50%",
+                      background: i === 0 ? "var(--accent)" : "var(--bg3)",
+                      border: `1px solid ${i === 0 ? "var(--accent)" : "var(--border)"}`,
+                      boxShadow: i === 0 ? "0 0 0 4px var(--accent-dim)" : "none"
+                    }}></div>
+
+                    <div style={{
+                      display: "flex", justifyContent: "space-between",
+                      alignItems: "flex-start", marginBottom: "8px", flexWrap: "wrap", gap: "6px"
+                    }}>
+                      <div>
+                        <h3 style={{ fontSize: "18px", fontWeight: 600, color: "var(--heading)", letterSpacing: "-0.01em" }}>{exp.role}</h3>
+                        <span style={{ fontSize: "14px", color: "var(--accent)", fontFamily: "var(--mono)" }}>{exp.company}</span>
+                      </div>
+                      <span style={{
+                        fontSize: "12px", fontFamily: "var(--mono)", color: "var(--muted)",
+                        background: "var(--bg2)", border: "1px solid var(--border)",
+                        padding: "3px 10px", borderRadius: "100px", whiteSpace: "nowrap"
+                      }}>{exp.period}</span>
+                    </div>
+
+                    <ul style={{ paddingLeft: "0", listStyle: "none", display: "flex", flexDirection: "column", gap: "10px", marginTop: "16px" }}>
+                      {exp.bullets.map((b, j) => (
+                        <li key={j} style={{ display: "flex", gap: "12px", fontSize: "15px", color: "var(--muted)", lineHeight: 1.7 }}>
+                          <span style={{ color: "var(--accent)", marginTop: "3px", flexShrink: 0 }}>–</span>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <FadeIn delay={200}>
+            <div style={{
+              marginTop: "16px", padding: "28px 32px", borderRadius: "12px",
+              background: "var(--bg2)", border: "1px solid var(--border)",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              flexWrap: "wrap", gap: "16px"
+            }}>
+              <div>
+                <div style={{ fontWeight: 600, color: "var(--heading)", marginBottom: "4px" }}>Want the full picture?</div>
+                <div style={{ fontSize: "14px", color: "var(--muted)" }}>Download my résumé for a complete work history.</div>
+              </div>
+              <a href="#" style={{
+                display: "inline-flex", alignItems: "center", gap: "8px",
+                padding: "10px 20px", borderRadius: "8px",
+                background: "var(--accent)", color: "#000",
+                fontSize: "13px", fontWeight: 600, textDecoration: "none", fontFamily: "var(--mono)", whiteSpace: "nowrap"
+              }}
+                onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+                onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                </svg>
+                Download résumé
+              </a>
+            </div>
+          </FadeIn>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  const [isDark, toggleTheme] = useTheme();
+  return (
+    <>
+      <Nav active="experience" isDark={isDark} onToggleTheme={toggleTheme} />
+      <main><ExperiencePage /></main>
+      <Footer />
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

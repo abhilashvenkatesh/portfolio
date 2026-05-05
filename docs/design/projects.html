@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects — Abhilash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+function ProjectCard({ project, index }) {
+  const [hovered, setHovered] = React.useState(false);
+  const [ref, visible] = useInView();
+  return (
+    <div ref={ref} style={{
+      transition: `opacity 0.55s ease ${index * 80}ms, transform 0.55s ease ${index * 80}ms`,
+      opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)"
+    }}>
+      <div onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+        style={{
+          background: hovered ? "var(--bg3)" : "var(--bg2)",
+          border: `1px solid ${hovered ? "var(--accent-border)" : "var(--border)"}`,
+          borderRadius: "12px", padding: "28px 28px 24px",
+          transition: "all 0.25s ease", position: "relative", overflow: "hidden", height: "100%"
+        }}>
+        {hovered && <div style={{
+          position: "absolute", top: 0, left: 0, width: "60%", height: "1px",
+          background: "linear-gradient(90deg, var(--accent) 0%, transparent 100%)"
+        }}></div>}
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "6px" }}>
+          <AccentTag label={project.year} />
+          <div style={{ display: "flex", gap: "10px" }}>
+            <a href={project.github} title="GitHub" style={{ color: "var(--muted)", textDecoration: "none" }}
+              onMouseEnter={e => e.currentTarget.style.color = "var(--text)"}
+              onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.29-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </a>
+            {project.demo && (
+              <a href={project.demo} title="Live demo" style={{ color: "var(--muted)", textDecoration: "none" }}
+                onMouseEnter={e => e.currentTarget.style.color = "var(--text)"}
+                onMouseLeave={e => e.currentTarget.style.color = "var(--muted)"}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+                </svg>
+              </a>
+            )}
+          </div>
+        </div>
+        <h3 style={{ fontSize: "20px", fontWeight: 600, color: "var(--heading)", marginTop: "12px", marginBottom: "4px", letterSpacing: "-0.02em" }}>{project.name}</h3>
+        <p style={{ fontSize: "13px", color: "var(--muted)", fontFamily: "var(--mono)", marginBottom: "16px" }}>{project.tagline}</p>
+        <div style={{ marginBottom: "14px" }}>
+          <div style={{ fontSize: "11px", fontFamily: "var(--mono)", color: "var(--accent)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "6px" }}>Problem</div>
+          <p style={{ fontSize: "14px", color: "var(--muted)", lineHeight: 1.65 }}>{project.problem}</p>
+        </div>
+        <div style={{ padding: "12px 14px", background: "var(--bg)", borderRadius: "8px", borderLeft: "2px solid var(--accent)", marginBottom: "18px" }}>
+          <div style={{ fontSize: "11px", fontFamily: "var(--mono)", color: "var(--accent)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "4px" }}>Impact</div>
+          <p style={{ fontSize: "14px", color: "var(--text)", lineHeight: 1.6 }}>{project.impact}</p>
+        </div>
+        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+          {project.stack.map(t => <Tag key={t} label={t} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ProjectsPage() {
+  return (
+    <>
+      <PageHeader title="Featured Projects" subtitle={"Things I've built"} />
+      <div className="page-content" style={{ paddingTop: "0" }}>
+        <FadeIn>
+          <p style={{ color: "var(--muted)", fontSize: "16px", maxWidth: "520px", lineHeight: 1.7, margin: "0 auto 56px", textAlign: "center" }}>
+            A selection of backend systems, developer tools, and product infrastructure I've shipped.
+          </p>
+        </FadeIn>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 440px), 1fr))", gap: "20px" }}>
+          {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function App() {
+  const [isDark, toggleTheme] = useTheme();
+  return (
+    <>
+      <Nav active="projects" isDark={isDark} onToggleTheme={toggleTheme} />
+      <main><ProjectsPage /></main>
+      <Footer />
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
