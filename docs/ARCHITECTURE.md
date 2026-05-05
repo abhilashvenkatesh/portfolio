@@ -344,6 +344,84 @@ Vercel sets long-lived cache headers for hashed assets (JS/CSS bundles). HTML fi
 
 ---
 
+## Testing
+
+### Approach — Vitest Unit Testing
+
+**Vitest** + `@testing-library/react` + jsdom. Tests run in CI after `npx astro check`, before the Astro build. No browser binary.
+
+#### Stack
+
+| Tool | Role |
+|------|------|
+| `vitest` | Test runner, jsdom environment |
+| `@testing-library/react` | React component rendering + queries |
+| `@testing-library/jest-dom` | Extended DOM matchers |
+| `@testing-library/user-event` | Simulates user interactions |
+| `jsdom` | Browser environment for Vitest |
+
+#### File Layout
+
+```
+src/
+  __tests__/
+    Nav.test.tsx     # theme toggle, hamburger, active link
+    data.test.ts     # data/index.ts smoke tests
+vitest.config.ts     # root-level config
+src/test-setup.ts    # matchMedia mock, jest-dom import
+```
+
+`vitest.config.ts` uses `@vitejs/plugin-react` (not `@astrojs/react`) — tests run outside Astro's build pipeline. Tests must not import from `astro:*` namespaces.
+
+#### `Nav.tsx` Test Cases
+
+| Behaviour | Assertion |
+|-----------|-----------|
+| Site name renders | `getByText('Abhilash Venkatesh')` present |
+| Active link gets `aria-current="page"` | `currentPath="/"` → home `<a>` has attribute |
+| Inactive links have no `aria-current` | all other links lack it |
+| Trailing-slash path normalized | `currentPath="/about/"` → about link active |
+| Hamburger button present | `getByRole('button', { name: /open menu/i })` exists |
+| Hamburger click reveals mobile links | click → mobile nav links visible |
+| Second click closes menu | click again → hidden |
+| Theme toggle renders | `getByRole('button', { name: /switch to/i })` exists |
+| Theme toggle writes localStorage | click → `localStorage.getItem('portfolio-theme')` updated |
+| `dark` class toggled on `<html>` | click → `document.documentElement.classList` updated |
+
+#### `data/index.ts` Smoke Tests
+
+| Behaviour | Assertion |
+|-----------|-----------|
+| `projects` non-empty | `projects.length > 0` |
+| Each project has required fields | `title`, `description`, `tech` non-empty |
+| `experience` non-empty | `experience.length > 0` |
+| Each role has required fields | `company`, `title`, `period` present |
+| `skills` non-empty | `skills.length > 0` |
+| Each skill group valid | `name` string, `items` non-empty array |
+
+#### npm Scripts
+
+```json
+"test": "vitest run",
+"test:watch": "vitest"
+```
+
+#### CI Sequence
+
+```
+npm ci → npx astro check → npm test → npm run build → vercel deploy
+```
+
+Tests fail fast — build and deploy skipped on test failure.
+
+#### Dependencies
+
+```bash
+npm install --save-dev vitest @vitejs/plugin-react @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
+```
+
+---
+
 ## Key Constraints (from Requirements)
 
 - No backend, no server-side rendering, no API calls at runtime
