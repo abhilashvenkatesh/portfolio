@@ -2,3 +2,24 @@
 
 /* dark mode via .dark class on <html> */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* scroll-reveal: initial hidden state applied before JS hydrates */
+.reveal {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-visible {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
