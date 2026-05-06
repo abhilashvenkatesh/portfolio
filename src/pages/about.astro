@@ -1,14 +1,91 @@
 ---
 import Base from '../layouts/Base.astro';
 import ScrollReveal from '../components/ui/ScrollReveal';
+import { skills } from '../data/index';
+
+const bio = [
+  "I'm a backend and product engineer based in Bangalore. My career has been mostly about infrastructure that most users never see — job queues, billing engines, data pipelines, internal tooling — and I'm proud of that.",
+  "I like systems that are boring in the best way: simple interfaces, predictable behavior, no surprises at 3am. I care a lot about the developer experience of whatever I build, whether that's a public API or an internal library that 4 engineers use.",
+  "Outside work, I tinker with Rust, contribute to open-source projects, and occasionally write about distributed systems on my blog.",
+];
 ---
 
 <Base title="About — Abhilash Venkatesh">
-  <div class="max-w-6xl mx-auto px-4 py-16">
-    <h1 class="text-4xl font-bold">About</h1>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+
+    <!-- Page header -->
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">About me</h1>
+      <p class="mt-2 text-lg text-gray-500 dark:text-gray-400">
+        I like hard problems. <span class="font-light">Especially the unsexy ones.</span>
+      </p>
+    </div>
+
+    <!-- Two-column: bio + avatar -->
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-16 items-start">
+
+      <!-- Bio -->
+      <div class="flex flex-col gap-5">
+        {bio.map((p) => (
+          <p class="text-gray-600 dark:text-gray-400 text-[17px] leading-relaxed">{p}</p>
+        ))}
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-4 mt-4">
+          <a
+            href="/resume.pdf"
+            download
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-emerald-400 dark:bg-emerald-500 text-black text-sm font-semibold font-mono hover:opacity-85 transition-opacity"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            Download résumé
+          </a>
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 text-sm font-mono hover:border-emerald-400 hover:text-emerald-500 dark:hover:border-emerald-500 dark:hover:text-emerald-400 transition-colors"
+          >
+            Blog →
+          </a>
+        </div>
+      </div>
+
+      <!-- Avatar -->
+      <div class="w-48 h-48 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex flex-col items-center justify-center gap-2 shrink-0 mx-auto md:mx-0">
+        <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="18" r="10" stroke="currentColor" stroke-width="1.5" class="text-gray-300 dark:text-gray-600"/>
+          <path d="M4 44c0-11 9-19 20-19s20 8 20 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="text-gray-300 dark:text-gray-600"/>
+        </svg>
+        <span class="text-xs font-mono text-gray-300 dark:text-gray-600">photo</span>
+      </div>
+    </div>
+
+    <!-- Skills section -->
     <ScrollReveal client:visible>
-      <div class="mt-8">
+      <div class="mt-20">
+        <p class="text-xs font-mono uppercase tracking-widest text-emerald-500 dark:text-emerald-400 mb-6">
+          What I work with
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {skills.map((group) => (
+            <div class="p-5 rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700">
+              <p class="text-xs font-mono uppercase tracking-widest text-emerald-500 dark:text-emerald-400 mb-3">
+                {group.name}
+              </p>
+              <div class="flex flex-wrap gap-1.5">
+                {group.items.map((skill) => (
+                  <span class="text-xs text-gray-600 dark:text-gray-400 px-2 py-1 rounded bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </ScrollReveal>
+
   </div>
 </Base>
