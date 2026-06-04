@@ -1,0 +1,176 @@
+# Capability: site-shell
+
+## Purpose
+
+Defines the persistent chrome shared across all pages: fixed navigation bar, wordmark, "Hire me" CTA, theme toggle with localStorage persistence, scroll-triggered frosted-glass blur, footer with social links, PageHeader SVG grid texture, and the anti-flash inline script.
+
+## Requirements
+
+### Requirement: Navigation bar SHALL be fixed and visible on every page
+
+A fixed navigation bar SHALL appear at the top of every page at all times, giving visitors access to all primary sections without scrolling.
+
+#### Scenario: Nav bar is visible on initial page load
+
+GIVEN a visitor opens any page of the portfolio
+WHEN the page renders
+THEN a navigation bar is visible at the top of the viewport
+AND it contains links to Projects, About, Experience, Blog, Chat, and Contact
+
+#### Scenario: Nav bar stays visible while scrolling
+
+GIVEN a visitor is on a page with content taller than the viewport
+WHEN the visitor scrolls down
+THEN the navigation bar remains fixed at the top of the viewport
+
+#### Scenario: Active page link is visually distinguished
+
+GIVEN a visitor is on the Projects page
+WHEN the navigation bar renders
+THEN the "Projects" link has a distinct background fill and medium font weight
+AND all other links have no background fill
+
+---
+
+### Requirement: Wordmark MUST link to the home page
+
+The "abhilash" wordmark in the top-left of the nav MUST be a link to the home page (`/`).
+
+#### Scenario: Clicking wordmark navigates home
+
+GIVEN a visitor is on the Experience page
+WHEN they click the "abhilash" wordmark in the top-left of the nav
+THEN they are navigated to the home page (`/`)
+
+---
+
+### Requirement: "Hire me" button SHALL open a pre-addressed email client
+
+The "Hire me" button in the nav SHALL open the visitor's email client pre-addressed to the contact email sourced from `content/contact.json`.
+
+#### Scenario: Hire me button opens mailto link
+
+GIVEN `content/contact.json` contains `email: "abhilashfeb30@gmail.com"`
+WHEN a visitor clicks the "Hire me" button in the nav
+THEN their default email client opens with `to:` pre-filled as `abhilashfeb30@gmail.com`
+
+#### Scenario: Hire me button shows hover fill
+
+GIVEN a visitor views the "Hire me" button
+WHEN they hover over it
+THEN the button shows a subtle background fill
+
+---
+
+### Requirement: Theme toggle MUST switch and persist light/dark preference
+
+The theme toggle MUST switch all page colours between light and dark modes instantly, and MUST persist the preference across sessions via `localStorage`.
+
+#### Scenario: Clicking toggle switches to dark mode
+
+GIVEN the current theme is light (default)
+WHEN the visitor clicks the sun/moon toggle in the nav
+THEN all page colours switch to the dark palette immediately with no page reload
+
+#### Scenario: Clicking toggle switches back to light mode
+
+GIVEN the current theme is dark
+WHEN the visitor clicks the toggle
+THEN all page colours switch to the light palette immediately
+
+#### Scenario: Theme preference persists across navigation
+
+GIVEN the visitor has switched to dark mode
+WHEN they navigate to a different page
+THEN the dark theme remains active without any flash of light-mode content
+
+#### Scenario: Theme preference persists across browser sessions
+
+GIVEN the visitor set dark mode and closed the browser tab
+WHEN they reopen the portfolio in the same browser
+THEN the dark theme is applied before the page renders (no flash)
+
+---
+
+### Requirement: Nav background SHALL apply frosted-glass blur after scrolling 40px
+
+The nav background SHALL apply a frosted-glass blur effect when the visitor scrolls more than 40px, visually separating it from page content.
+
+#### Scenario: Blur activates on scroll past threshold
+
+GIVEN the visitor is at the top of a page (scroll position 0)
+WHEN they scroll down more than 40px
+THEN the nav background shows a frosted-glass blur (`backdrop-filter: blur(12px)`) and semi-transparent neutral background
+
+#### Scenario: Blur deactivates when scrolled back to top
+
+GIVEN blur is active because the visitor scrolled down
+WHEN they scroll back to the top of the page (within 40px)
+THEN the blur effect is removed and the nav background returns to its default (transparent / non-blurred) state
+
+#### Scenario: Nav border-bottom remains visible at all scroll positions
+
+GIVEN any scroll position
+WHEN the nav bar is visible
+THEN the nav border-bottom is always present to visually separate nav from content
+
+---
+
+### Requirement: Footer SHALL appear on every page with social links and copyright
+
+A footer SHALL appear at the bottom of every page with icon links to GitHub, LinkedIn, and Email, and MUST include a copyright line.
+
+#### Scenario: Footer renders on all pages
+
+GIVEN a visitor views any page of the portfolio
+WHEN the page renders
+THEN a footer is visible at the bottom containing GitHub, LinkedIn, and Email icon links and the text "© 2025 Abhilash"
+
+#### Scenario: Footer icon links change colour on hover
+
+GIVEN a visitor views the footer
+WHEN they hover over the GitHub, LinkedIn, or Email icon
+THEN the icon changes to the accent colour
+
+#### Scenario: Footer email link opens email client
+
+GIVEN a visitor clicks the Email icon in the footer
+WHEN clicked
+THEN their email client opens pre-addressed to Abhilash's email
+
+---
+
+### Requirement: PageHeader component MUST render an SVG grid-line background texture
+
+The `PageHeader` component MUST render a subtle SVG grid-line background pattern that fades out toward the content below using a radial-gradient mask.
+
+#### Scenario: Grid texture appears on inner-page headers
+
+GIVEN a visitor views the About page header
+WHEN the `PageHeader` component renders
+THEN a subtle grid-line SVG pattern is visible behind the header text
+AND the pattern fades out toward the bottom using a radial-gradient mask
+
+#### Scenario: Grid texture does not appear in non-header content areas
+
+GIVEN a visitor views the projects card grid on the Projects page
+WHEN the page renders
+THEN no grid-line background texture appears behind the project cards
+
+---
+
+### Requirement: Anti-flash script SHALL set data-theme before React hydration
+
+An inline script in `<head>` SHALL read `localStorage` and set `data-theme` on `<html>` before React hydration so visitors with a saved dark preference never see a flash of the light theme.
+
+#### Scenario: Dark preference set with no flash
+
+GIVEN the visitor previously saved dark mode preference to `localStorage`
+WHEN the page begins rendering (before hydration)
+THEN `data-theme="dark"` is set on the `<html>` element before any visible paint
+
+#### Scenario: No saved preference defaults to system preference
+
+GIVEN no `theme` key exists in `localStorage`
+WHEN the anti-flash script runs
+THEN `data-theme` is set based on `prefers-color-scheme` media query before first paint
