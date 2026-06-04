@@ -117,10 +117,12 @@ Never transition the story to Done during apply.
 Strict order:
 
 1. Complete normal OpenSpec archive readiness checks.
-2. Sync delta specs into canonical specs when user chooses to sync.
-3. Archive the change.
-4. Only after archive succeeds, mirror canonical specs to Linear Project Documents.
-5. Transition the Linear story to Done.
+2. Set `finished_at` in proposal frontmatter, then run `scripts/collect-metrics.sh <change>` so metrics.json is final. Commit it.
+3. Sync delta specs into canonical specs when user chooses to sync.
+4. Archive the change.
+5. Only after archive succeeds, mirror canonical specs to Linear Project Documents.
+6. Post the metrics.json summary (lead time, diff size, tokens, cost, quality gates) as a comment on the bound Linear story via `mcp__linear-server__create_comment`.
+7. Transition the Linear story to Done. Do not transition before the metrics comment is posted.
 
 Document upsert per capability:
 

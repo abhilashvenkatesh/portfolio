@@ -1,10 +1,11 @@
 ---
 linear_story_id: "<optional Linear issue id>"
 linear_story_url: "<optional Linear issue URL>"
-sdd_experiment:
-  method: "sdd"  # sdd | human | vibe — which approach drove this change
-  comparator: "<human / vibe-coding / none>"
-  accepted_at: null  # ISO date (YYYY-MM-DD) set at archive time when retrospective is complete
+# --- metrics (collected per change, proposal -> archive; flat keys, parsed by scripts/collect-metrics.sh) ---
+method: "sdd"          # sdd | human | vibe — label for your own analysis; not an experiment arm
+started_at: null       # ISO8601, set at propose (e.g. 2026-06-04T09:00:00Z)
+finished_at: null      # ISO8601, set at archive
+session_ids: []        # Claude Code session ids for token attribution, inline list e.g. ["abc-123","def-456"]
 ---
 
 ## Why

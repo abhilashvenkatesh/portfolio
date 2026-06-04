@@ -13,12 +13,16 @@ artifacts:
       PRECHECK: Invoke the `grill-with-docs` skill to stress-test the plan before writing.
       PRECHECK: Invoke `openspec-linearized` to bind a Linear story and transition it to Planning.
 
-      Proposal frontmatter MAY include Linear binding and SDD experiment metadata:
-      - `linear_story_id`
-      - `linear_story_url`
-      - `sdd_experiment.method` (`sdd`, `human`, or `vibe`)
-      - `sdd_experiment.comparator`
-      - `sdd_experiment.accepted_at`
+      Proposal frontmatter carries Linear binding and per-change metrics metadata
+      (flat keys, parsed by `scripts/collect-metrics.sh`):
+      - `linear_story_id`, `linear_story_url`
+      - `method` (`sdd`, `human`, or `vibe`) — label for analysis, not an experiment arm
+      - `started_at` — SET NOW to the current UTC timestamp (ISO8601, e.g. `2026-06-04T09:00:00Z`).
+        This is the only reliable lead-time anchor; if unset, lead time is unrecoverable.
+      - `session_ids` — append THIS Claude session's id (inline list). Token cost is
+        attributed only from listed sessions (one change = dedicated session(s)).
+        If you resume the change in a later session, append that session id too.
+      - `finished_at` — leave null; set at archive.
 
       Reference documents:
       - `documentation/REQUIREMENTS.md` — acceptance criteria and story IDs
@@ -217,9 +221,15 @@ artifacts:
       2. verify.md must NOT be FAIL: ! grep -q '^- \[x\] ❌ FAIL' openspec/changes/<change-name>/verify.md
 
       Process:
-      1. Gather evidence — run `git log --oneline <base>..HEAD` for commit range.
-         Read tasks.md for plan-vs-actual comparison.
+      1. Gather evidence:
+         a. Run `scripts/collect-metrics.sh <change-name>` to produce
+            `openspec/changes/<change-name>/metrics.json`. Commit it with the retro.
+            §0 Evidence numbers MUST be copied verbatim from metrics.json — never estimated.
+            If `tokens.attribution` is `none`/`partial`, note it; do not invent token counts.
+         b. Run `git log --oneline <base>..HEAD` for the commit chain.
+            Read tasks.md for plan-vs-actual comparison.
       2. Write all sections using the template (§0 Evidence + §1-§6 analysis).
+         §0 machine fields come from metrics.json; §0 manual signals and §1-§6 are your analysis.
          Each claim cites a commit hash, file path, or measurable fact.
       3. §4 Skill compliance — list every schema skill, mark ✓/✗. Any ✗ MUST explain
          what was skipped, why this cycle (specific trigger), and how to prevent recurrence.
@@ -266,10 +276,15 @@ apply:
     4. Check `awk '/^## 6\./,0' openspec/changes/<name>/retrospective.md | grep -c '^\- \[ \]'`
        — if > 0, act on all §6 promote candidates before archiving (persist to memory, CLAUDE.md, schema, or skill).
     5. Invoke `finishing-a-development-branch` to decide the merge, archive, PR, and cleanup path.
-    6. Invoke `openspec-git-discipline` to confirm implementation is merged to main before archiving.
-       Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
-       and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
+    6. Finalize metrics, then archive:
+       a. Set `finished_at` in proposal.md frontmatter to the current UTC timestamp (ISO8601).
+       b. Re-run `scripts/collect-metrics.sh <name>` so metrics.json reflects finished_at and
+          the final commit range. Commit metrics.json.
+       c. Invoke `openspec-git-discipline` to confirm implementation is merged to main before archiving.
+       d. Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
+          and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
     7. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents, post the
-       retrospective §0 Evidence summary to the bound Linear story, and transition story to Done.
-       Do not transition Linear to Done until the evidence summary has been posted.
+       metrics.json summary (lead time, diff size, tokens, cost, quality gates from §0 Evidence)
+       as a comment on the bound Linear story, and transition story to Done.
+       Do not transition Linear to Done until the metrics summary has been posted.
     8. PR is the LAST step — branch diff must contain all artifacts + archived change.

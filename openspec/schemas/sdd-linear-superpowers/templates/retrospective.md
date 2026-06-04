@@ -5,41 +5,38 @@
 
 ## 0. Evidence
 
-### Delivery
+> Machine-collected fields below come from `metrics.json` — run
+> `scripts/collect-metrics.sh <change-name>` and paste the numbers verbatim.
+> Do NOT estimate these by hand; the script is the source of truth.
 
-- **Method**: SDD / human / vibe
-- **Backfilled**: yes / no
-- **Linear story**: `<id or none>` (`<url or none>`)
-- **Commit range**: `<base-sha>..<head-sha>` (<n> commits)
-- **Diff size**: <+X / -Y lines across N files>
-- **Files changed**: <n>
-- **Tasks done**: <x>/<y> (<percent>%)
-- **Requirements**: <n>
-- **Scenarios**: <n>
-- **New external dependencies**: <list or "none">
-- **Bugs post-merge**: <count or "none">
+### Delivery (from metrics.json)
+
+- **Method**: <metrics.method>
+- **Linear story**: `<metrics.linear.id>` (`<metrics.linear.url>`)
+- **Lead time**: <finished_at − started_at, e.g. 3h42m> (`started_at` → `finished_at`)
+- **Diff size**: <+metrics.size.added / -metrics.size.deleted across metrics.size.files files, metrics.size.commits commits>
+- **Tasks done**: <metrics.scope.tasks_done>/<metrics.scope.tasks_total>
+- **Requirements / Scenarios**: <metrics.scope.requirements> / <metrics.scope.scenarios>
+
+### Tokens / Cost (from metrics.json `tokens`)
+
+- **Attribution**: <exact / partial / none> (<sessions> session(s))
+- **Tokens**: in <input> / out <output> / cache-read <cache_read> / cache-write <cache_write_5m + cache_write_1h>
+- **Total tokens**: <total_tokens>
+- **Cost**: $<cost_usd>
 
 ### Quality Gates
 
-- **OpenSpec validate at archive**: <pass / fail / not-run>
+- **OpenSpec validate**: <metrics.quality.openspec_validate>
+- **Verify**: present=<metrics.quality.verify_present>, fail=<metrics.quality.verify_fail>, rewrites=<metrics.quality.verify_rewrites>
 - **Unit tests**: <pass / fail / not-run>
 - **Build**: <pass / fail / not-run>
-- **Verify decision**: pass / warnings / fail
 
-### Rework Signals
+### Manual signals (not auto-captured — fill honestly)
 
-- **OpenSpec validation failures before pass**: <n or unknown>
-- **Test/build failures before pass**: <n or unknown>
-- **Verify reruns**: <n or unknown>
-- **Correction cycles**: <n or unknown>
-
-### Score
-
-- **Spec/task completion score**: <0-100>
-- **Quality gate score**: <0-100>
-- **Rework score**: <0-100>
-- **Overall SDD score**: <0-100>
-- **Confidence notes**: <what is exact vs inferred>
+- **Bugs post-merge**: <count or "none — track as discovered">
+- **New external dependencies**: <list or "none">
+- **Correction cycles during apply**: <n or "not tracked">
 
 Commit chain:
 

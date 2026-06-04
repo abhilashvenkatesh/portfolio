@@ -72,11 +72,12 @@ Linear updates are best effort once project setup exists.
 - Leave Done transition for archive.
 
 ### Archive
+- Set `finished_at` in proposal frontmatter and run `scripts/collect-metrics.sh <change>` to finalize metrics.json before archiving.
 - Complete the normal OpenSpec archive flow first, including delta spec sync when applicable.
 - Only after archive succeeds, mirror canonical `openspec/specs/<capability>/spec.md` content into Linear Project Documents.
 - Use deterministic titles: `OpenSpec: <capability-name>`.
 - Persist created or discovered document IDs in `openspec/linear.yaml` when possible.
-- Transition the bound Linear issue to Done when possible and add a short archive-complete comment.
+- Post the metrics.json summary (lead time, diff size, tokens, cost, quality gates) as a comment on the bound story, then transition the Linear issue to Done. Do not move to Done before the metrics comment is posted.
 
 ## Guardrails
 
