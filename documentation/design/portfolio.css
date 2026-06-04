@@ -1,0 +1,96 @@
+/* portfolio.css — shared styles across all pages */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Sand (default) ── warm parchment + burnt orange ───── */
+:root {
+  --bg: #f5f0e8;
+  --bg2: #fdfaf4;
+  --bg3: #ede8de;
+  --border: rgba(0,0,0,0.09);
+  --text: #1c1917;
+  --muted: #78716c;
+  --heading: #0c0a09;
+  --accent: oklch(0.58 0.18 38);
+  --accent-dim: oklch(0.58 0.18 38 / 0.10);
+  --accent-border: oklch(0.58 0.18 38 / 0.30);
+  --font: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --nav-bg: rgba(245,240,232,0.90);
+}
+
+/* ── Dark toggle — Midnight ─────────────────────────────── */
+:root.dark {
+  --bg: #080809;
+  --bg2: #0f0f11;
+  --bg3: #161618;
+  --border: rgba(255,255,255,0.07);
+  --text: #e8e8ea;
+  --muted: #6b6b72;
+  --heading: #f0f0f2;
+  --accent: oklch(0.65 0.18 38);
+  --accent-dim: oklch(0.65 0.18 38 / 0.13);
+  --accent-border: oklch(0.65 0.18 38 / 0.38);
+  --shadow: none;
+  --nav-bg: rgba(8,8,9,0.88);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+::selection { background: var(--accent-dim); color: var(--accent); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg3); border-radius: 3px; }
+
+/* Smooth theme transitions */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+/* But not layout properties */
+a, button { transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.2s, transform 0.2s; }
+
+#root { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1; padding-top: 60px; }
+
+/* Theme toggle */
+.theme-toggle {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.theme-toggle:hover {
+  border-color: var(--accent-border);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.theme-toggle svg { display: block; }
+
+/* Page content width */
+.page-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px clamp(20px, 5vw, 64px) 80px;
+}
+
+/* Responsive nav hiding on small screens */
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+}

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Abhilash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.js"></script>
+
+  <style>
+    /* Color scheme overrides — applied via data-scheme on <html> */
+    [data-scheme="midnight"] {
+      --bg: #080809; --bg2: #0f0f11; --bg3: #161618;
+      --border: rgba(255,255,255,0.07);
+      --text: #e8e8ea; --muted: #6b6b72; --heading: #f0f0f2;
+      --accent: oklch(0.72 0.16 195);
+      --accent-dim: oklch(0.72 0.16 195 / 0.12);
+      --accent-border: oklch(0.72 0.16 195 / 0.35);
+      --nav-bg: rgba(8,8,9,0.88);
+    }
+    [data-scheme="obsidian"] {
+      --bg: #0c0c0e; --bg2: #141417; --bg3: #1c1c20;
+      --border: rgba(255,255,255,0.06);
+      --text: #d4d4d8; --muted: #71717a; --heading: #fafafa;
+      --accent: oklch(0.75 0.18 290);
+      --accent-dim: oklch(0.75 0.18 290 / 0.12);
+      --accent-border: oklch(0.75 0.18 290 / 0.35);
+      --nav-bg: rgba(12,12,14,0.88);
+    }
+    [data-scheme="sand"] {
+      --bg: #f5f0e8; --bg2: #fdfaf4; --bg3: #ede8de;
+      --border: rgba(0,0,0,0.09);
+      --text: #1c1917; --muted: #78716c; --heading: #0c0a09;
+      --accent: oklch(0.58 0.18 38);
+      --accent-dim: oklch(0.58 0.18 38 / 0.10);
+      --accent-border: oklch(0.58 0.18 38 / 0.30);
+      --nav-bg: rgba(245,240,232,0.88);
+    }
+    [data-scheme="forest"] {
+      --bg: #0d1210; --bg2: #131a16; --bg3: #1a2420;
+      --border: rgba(255,255,255,0.07);
+      --text: #d6e4dc; --muted: #6b8070; --heading: #eef5f0;
+      --accent: oklch(0.74 0.15 155);
+      --accent-dim: oklch(0.74 0.15 155 / 0.13);
+      --accent-border: oklch(0.74 0.15 155 / 0.35);
+      --nav-bg: rgba(13,18,16,0.88);
+    }
+    [data-scheme="rose"] {
+      --bg: #100c0e; --bg2: #160f12; --bg3: #1e1318;
+      --border: rgba(255,255,255,0.07);
+      --text: #e8dde0; --muted: #8c6e74; --heading: #f5eef0;
+      --accent: oklch(0.72 0.18 10);
+      --accent-dim: oklch(0.72 0.18 10 / 0.12);
+      --accent-border: oklch(0.72 0.18 10 / 0.35);
+      --nav-bg: rgba(16,12,14,0.88);
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const BLOG_TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "scheme": "sand",
+  "cardLayout": "compact",
+  "cardStyle": "filled",
+  "density": "default"
+}/*EDITMODE-END*/;
+
+/* ── Scheme definitions for swatch rendering ─────────────── */
+const SCHEMES = [
+  { value: "midnight", label: "Midnight",  bg: "#080809", accent: "oklch(0.72 0.16 195)" },
+  { value: "obsidian", label: "Obsidian",  bg: "#0c0c0e", accent: "oklch(0.75 0.18 290)" },
+  { value: "sand",     label: "Sand",      bg: "#f5f0e8", accent: "oklch(0.58 0.18 38)"  },
+  { value: "forest",   label: "Forest",    bg: "#0d1210", accent: "oklch(0.74 0.15 155)" },
+  { value: "rose",     label: "Rose",      bg: "#100c0e", accent: "oklch(0.72 0.18 10)"  },
+];
+
+/* ── Apply scheme to <html> ──────────────────────────────── */
+function applyScheme(scheme) {
+  document.documentElement.setAttribute("data-scheme", scheme);
+  const isSand = scheme === "sand";
+  if (isSand) {
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("light");
+  } else {
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+  }
+}
+
+/* ── BlogCard ────────────────────────────────────────────── */
+function BlogCard({ post, index, cardStyle, density }) {
+  const [hovered, setHovered] = React.useState(false);
+  const [ref, visible] = useInView();
+
+  const isGhost  = cardStyle === "ghost";
+  const isFilled = cardStyle === "filled";
+
+  const cardBg = isGhost
+    ? "transparent"
+    : isFilled
+      ? hovered ? "var(--bg3)" : "var(--bg2)"
+      : hovered ? "var(--bg3)" : "var(--bg2)";
+
+  const cardBorder = isGhost
+    ? `0 0 0 0px transparent`  // no border
+    : `1px solid ${hovered ? "var(--accent-border)" : "var(--border)"}`;
+
+  const cardPadding = isGhost ? "20px 0" : "28px 28px 24px";
+  const cardRadius  = isGhost ? "0" : "12px";
+  const cardShadow  = isFilled && !isGhost
+    ? hovered ? "0 8px 32px rgba(0,0,0,0.18)" : "0 2px 8px rgba(0,0,0,0.10)"
+    : "none";
+
+  return (
+    <div ref={ref} style={{
+      transition: `opacity 0.5s ease ${index * 70}ms, transform 0.5s ease ${index * 70}ms`,
+      opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(14px)",
+      borderBottom: isGhost ? "1px solid var(--border)" : "none"
+    }}>
+      <a href={`blog-post.html?id=${post.id}`}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          display: "block", textDecoration: "none",
+          background: cardBg,
+          border: cardBorder,
+          borderRadius: cardRadius,
+          padding: cardPadding,
+          boxShadow: cardShadow,
+          transition: "all 0.22s ease",
+          position: "relative", overflow: "hidden",
+          transform: hovered && !isGhost ? "translateY(-2px)" : "translateY(0)"
+        }}>
+
+        {/* Accent line — only for outlined */}
+        {!isGhost && (
+          <div style={{
+            position: "absolute", top: 0, left: 0,
+            width: hovered ? "60%" : "0%", height: "1px",
+            background: "linear-gradient(90deg, var(--accent) 0%, transparent 100%)",
+            transition: "width 0.3s ease"
+          }}></div>
+        )}
+
+        {/* Ghost: left bar accent */}
+        {isGhost && (
+          <div style={{
+            position: "absolute", left: "-1px", top: "50%", transform: "translateY(-50%)",
+            width: "2px", height: hovered ? "70%" : "0%",
+            background: "var(--accent)", borderRadius: "2px",
+            transition: "height 0.3s ease"
+          }}></div>
+        )}
+
+        <div style={{ paddingLeft: isGhost ? "16px" : "0" }}>
+          {/* Meta */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: density === "minimal" ? "8px" : "14px", flexWrap: "wrap" }}>
+            <AccentTag label={post.tag} />
+            <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>{post.date}</span>
+            <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>·</span>
+            <span style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>{post.readTime}</span>
+          </div>
+
+          {/* Title */}
+          <h2 style={{
+            fontSize: density === "compact" ? "clamp(15px, 1.8vw, 18px)" : "clamp(17px, 2vw, 21px)",
+            fontWeight: 600,
+            color: hovered ? "var(--accent)" : "var(--heading)",
+            letterSpacing: "-0.02em", marginBottom: density === "minimal" ? "0" : "10px",
+            lineHeight: 1.25, transition: "color 0.2s"
+          }}>{post.title}</h2>
+
+          {/* Summary — hidden in minimal */}
+          {density !== "minimal" && (
+            <p style={{ fontSize: "14px", color: "var(--muted)", lineHeight: 1.7, marginBottom: "14px" }}>
+              {post.summary}
+            </p>
+          )}
+
+          {/* Excerpt — only in expanded */}
+          {density === "expanded" && (
+            <p style={{
+              fontSize: "13px", color: "var(--muted)", lineHeight: 1.75,
+              marginBottom: "14px", opacity: 0.7,
+              borderLeft: "2px solid var(--border)", paddingLeft: "12px",
+              fontStyle: "italic"
+            }}>
+              {post.content.trim().split('\n').find(l => l && !l.startsWith('#') && !l.startsWith('`') && l.length > 40)?.slice(0, 140)}…
+            </p>
+          )}
+
+          {density !== "minimal" && (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "13px", fontFamily: "var(--mono)", color: "var(--accent)" }}>
+              Read article
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          )}
+        </div>
+      </a>
+    </div>
+  );
+}
+
+/* ── Color Swatch control ────────────────────────────────── */
+function SchemePicker({ value, onChange }) {
+  return (
+    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+      {SCHEMES.map(s => (
+        <button key={s.value} onClick={() => onChange(s.value)} title={s.label} style={{
+          width: "32px", height: "32px", borderRadius: "8px",
+          background: s.bg, cursor: "pointer",
+          border: value === s.value ? `2px solid ${s.accent}` : "2px solid transparent",
+          boxShadow: value === s.value ? `0 0 0 2px ${s.accent}` : "0 0 0 1px rgba(255,255,255,0.1)",
+          position: "relative", overflow: "hidden", transition: "all 0.2s", flexShrink: 0
+        }}>
+          {/* Accent dot */}
+          <div style={{
+            position: "absolute", bottom: "5px", right: "5px",
+            width: "7px", height: "7px", borderRadius: "50%",
+            background: s.accent
+          }}></div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/* ── BlogPage ────────────────────────────────────────────── */
+function BlogPage({ tweaks }) {
+  const { scheme, cardLayout, cardStyle, density } = tweaks;
+  const tags = ["All", ...Array.from(new Set(BLOGS.map(b => b.tag)))];
+  const [activeTag, setActiveTag] = React.useState("All");
+  const filtered = activeTag === "All" ? BLOGS : BLOGS.filter(b => b.tag === activeTag);
+
+  const gridCols = cardLayout === "grid"
+    ? "repeat(auto-fill, minmax(min(100%, 480px), 1fr))"
+    : cardLayout === "compact"
+      ? "repeat(auto-fill, minmax(min(100%, 300px), 1fr))"
+      : "1fr";
+
+  const gridGap = cardLayout === "compact" ? "12px" : cardStyle === "ghost" ? "0" : "20px";
+
+  return (
+    <>
+      <PageHeader title="Writing" subtitle="Thoughts on engineering" />
+      <div className="page-content" style={{ paddingTop: "0" }}>
+        <FadeIn>
+          <p style={{ color: "var(--muted)", fontSize: "16px", maxWidth: "480px", lineHeight: 1.7, margin: "0 auto 40px", textAlign: "center" }}>
+            I write about distributed systems, backend engineering, and the things I've learned by breaking things in production.
+          </p>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center", marginBottom: "48px" }}>
+            {tags.map(tag => (
+              <button key={tag} onClick={() => setActiveTag(tag)} style={{
+                fontFamily: "var(--mono)", fontSize: "12px", letterSpacing: "0.04em",
+                padding: "6px 14px", borderRadius: "100px", border: "1px solid",
+                borderColor: activeTag === tag ? "var(--accent-border)" : "var(--border)",
+                background: activeTag === tag ? "var(--accent-dim)" : "transparent",
+                color: activeTag === tag ? "var(--accent)" : "var(--muted)",
+                cursor: "pointer", transition: "all 0.2s"
+              }}
+                onMouseEnter={e => { if (activeTag !== tag) { e.currentTarget.style.borderColor = "var(--accent-border)"; e.currentTarget.style.color = "var(--accent)"; }}}
+                onMouseLeave={e => { if (activeTag !== tag) { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}}
+              >{tag}</button>
+            ))}
+          </div>
+        </FadeIn>
+
+        <div style={{ display: "grid", gridTemplateColumns: gridCols, gap: gridGap }}>
+          {filtered.map((post, i) => (
+            <BlogCard key={post.id} post={post} index={i} cardStyle={cardStyle} density={density} />
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ── Tweaks Panel ────────────────────────────────────────── */
+function BlogTweaks({ tweaks, setTweak }) {
+  return (
+    <TweaksPanel title="Tweaks">
+      <TweakSection label="Color Scheme">
+        <SchemePicker value={tweaks.scheme} onChange={v => setTweak("scheme", v)} />
+        <div style={{ marginTop: "8px", fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)" }}>
+          {SCHEMES.find(s => s.value === tweaks.scheme)?.label}
+        </div>
+      </TweakSection>
+
+      <TweakSection label="Card Layout">
+        <TweakRadio
+          id="cardLayout"
+          options={[
+            { label: "Grid",    value: "grid" },
+            { label: "List",    value: "list" },
+            { label: "Compact", value: "compact" }
+          ]}
+          value={tweaks.cardLayout}
+          onChange={v => setTweak("cardLayout", v)}
+        />
+      </TweakSection>
+
+      <TweakSection label="Card Style">
+        <TweakRadio
+          id="cardStyle"
+          options={[
+            { label: "Outlined", value: "outlined" },
+            { label: "Filled",   value: "filled" },
+            { label: "Ghost",    value: "ghost" }
+          ]}
+          value={tweaks.cardStyle}
+          onChange={v => setTweak("cardStyle", v)}
+        />
+      </TweakSection>
+
+      <TweakSection label="Reading Density">
+        <TweakSelect
+          id="density"
+          options={[
+            { label: "Minimal — title only",           value: "minimal" },
+            { label: "Default — title + summary",      value: "default" },
+            { label: "Expanded — title + excerpt",     value: "expanded" }
+          ]}
+          value={tweaks.density}
+          onChange={v => setTweak("density", v)}
+        />
+      </TweakSection>
+    </TweaksPanel>
+  );
+}
+
+/* ── App ─────────────────────────────────────────────────── */
+function App() {
+  const [tweaks, setTweak] = useTweaks(BLOG_TWEAK_DEFAULTS);
+  const [isDark, toggleTheme] = useTheme();
+
+  React.useEffect(() => {
+    applyScheme(tweaks.scheme);
+  }, [tweaks.scheme]);
+
+  return (
+    <>
+      <Nav active="blog" isDark={isDark} onToggleTheme={toggleTheme} />
+      <main><BlogPage tweaks={tweaks} /></main>
+      <Footer />
+      <BlogTweaks tweaks={tweaks} setTweak={setTweak} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

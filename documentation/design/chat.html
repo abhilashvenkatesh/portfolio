@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat — Abhilash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="portfolio.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="shared.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const SUGGESTIONS = [
+  "What are his top skills?",
+  "Tell me about his role at Rapido",
+  "Which projects has he led?",
+  "How can I get in touch?",
+  "What's his current role?",
+  "What cloud platforms does he know?"
+];
+
+/* Build a knowledge-base prompt from the existing data so window.claude.complete answers are grounded. */
+function buildSystemContext() {
+  const skills = Object.entries(SKILLS).map(([k, v]) => `${k}: ${v.join(", ")}`).join("\n");
+  const exp = EXPERIENCE.map(e => `- ${e.role} at ${e.company} (${e.period})\n  ${e.bullets.join("\n  ")}`).join("\n");
+  const proj = PROJECTS.map(p => `- ${p.name} (${p.year}): ${p.tagline}. Problem: ${p.problem} Impact: ${p.impact} Stack: ${p.stack.join(", ")}`).join("\n");
+  return `You are a friendly assistant answering questions about Abhilash Venkatesh, a Lead Application Developer based in Melbourne, Australia. Answer concisely (2-4 sentences) using ONLY the information below. If a question is unrelated, gently redirect.
+
+CONTACT: abhilashfeb30@gmail.com · +61 484 192 055 · linkedin.com/in/abhilash93 · Melbourne, VIC
+
+SKILLS:
+${skills}
+
+EXPERIENCE:
+${exp}
+
+PROJECTS:
+${proj}`;
+}
+
+function Avatar({ who }) {
+  const isUser = who === "user";
+  return (
+    <div style={{
+      width: "32px", height: "32px", borderRadius: "8px", flexShrink: 0,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      background: isUser ? "var(--bg3)" : "var(--accent)",
+      color: isUser ? "var(--muted)" : "#fff",
+      border: isUser ? "1px solid var(--border)" : "none",
+      fontFamily: "var(--mono)", fontSize: "12px", fontWeight: 600
+    }}>
+      {isUser ? "you" : "A"}
+    </div>
+  );
+}
+
+function Message({ msg }) {
+  const isUser = msg.role === "user";
+  return (
+    <div style={{
+      display: "flex", gap: "12px", padding: "16px 4px",
+      flexDirection: isUser ? "row-reverse" : "row"
+    }}>
+      <Avatar who={msg.role} />
+      <div style={{ flex: 1, maxWidth: "calc(100% - 56px)" }}>
+        <div style={{
+          fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)",
+          letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "6px",
+          textAlign: isUser ? "right" : "left"
+        }}>{isUser ? "you" : "Abhilash"}</div>
+        <div style={{
+          padding: "14px 18px", borderRadius: "12px",
+          background: isUser ? "var(--accent-dim)" : "var(--bg2)",
+          border: `1px solid ${isUser ? "var(--accent-border)" : "var(--border)"}`,
+          color: isUser ? "var(--accent)" : "var(--text)",
+          fontSize: "15px", lineHeight: 1.7,
+          whiteSpace: "pre-wrap", wordBreak: "break-word"
+        }}>
+          {msg.text}
+          {msg.pending && <span style={{ display:"inline-block", marginLeft:"4px", animation: "pulse 1.4s infinite" }}>▍</span>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChatPage() {
+  const params = new URLSearchParams(window.location.search);
+  const initialQ = params.get("q") || "";
+
+  const [messages, setMessages] = React.useState(() => initialQ
+    ? [{ role: "user", text: initialQ }]
+    : [{ role: "assistant", text: "Hey! I'm a chat layer over Abhilash's resume. Ask me about his experience, projects, skills, or how to get in touch." }]
+  );
+  const [input, setInput] = React.useState("");
+  const [pending, setPending] = React.useState(false);
+  const scrollRef = React.useRef(null);
+  const sentRef = React.useRef(false);
+
+  const send = async (q) => {
+    const text = q.trim();
+    if (!text || pending) return;
+    setMessages(m => [...m.filter(x => x.role !== "user" || x.text !== text), { role: "user", text }, { role: "assistant", text: "", pending: true }]);
+    setInput("");
+    setPending(true);
+
+    try {
+      const reply = await window.claude.complete({
+        messages: [
+          { role: "user", content: `${buildSystemContext()}\n\nQUESTION: ${text}\n\nAnswer in 2-4 sentences, conversational and clear. Use "Abhilash" or "he" — never "I".` }
+        ]
+      });
+      setMessages(m => {
+        const copy = [...m];
+        copy[copy.length - 1] = { role: "assistant", text: reply.trim() };
+        return copy;
+      });
+    } catch (err) {
+      setMessages(m => {
+        const copy = [...m];
+        copy[copy.length - 1] = { role: "assistant", text: "Sorry, I couldn't process that. Try rephrasing, or reach Abhilash directly at abhilashfeb30@gmail.com." };
+        return copy;
+      });
+    } finally {
+      setPending(false);
+    }
+  };
+
+  // Auto-send the initial query from URL
+  React.useEffect(() => {
+    if (initialQ && !sentRef.current) {
+      sentRef.current = true;
+      send(initialQ);
+    }
+  }, []);
+
+  // Auto-scroll
+  React.useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messages]);
+
+  return (
+    <div style={{
+      maxWidth: "780px", margin: "0 auto",
+      padding: "32px clamp(16px, 4vw, 32px) 0",
+      display: "flex", flexDirection: "column",
+      height: "calc(100vh - 60px)"
+    }}>
+      {/* Header */}
+      <div style={{ marginBottom: "20px", paddingBottom: "20px", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
+          <div style={{
+            width: "10px", height: "10px", borderRadius: "50%",
+            background: "var(--accent)", boxShadow: "0 0 0 4px var(--accent-dim)"
+          }}></div>
+          <h1 style={{ fontSize: "20px", fontWeight: 600, color: "var(--heading)", letterSpacing: "-0.02em" }}>
+            Chat with my résumé
+          </h1>
+        </div>
+        <p style={{ fontSize: "13px", color: "var(--muted)", fontFamily: "var(--mono)" }}>
+          Ask anything about my work, skills, or experience · responses grounded in real CV data
+        </p>
+      </div>
+
+      {/* Thread */}
+      <div ref={scrollRef} style={{ flex: 1, overflowY: "auto", paddingBottom: "16px" }}>
+        {messages.map((m, i) => <Message key={i} msg={m} />)}
+
+        {/* Quick suggestions when only the welcome message is showing */}
+        {messages.length === 1 && messages[0].role === "assistant" && (
+          <div style={{ padding: "12px 4px 24px 56px" }}>
+            <div style={{ fontFamily: "var(--mono)", fontSize: "11px", color: "var(--muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: "10px" }}>Try asking</div>
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              {SUGGESTIONS.map(s => (
+                <button key={s} onClick={() => send(s)} style={{
+                  fontSize: "13px", padding: "8px 14px", borderRadius: "100px",
+                  border: "1px solid var(--border)", background: "var(--bg2)",
+                  color: "var(--text)", cursor: "pointer", transition: "all 0.2s",
+                  textAlign: "left"
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--accent-border)"; e.currentTarget.style.color = "var(--accent)"; e.currentTarget.style.background = "var(--accent-dim)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text)"; e.currentTarget.style.background = "var(--bg2)"; }}
+                >{s}</button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <form onSubmit={e => { e.preventDefault(); send(input); }} style={{
+        display: "flex", gap: "8px", alignItems: "center",
+        padding: "8px 8px 8px 18px",
+        background: "var(--bg2)", border: "1px solid var(--border)",
+        borderRadius: "14px", marginBottom: "20px",
+        boxShadow: "var(--shadow)"
+      }}>
+        <input
+          value={input} onChange={e => setInput(e.target.value)}
+          placeholder={pending ? "Thinking…" : "Ask another question…"}
+          disabled={pending}
+          style={{
+            flex: 1, background: "transparent", border: "none", outline: "none",
+            fontFamily: "var(--font)", fontSize: "15px", color: "var(--text)",
+            padding: "10px 4px"
+          }}
+        />
+        <button type="submit" disabled={pending || !input.trim()} style={{
+          display: "inline-flex", alignItems: "center", justifyContent: "center",
+          width: "38px", height: "38px", borderRadius: "10px",
+          background: pending || !input.trim() ? "var(--bg3)" : "var(--accent)",
+          color: pending || !input.trim() ? "var(--muted)" : "#fff",
+          border: "none", cursor: pending || !input.trim() ? "default" : "pointer",
+          flexShrink: 0, transition: "all 0.2s"
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  );
+}
+
+function App() {
+  const [isDark, toggleTheme] = useTheme();
+  return (
+    <>
+      <Nav active="chat" isDark={isDark} onToggleTheme={toggleTheme} />
+      <main style={{ paddingTop: "60px" }}><ChatPage /></main>
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+<style>
+@keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:0.3 } }
+</style>
+</body>
+</html>

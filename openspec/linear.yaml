@@ -1,0 +1,33 @@
+# Linear project binding for openspec-linearized skill.
+# Run opsx:propose (with openspec-linearized active) to populate this file interactively.
+
+team:
+  id: "c56a0922-1b4b-49db-b7f2-6a47de040f51"
+  key: "POR"
+  name: "Portfolio"
+project:
+  id: "214b5acd-71e3-4873-acab-9d9db0a95eb6"
+  name: "Portfolio Website"
+issue_label_filter:
+  name: ""  # leave empty for no filter
+archive_documents:
+  enabled: true
+  title_prefix: "OpenSpec:"
+  documents:
+    footer-social-links:
+      id: "ebd7382e-584d-445f-a1dd-b404def6acf2"
+      url: "https://linear.app/abhilash-projects/document/openspec-footer-social-links-aa480d4ebe80"
+      title: "OpenSpec: footer-social-links"
+    hero-headline:
+      id: "711f3e63-0223-4d57-a8ab-4f16d287d9d2"
+      url: "https://linear.app/abhilash-projects/document/openspec-hero-headline-83ad865bd9de"
+      title: "OpenSpec: hero-headline"
+    stats-bar:
+      id: "58891269-b4bc-416d-8eb6-e99b532c4014"
+      url: "https://linear.app/abhilash-projects/document/openspec-stats-bar-3c2acefb0ae6"
+      title: "OpenSpec: stats-bar"
+  # Populated automatically at archive time:
+  # "<capability-name>":
+  #   id: "<linear-document-id>"
+  #   url: "<linear-document-url>"
+  #   title: "OpenSpec: <capability-name>"

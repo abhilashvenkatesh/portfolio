@@ -1,0 +1,275 @@
+name: sdd-linear-superpowers
+version: 1
+description: SDD + Linear + Superpowers OpenSpec workflow - proposal -> specs -> design -> tasks -> apply -> verify -> retrospective -> archive
+
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Intent proposal establishing why this change is needed
+    template: proposal.md
+    requires: []
+    instruction: |
+      PRECHECK: Invoke `openspec-git-discipline` to confirm you are starting from main.
+      PRECHECK: Invoke the `grill-with-docs` skill to stress-test the plan before writing.
+      PRECHECK: Invoke `openspec-linearized` to bind a Linear story and transition it to Planning.
+
+      Proposal frontmatter MAY include Linear binding and SDD experiment metadata:
+      - `linear_story_id`
+      - `linear_story_url`
+      - `sdd_experiment.method` (`sdd`, `human`, or `vibe`)
+      - `sdd_experiment.comparator`
+      - `sdd_experiment.accepted_at`
+
+      Reference documents:
+      - `documentation/REQUIREMENTS.md` — acceptance criteria and story IDs
+
+      Create a proposal document establishing WHY this change is needed.
+
+      ## Sections
+
+      ### Why
+      1-2 sentences on the problem or opportunity. What problem does this solve? Why now?
+
+      ### What Changes
+      Bullet list of changes. Be specific about new capabilities, modifications, or removals.
+      Mark breaking changes with **BREAKING**.
+
+      ### Capabilities
+      CRITICAL SECTION — establishes the contract between proposal and specs.
+
+      **New Capabilities**: List capabilities being introduced. Each becomes `specs/<name>/spec.md`.
+      Use kebab-case names (e.g., `user-auth`, `data-export`).
+
+      **Modified Capabilities**: List existing capabilities whose behaviour is changing.
+      Only include spec-level behaviour changes, not just implementation changes.
+      Each needs a delta spec.md file. Research existing specs before filling.
+      Use existing spec names from `openspec/specs/`.
+
+      **Impact**: Affected code, APIs, dependencies, systems.
+
+      ## Guidelines
+      - Keep concise (1-2 pages). Focus on "why" not "how" — implementation details belong in design.md.
+      - Foundation for specs, design, and tasks phases.
+
+  - id: specs
+    generates: specs/**/*.md
+    description: Delta specifications per capability
+    template: spec.md
+    requires:
+      - proposal
+    instruction: |
+      PRECHECK: Invoke `openspec-git-discipline` to confirm proposal artifacts are committed before continuing.
+      PRECHECK: Invoke the `gherkin-authoring` skill before writing spec files.
+
+      Create OpenSpec Markdown spec files defining WHAT the system should do.
+
+      ## File Placement
+      - One spec file per capability listed in proposal
+      - New capabilities: `specs/<capability>/spec.md` (exact kebab-case name from proposal)
+      - Modified capabilities: `specs/<capability>/spec.md` using existing spec folder from `openspec/specs/<capability>/`
+
+      ## Delta Operations
+      Use exact ## headers for OpenSpec archive merge:
+      - **## ADDED Requirements** — new behaviour capabilities
+      - **## MODIFIED Requirements** — changed behaviour; MUST include full updated requirement content, not partial diff
+      - **## REMOVED Requirements** — deprecated behaviours; MUST include **Reason** and **Migration**
+      - **## RENAMED Requirements** — name changes only; use FROM:/TO: format
+
+      ## OpenSpec Wrapper Requirements
+      - Each requirement MUST use `### Requirement: <name>`
+      - Each scenario MUST use `#### Scenario: <name>` (four-hash heading required for OpenSpec validation and archive)
+      - Every requirement MUST have at least one scenario
+
+      ## Gherkin-Style Content
+      - Treat each requirement as a feature or business rule
+      - Include `Feature:` or `Rule:` prose when clarifying behaviour
+      - Each scenario MUST describe behaviour with `GIVEN`, `WHEN`, `THEN` steps
+      - Use `AND` or `BUT` for follow-on steps
+      - Write observable outcomes in `THEN` steps; avoid implementation details (database tables, private methods, UI selectors) unless part of domain contract
+      - Do NOT create `.feature` files; `spec.md` is required for OpenSpec merge
+
+      ## MODIFIED Requirements Workflow
+      1. Locate existing requirement in `openspec/specs/<capability>/spec.md`
+      2. Copy ENTIRE requirement block (from `### Requirement:` through all scenarios)
+      3. Paste under `## MODIFIED Requirements` and edit to represent full desired behaviour after change
+      4. Ensure header text matches exactly (whitespace-insensitive)
+
+      **Pitfall**: Using MODIFIED with partial content loses detail at archive time;
+      use ADDED instead if adding new concerns without changing existing behaviour.
+
+  - id: design
+    generates: design.md
+    description: Technical design document
+    template: design.md
+    requires:
+      - specs
+    instruction: |
+      PRECHECK: Invoke the `c4-architecture` skill if the design involves architectural components or system boundaries.
+      PRECHECK: Invoke the `vercel-react-best-practices` skill if the design touches React components, Next.js routing, rendering, hydration, data loading, or performance.
+
+      Reference documents:
+      - `documentation/DESIGN.md` — design tokens, component specs, do/don't rules
+      - `documentation/ARCHITECTURE.md` — file structure, data schemas, rendering strategy
+
+      Create a design document explaining HOW to implement the change.
+
+      ## Sections
+      - **Context**: Background, current state, constraints, stakeholders
+      - **Goals / Non-Goals**: What this design achieves and explicitly excludes
+      - **Project Facts Preflight**: Verified repo facts that design/tasks depend on.
+      - **Decisions**: Key technical choices with rationale (why X over Y?). Include alternatives considered.
+      - **Risks / Trade-offs**: Known limitations, things that could go wrong. Format: [Risk] -> Mitigation
+      - **Close Triggers** *(interactive UI only)*: List every trigger that closes the component — link click, outside click, Esc key, route change. Missing one causes ghost-state bugs.
+      - **Migration Plan**: Steps to deploy, rollback strategy (if applicable)
+      - **Open Questions**: Outstanding decisions or unknowns to resolve.
+
+      ## Guidelines
+      - Focus on architecture and approach, not line-by-line implementation
+      - Reference proposal for motivation and specs for requirements
+      - Good design docs explain the "why" behind technical decisions
+      - Before naming dependencies, icon exports, CSS variables, Tailwind token classes, existing components, helper APIs, or npm scripts, verify them in the repo and record the evidence in Project Facts Preflight.
+      - Check `package.json` for installed dependencies and scripts.
+      - Check `styles/globals.css`, `documentation/DESIGN.md`, and nearby components for valid design tokens and Tailwind v4 class patterns.
+      - Check relevant `components/`, `lib/`, and `content/` files before saying a component/helper exists or must be created.
+      - For package exports such as icons, verify the installed package export before writing the export name into design.md or tasks.md.
+
+  - id: tasks
+    generates: tasks.md
+    description: Implementation checklist ordered by dependency
+    template: tasks.md
+    requires:
+      - specs
+      - design
+    instruction: |
+      Create a task list breaking down the implementation work.
+
+      **IMPORTANT**: Follow the template exactly; the apply phase parses checkbox format to track progress.
+      Tasks not using `- [ ]` won't be tracked.
+
+      ## Guidelines
+      - Group related tasks under ## numbered headings
+      - Each task MUST be a checkbox: `- [ ] X.Y Task description`
+      - Tasks should be small enough to complete in one session
+      - Order tasks by dependency (what must be done first?)
+      - Every change MUST include unit tests. For React/UI changes, include at least one render/DOM test that asserts the required user-visible content or state.
+      - Every UI change MUST include a DOM/visual verification task across relevant viewport states. Use automated browser/screenshot evidence where possible; otherwise document the manual check and captured evidence.
+      - Include `npm test` in quality gates. Unit tests may not be skipped for "static" or "presentational" components.
+      - Do not reference package APIs, icon names, CSS variables, Tailwind classes, existing helpers, or npm scripts unless design.md Project Facts Preflight checked them.
+      - If implementation changes behaviour specs, include a task to run
+        `openspec validate <change> --type change --strict` before archive
+      - Reference specs for what to build, design for how to build it
+      - Each task should be verifiable — you know when it's done
+
+  - id: verify
+    generates: verify.md
+    description: Post-implementation verification report
+    template: verify.md
+    requires:
+      - tasks  # schema graph edge only — does not imply implementation is complete; see PRECHECK commands below for actual evidence gates
+    instruction: |
+      TIMING: This artifact is produced AFTER apply completes — not during planning.
+      The `requires: [tasks]` edge exists for schema graph ordering only; commit evidence and task completion are verified by the PRECHECK commands below.
+
+      PRECHECK — implementation evidence:
+      Before producing verify.md, run BOTH commands. If either returns 0,
+      STOP and tell the user that apply has not yet produced reviewable changes.
+
+      1. Commit evidence (must return > 0):
+         git log --oneline $(git merge-base HEAD origin/main 2>/dev/null || git merge-base HEAD main 2>/dev/null)..HEAD | wc -l
+
+      2. Task progress (must return > 0):
+         grep -c '^\- \[x\]' openspec/changes/<change-name>/tasks.md
+         # Replace <change-name> with the active change folder name from openspec/changes/
+
+      3. Clean implementation state (must return no output):
+         git status --short
+
+      If git status is not clean, STOP and commit all implementation and artifact updates before verify.
+      Uncommitted implementation is a blocking apply-exit failure, not a verify warning.
+
+      Only after commit evidence and task progress are positive, and git status is clean, invoke `openspec-verify-change` skill.
+      PRECHECK: Invoke `verification-before-completion` before claiming the implementation is complete or ready to archive.
+
+      The verify step MUST perform these checks and record results in verify.md:
+
+      1. **Structural validation**: Run `openspec validate --all --json` and confirm all `"valid": true`.
+      2. **Task completion**: Confirm every checkbox in tasks.md is `- [x]`. Document any incomplete.
+      3. **Unit test evidence**: Confirm unit tests were added or updated for the changed behaviour, run `npm test`, and record the result. Missing unit tests are a blocking failure.
+      4. **DOM/visual evidence**: For UI changes, confirm DOM/render assertions and visual verification were performed across relevant viewport states. Missing DOM/visual verification is a blocking failure.
+      5. **Delta spec sync state**: For each `openspec/changes/<name>/specs/` dir, compare against `openspec/specs/<capability>/spec.md`.
+      6. **Design/specs coherence**: Spot-check design.md decisions align with specs requirements.
+      7. **Implementation signal**: Confirm all code changes committed (no unstaged files). Uncommitted implementation is a blocking failure.
+
+      Verify MAY be re-run multiple times — each run overwrites verify.md with current state.
+
+  - id: retrospective
+    generates: retrospective.md
+    description: Evidence-first retrospective for completed change
+    template: retrospective.md
+    requires:
+      - verify
+    instruction: |
+      TIMING: Written AFTER apply completes and verify.md shows no blocking issues.
+      Write while context is hot — BEFORE opening any PR. Retro belongs in the same PR.
+
+      PRECHECK — verify completion (replace <change-name> with the active change folder name from openspec/changes/):
+      1. verify.md must exist: test -f openspec/changes/<change-name>/verify.md
+      2. verify.md must NOT be FAIL: ! grep -q '^- \[x\] ❌ FAIL' openspec/changes/<change-name>/verify.md
+
+      Process:
+      1. Gather evidence — run `git log --oneline <base>..HEAD` for commit range.
+         Read tasks.md for plan-vs-actual comparison.
+      2. Write all sections using the template (§0 Evidence + §1-§6 analysis).
+         Each claim cites a commit hash, file path, or measurable fact.
+      3. §4 Skill compliance — list every schema skill, mark ✓/✗. Any ✗ MUST explain
+         what was skipped, why this cycle (specific trigger), and how to prevent recurrence.
+      4. §6 Promote candidates — use `- [ ]` checklist with Why/How body so items
+         can transfer mechanically to memory without rewriting.
+
+      Trivial single-commit fixes: OK to skip — write one-liner reason in retrospective.md.
+
+      GATE before closing: run `awk '/^## 6\./,0' retrospective.md | grep -c '^\- \[ \]'`.
+      If > 0, act on unchecked §6 promotes (persist to memory, CLAUDE.md, schema, or skill)
+      BEFORE archiving. Unacted promotes are lost at archive — the retro is the last moment they're surfaced.
+
+apply:
+  requires:
+    - tasks
+  tracks: tasks.md
+  instruction: |
+    PRECHECK: Invoke `openspec-git-discipline` to confirm proposal is committed to main before starting implementation.
+    PRECHECK: Invoke `subagent-driven-development` to dispatch independent tasks in parallel.
+    PRECHECK: Invoke `test-driven-development` before writing any implementation code.
+    PRECHECK (if touching React/Next.js): Invoke `vercel-react-best-practices` before editing React components, Next.js routes, rendering behaviour, hydration logic, data loading, or performance-sensitive code.
+    PRECHECK (if debugging bugs/failures): Invoke `systematic-debugging` before fixing any bug, failing test, or unexpected behaviour discovered during apply.
+    PRECHECK (when implementation complete): Invoke `requesting-code-review`.
+    PRECHECK: Invoke `openspec-linearized` to transition the bound Linear story to In Progress.
+
+    Read context files, work through pending tasks, mark complete as you go.
+    Pause if hitting blockers or needing clarification.
+
+    Mandatory verification discipline:
+    - Add or update unit tests for every change before marking implementation complete.
+    - For React/UI changes, add DOM/render assertions for user-visible content or state.
+    - For UI changes, perform DOM/visual verification across relevant viewport states and record evidence in verify.md.
+    - Run `npm test` as part of quality gates. Do not skip tests because a component is static or presentational.
+    - Commit all implementation and artifact updates before invoking `/opsx:verify`; `git status --short` must be clean.
+
+    When all tasks complete:
+    NEXT COMMAND AFTER APPLY: `/opsx:verify`. Do not suggest `/opsx:archive` directly after apply.
+
+    1. Commit implementation and artifacts; confirm `git status --short` has no output.
+    2. Produce the `verify` artifact by invoking `openspec-verify-change`. Re-run until no blocking issues.
+       NEXT COMMAND AFTER VERIFY: `/opsx:retrospective`. Do not suggest `/opsx:archive` until retrospective.md exists.
+    3. Produce the `retrospective` artifact while context is hot — BEFORE opening PR and BEFORE archive.
+       The retrospective must include §0 Evidence with delivery, quality gate, rework, and score data.
+    4. Check `awk '/^## 6\./,0' openspec/changes/<name>/retrospective.md | grep -c '^\- \[ \]'`
+       — if > 0, act on all §6 promote candidates before archiving (persist to memory, CLAUDE.md, schema, or skill).
+    5. Invoke `finishing-a-development-branch` to decide the merge, archive, PR, and cleanup path.
+    6. Invoke `openspec-git-discipline` to confirm implementation is merged to main before archiving.
+       Run `openspec-archive-change` (or `/opsx:archive`) to sync delta specs into `openspec/specs/`
+       and move the change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`.
+    7. Invoke `openspec-linearized` to sync archived specs to Linear Project Documents, post the
+       retrospective §0 Evidence summary to the bound Linear story, and transition story to Done.
+       Do not transition Linear to Done until the evidence summary has been posted.
+    8. PR is the LAST step — branch diff must contain all artifacts + archived change.
