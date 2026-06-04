@@ -97,4 +97,4 @@
 - [x] 15.2 Run `npm run lint` and confirm zero errors
 - [x] 15.3 Run `npm run validate-content` and confirm exit code 0
 - [x] 15.4 Run `npm run build` and confirm zero errors
-- [ ] 15.5 Run `openspec validate site-shell-nav-theme-footer --type change --strict` and confirm the change is valid
+- [x] 15.5 Run `openspec validate site-shell-nav-theme-footer --type change --strict` and confirm the change is valid

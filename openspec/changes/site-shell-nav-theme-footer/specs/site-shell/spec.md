@@ -2,9 +2,9 @@
 
 ## ADDED Requirements
 
-### Requirement: Persistent navigation bar visible on every page
+### Requirement: Navigation bar SHALL be fixed and visible on every page
 
-A fixed navigation bar must appear at the top of every page at all times, giving visitors access to all primary sections without scrolling.
+A fixed navigation bar SHALL appear at the top of every page at all times, giving visitors access to all primary sections without scrolling.
 
 #### Scenario: Nav bar is visible on initial page load
 
@@ -28,9 +28,9 @@ AND all other links have no background fill
 
 ---
 
-### Requirement: Wordmark navigates to home page
+### Requirement: Wordmark MUST link to the home page
 
-The "abhilash" wordmark in the top-left of the nav must be a link to the home page.
+The "abhilash" wordmark in the top-left of the nav MUST be a link to the home page (`/`).
 
 #### Scenario: Clicking wordmark navigates home
 
@@ -40,9 +40,9 @@ THEN they are navigated to the home page (`/`)
 
 ---
 
-### Requirement: "Hire me" button opens pre-addressed email client
+### Requirement: "Hire me" button SHALL open a pre-addressed email client
 
-A "Hire me" button in the nav must open the visitor's email client pre-addressed to Abhilash's email, sourced from `content/contact.json`.
+The "Hire me" button in the nav SHALL open the visitor's email client pre-addressed to the contact email sourced from `content/contact.json`.
 
 #### Scenario: Hire me button opens mailto link
 
@@ -58,9 +58,9 @@ THEN the button shows a subtle background fill
 
 ---
 
-### Requirement: Light/dark theme toggle with persistent preference
+### Requirement: Theme toggle MUST switch and persist light/dark preference
 
-A sun/moon icon toggle in the nav must switch all page colours between light and dark modes instantly, with the preference remembered across navigations via `localStorage`.
+The theme toggle MUST switch all page colours between light and dark modes instantly, and MUST persist the preference across sessions via `localStorage`.
 
 #### Scenario: Clicking toggle switches to dark mode
 
@@ -88,9 +88,9 @@ THEN the dark theme is applied before the page renders (no flash)
 
 ---
 
-### Requirement: Nav background applies frosted-glass blur on scroll
+### Requirement: Nav background SHALL apply frosted-glass blur after scrolling 40px
 
-After the visitor scrolls more than 40px, the nav background must apply a frosted-glass blur effect to visually separate it from page content.
+The nav background SHALL apply a frosted-glass blur effect when the visitor scrolls more than 40px, visually separating it from page content.
 
 #### Scenario: Blur activates on scroll past threshold
 
@@ -112,9 +112,9 @@ THEN the nav border-bottom is always present to visually separate nav from conte
 
 ---
 
-### Requirement: Footer appears on every page with social links and copyright
+### Requirement: Footer SHALL appear on every page with social links and copyright
 
-A footer must appear at the bottom of every page with icon links to GitHub, LinkedIn, and Email, each changing colour on hover, plus a copyright line.
+A footer SHALL appear at the bottom of every page with icon links to GitHub, LinkedIn, and Email, and MUST include a copyright line.
 
 #### Scenario: Footer renders on all pages
 
@@ -136,9 +136,9 @@ THEN their email client opens pre-addressed to Abhilash's email
 
 ---
 
-### Requirement: Inner-page header shows grid-line background texture
+### Requirement: PageHeader component MUST render an SVG grid-line background texture
 
-Every inner-page section header (About, Projects, Experience, Blog, Contact) must display a subtle SVG grid-line background pattern that fades out toward the content below.
+The `PageHeader` component MUST render a subtle SVG grid-line background pattern that fades out toward the content below using a radial-gradient mask.
 
 #### Scenario: Grid texture appears on inner-page headers
 
@@ -155,9 +155,9 @@ THEN no grid-line background texture appears behind the project cards
 
 ---
 
-### Requirement: Anti-flash theme script prevents light mode flash on dark preference
+### Requirement: Anti-flash script SHALL set data-theme before React hydration
 
-An inline script in `<head>` must read `localStorage` and set `data-theme` before React hydration so visitors with a saved dark preference never see a flash of the light theme.
+An inline script in `<head>` SHALL read `localStorage` and set `data-theme` on `<html>` before React hydration so visitors with a saved dark preference never see a flash of the light theme.
 
 #### Scenario: Dark preference set with no flash
 

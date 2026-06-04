@@ -2,9 +2,9 @@
 
 ## ADDED Requirements
 
-### Requirement: Next.js project initialised with full dependency set
+### Requirement: Repository SHALL be a runnable Next.js App Router project with full dependency set
 
-The repository must be a runnable Next.js 15 App Router project with TypeScript, Tailwind CSS v4, and all portfolio-specific dependencies installed before any feature card is played.
+The repository SHALL be a runnable Next.js 15 App Router project with TypeScript, Tailwind CSS v4, and all portfolio-specific dependencies installed before any feature card is played.
 
 #### Scenario: Fresh clone produces a working dev server
 
@@ -21,9 +21,9 @@ THEN it declares `next`, `react`, `react-dom`, `typescript`, `tailwindcss`, `gra
 
 ---
 
-### Requirement: TypeScript configured for strict Next.js App Router
+### Requirement: TypeScript MUST be configured with strict mode for Next.js App Router
 
-TypeScript must be configured with strict mode and paths that match the Next.js App Router conventions.
+TypeScript MUST be configured with strict mode and paths that match the Next.js App Router conventions.
 
 #### Scenario: Type-checking passes on a clean project
 
@@ -33,9 +33,9 @@ THEN the command exits with code 0 and no type errors are reported
 
 ---
 
-### Requirement: Tailwind CSS v4 configured with design token theme
+### Requirement: Tailwind CSS v4 SHALL declare all design tokens in the @theme block
 
-The Tailwind v4 `@theme` block in `styles/globals.css` must declare all CSS custom properties for the light (Sand) palette and dark overrides as specified in DESIGN.md.
+The Tailwind v4 `@theme` block in `styles/globals.css` SHALL declare all CSS custom properties for the light (Sand) palette and dark overrides as specified in DESIGN.md.
 
 #### Scenario: Design tokens are available as CSS variables
 
@@ -51,9 +51,9 @@ THEN all colour CSS custom properties resolve to their dark-palette values
 
 ---
 
-### Requirement: Content validation script blocks CI on schema violations
+### Requirement: Content validation script MUST block CI on schema violations
 
-`scripts/validate-content.ts` must exit non-zero when any required field is missing or mistyped in a content JSON file, preventing a broken deploy.
+The content validation script MUST exit non-zero when any required field is missing or mistyped in a content JSON file, preventing a broken deploy.
 
 #### Scenario: Valid content files pass validation
 
@@ -70,9 +70,9 @@ AND prints a message identifying the missing field
 
 ---
 
-### Requirement: GitHub Actions CI pipeline gates all merges to main
+### Requirement: GitHub Actions CI pipeline SHALL gate all merges to main
 
-A CI workflow must run `typecheck → lint → design-lint → validate-content → build` on every push and pull request. If any step fails, the merge is blocked.
+A CI workflow SHALL run `typecheck → lint → design-lint → validate-content → build` on every push and pull request. If any step fails, the merge is blocked.
 
 #### Scenario: All gates pass on a clean branch
 
@@ -89,9 +89,9 @@ AND subsequent steps do not run
 
 ---
 
-### Requirement: Vercel auto-deploys main to production
+### Requirement: Vercel MUST auto-deploy main to production and generate preview URLs for PRs
 
-The repository must be connected to a Vercel project such that every merge to `main` triggers an automatic production deploy, and every pull request generates a unique preview URL.
+Vercel MUST auto-deploy every merge to `main` to production, and MUST generate a unique preview URL for every pull request.
 
 #### Scenario: Push to main produces production deployment
 
