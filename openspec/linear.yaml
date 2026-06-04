@@ -13,3 +13,8 @@ issue_label_filter:
 archive_documents:
   enabled: true
   title_prefix: "OpenSpec:"
+  documents:
+    "site-shell":
+      id: "ed8fbc47-2dc2-4efc-aa20-f8671207a20a"
+      url: "https://linear.app/abhilash-projects/document/openspec-site-shell-22a91fafcb21"
+      title: "OpenSpec: site-shell"
