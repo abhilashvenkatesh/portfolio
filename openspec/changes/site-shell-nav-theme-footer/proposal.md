@@ -3,7 +3,7 @@ linear_story_id: "POR-164"
 linear_story_url: "https://linear.app/abhilash-projects/issue/POR-164/site-shell-persistent-nav-theme-toggle-footer"
 method: "sdd"
 started_at: "2026-06-04T01:53:20Z"
-finished_at: null
+finished_at: "2026-06-04T05:00:00Z"
 session_ids: ["0fa55b14-550e-4f93-9dc5-9d2a2e061aee"]
 ---
 

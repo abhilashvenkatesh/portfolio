@@ -108,7 +108,7 @@ SCENARIOS="$(grep -rhcE '^#### Scenario:' "$CHANGE_DIR/specs" 2>/dev/null | awk 
 VERIFY_FILE="$CHANGE_DIR/verify.md"
 VERIFY_PRESENT=false; VERIFY_FAIL=false
 [ -f "$VERIFY_FILE" ] && VERIFY_PRESENT=true
-if [ -f "$VERIFY_FILE" ] && grep -q 'FAIL' "$VERIFY_FILE"; then VERIFY_FAIL=true; fi
+if [ -f "$VERIFY_FILE" ] && grep -q '^- \[x\] ❌ FAIL' "$VERIFY_FILE"; then VERIFY_FAIL=true; fi
 VERIFY_REWRITES="$(git log --oneline -- "$VERIFY_FILE" 2>/dev/null | wc -l | tr -d ' ')"
 VALIDATE="not-run"
 if command -v openspec >/dev/null 2>&1; then

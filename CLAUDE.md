@@ -64,3 +64,10 @@ Home → Chat handoff: `ChatLauncher` navigates to `/chat?q=<encoded>`. On mount
 ## Design constraints
 
 Enforced by `@google/design.md lint` on `documentation/DESIGN.md`. See `documentation/DESIGN.md` and `documentation/design/*.html` for the source-of-truth design system — tokens, WCAG contrast, component specs.
+
+## Known gotchas
+
+- **`npm run lint` runs `eslint .`** — `next lint` was removed in Next.js 16. Do not use `next lint` in scripts, docs, or CI.
+- **`lucide-react` v1.x has no brand icons** — `Github` and `Linkedin` exports were removed. Use the inline SVG components in `components/layout/Footer.tsx`.
+- **Theme init must check `prefers-color-scheme`** — both the anti-flash IIFE (`app/layout.tsx`) and `getInitialTheme()` (`ThemeProvider.tsx`) fall back to `window.matchMedia('(prefers-color-scheme: dark)')` when no `localStorage` value exists. Do not simplify this away.
+- **All social URLs live in `content/contact.json`** — `ContactInfo` type includes `github`, `linkedin`, `email`. Never hardcode URLs in components.

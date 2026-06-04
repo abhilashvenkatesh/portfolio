@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   description: `${identity.title} based in ${identity.location}`,
 };
 
-const ANTI_FLASH = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
+const ANTI_FLASH = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -35,7 +35,7 @@ export default function RootLayout({
         <ThemeProvider>
           <Nav email={contact.email} />
           <main className="flex-1 pt-15">{children}</main>
-          <Footer email={contact.email} linkedin={contact.linkedin} />
+          <Footer email={contact.email} linkedin={contact.linkedin} github={contact.github} />
         </ThemeProvider>
       </body>
     </html>

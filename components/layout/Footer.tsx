@@ -3,6 +3,7 @@ import { Mail } from "lucide-react";
 interface FooterProps {
   email: string;
   linkedin: string;
+  github: string;
 }
 
 function GithubIcon({ size = 18 }: { size?: number }) {
@@ -33,7 +34,7 @@ function LinkedinIcon({ size = 18 }: { size?: number }) {
   );
 }
 
-export default function Footer({ email, linkedin }: FooterProps) {
+export default function Footer({ email, linkedin, github }: FooterProps) {
   return (
     <footer className="mt-auto border-t border-surface-alt py-8 px-6">
       <div className="max-w-5xl mx-auto flex items-center justify-between gap-4 flex-wrap">
@@ -41,7 +42,7 @@ export default function Footer({ email, linkedin }: FooterProps) {
 
         <div className="flex items-center gap-5">
           <a
-            href="https://github.com/abhilash-venkatesh"
+            href={github}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"

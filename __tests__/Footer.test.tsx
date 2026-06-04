@@ -5,6 +5,7 @@ describe("Footer", () => {
   const props = {
     email: "abhilashfeb30@gmail.com",
     linkedin: "https://linkedin.com/in/abhilash-venkatesh",
+    github: "https://github.com/abhilash-venkatesh",
   };
 
   it("renders email link with mailto href", () => {

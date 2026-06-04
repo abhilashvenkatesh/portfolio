@@ -1,0 +1,51 @@
+{
+  "change": "site-shell-nav-theme-footer",
+  "generated_at": "2026-06-04T05:03:40Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-164",
+    "url": "https://linear.app/abhilash-projects/issue/POR-164/site-shell-persistent-nav-theme-toggle-footer"
+  },
+  "time": {
+    "started_at": "2026-06-04T01:53:20Z",
+    "finished_at": "2026-06-04T05:00:00Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-04T12:05:48+10:00",
+      "specs": "2026-06-04T12:05:48+10:00",
+      "design": "2026-06-04T12:05:48+10:00",
+      "tasks": "2026-06-04T12:05:48+10:00",
+      "verify": "2026-06-04T14:57:03+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "29f6375",
+    "commits": 8,
+    "added": 13099,
+    "deleted": 911,
+    "files": 71
+  },
+  "scope": {
+    "tasks_total": 56,
+    "tasks_done": 53,
+    "requirements": 14,
+    "scenarios": 31
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 14653,
+    "output": 4029,
+    "cache_read": 415633,
+    "cache_write_5m": 0,
+    "cache_write_1h": 67195,
+    "total_tokens": 501510,
+    "cost_usd": 3.16127,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}

@@ -45,6 +45,7 @@ export interface BlogPost extends BlogPostMeta {
 export interface ContactInfo {
   email: string;
   linkedin: string;
+  github: string;
   phone: string;
   availability: {
     show: boolean;
