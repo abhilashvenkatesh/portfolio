@@ -1,0 +1,17 @@
+{
+  "roleBadge": "Lead Application Developer",
+  "headline": "Building systems that last.",
+  "subheading": "11+ years turning complex problems into clean, scalable software.",
+  "bio": "I build distributed systems, developer tooling, and data platforms. Currently at Fabric Group in Melbourne.",
+  "stats": [
+    { "value": "11+", "label": "Years experience" },
+    { "value": "20+", "label": "Projects shipped" },
+    { "value": "3", "label": "Domains mastered" }
+  ],
+  "suggestions": [
+    "What have you built?",
+    "What's your tech stack?",
+    "Are you available for hire?",
+    "Tell me about your experience"
+  ]
+}
