@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "design-lint": "tsx scripts/validate-design.ts",
     "validate-content": "tsx scripts/validate-content.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "verify-dom": "tsx scripts/verify-dom.ts"
   },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.84",
