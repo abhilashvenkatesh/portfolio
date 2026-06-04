@@ -28,7 +28,7 @@
 
 **D2 — Single source for link list.** Continue exporting/using the existing `NAV_LINKS` array; render it in both the desktop bar and the drawer so the two can never drift (spec requires parity). No duplication of hrefs.
 
-**D3 — Open state owned by Nav, derived close on route change.** Nav holds `const [menuOpen, setMenuOpen] = useState(false)`. A `usePathname()` effect closes on navigation (covers link-click dismissal robustly even with client nav). Alternative (drawer owns its own state) rejected — trigger lives in Nav and needs `aria-expanded`.
+**D3 — Open state owned by Nav; link clicks close directly.** Nav holds `const [menuOpen, setMenuOpen] = useState(false)`. Each drawer link's `onClick` calls `onClose`, which closes the drawer on navigation. (Note: an initial `usePathname()` effect calling `setMenuOpen(false)` was dropped — the repo's `react-hooks/set-state-in-effect` lint rule forbids synchronous setState in an effect body, and the link `onClick` already covers the route-change dismissal scenario.) Alternative (drawer owns its own state) rejected — trigger lives in Nav and needs `aria-expanded`.
 
 **D4 — Dismissal wiring.** Esc via `keydown` listener while open; backdrop via an overlay button/`onClick`; resize via `matchMedia('(min-width: 640px)')` `change` listener calling `onClose`; route change via pathname effect (D3). Listeners attach only while `open` and clean up on close/unmount.
 

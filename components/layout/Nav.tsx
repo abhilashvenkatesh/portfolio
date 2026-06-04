@@ -3,8 +3,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu } from "lucide-react";
 import { ThemeContext } from "@/components/providers/ThemeProvider";
+import MobileDrawer from "@/components/layout/MobileDrawer";
+
+const MOBILE_DRAWER_ID = "mobile-nav-drawer";
 
 const NAV_LINKS = [
   { href: "/projects", label: "Projects" },
@@ -23,6 +26,7 @@ export default function Nav({ email }: NavProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     function onScroll() {
@@ -30,6 +34,16 @@ export default function Nav({ email }: NavProps) {
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close the drawer when the viewport grows back to desktop width.
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    function onChange(e: MediaQueryListEvent) {
+      if (e.matches) setMenuOpen(false);
+    }
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
   return (
@@ -69,10 +83,7 @@ export default function Nav({ email }: NavProps) {
         })}
       </div>
 
-      {/* TODO POR-165: mobile hamburger */}
-      <div className="flex sm:hidden flex-1" />
-
-      <div className="flex items-center gap-3 ml-auto shrink-0">
+      <div className="hidden sm:flex items-center gap-3 ml-auto shrink-0">
         <button
           onClick={toggleTheme}
           aria-label="Toggle theme"
@@ -87,6 +98,28 @@ export default function Nav({ email }: NavProps) {
         >
           Hire me
         </a>
+      </div>
+
+      <button
+        type="button"
+        onClick={() => setMenuOpen(true)}
+        aria-label="Open menu"
+        aria-expanded={menuOpen}
+        aria-controls={MOBILE_DRAWER_ID}
+        className="flex sm:hidden ml-auto text-secondary hover:text-primary transition-colors"
+      >
+        <Menu size={22} />
+      </button>
+
+      <div id={MOBILE_DRAWER_ID}>
+        <MobileDrawer
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          links={NAV_LINKS}
+          email={email}
+          theme={theme}
+          toggleTheme={toggleTheme}
+        />
       </div>
     </nav>
   );
