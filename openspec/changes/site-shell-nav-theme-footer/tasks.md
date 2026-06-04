@@ -85,11 +85,11 @@
 ## 14. DOM / Visual Verification
 
 - [x] 14.1 Run `npm run dev`; open `localhost:3000` in Chrome; confirm nav bar is fixed (sticky at top while scrolling), wordmark is present, all 6 page links visible, "Hire me" button and theme toggle icon visible
-- [ ] 14.2 Click theme toggle; confirm all colours switch immediately (background, text, accent); refresh page; confirm dark preference persists (no flash)
-- [ ] 14.3 Scroll down on a tall page; confirm nav background shows frosted-glass blur; scroll back to top; confirm blur removed
-- [ ] 14.4 Resize browser to < 640px; confirm desktop nav links are hidden; no layout overflow or horizontal scrollbar
+- [x] 14.2 Click theme toggle; confirm all colours switch immediately (background, text, accent); refresh page; confirm dark preference persists (no flash)
+- [x] 14.3 Scroll down on a tall page; confirm nav background shows frosted-glass blur; scroll back to top; confirm blur removed
+- [x] 14.4 Resize browser to < 640px; confirm desktop nav links are hidden; no layout overflow or horizontal scrollbar
 - [x] 14.5 Verify Footer is visible on the placeholder home page with GitHub, LinkedIn, Email icons and copyright text
-- [ ] 14.6 Confirm "Hire me" button click opens email client pre-addressed to `abhilashfeb30@gmail.com`
+- [x] 14.6 Confirm "Hire me" button click opens email client pre-addressed to `abhilashfeb30@gmail.com`
 
 ## 15. Quality Gates
 
