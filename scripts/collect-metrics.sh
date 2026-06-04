@@ -59,7 +59,15 @@ fm = m.group(1) if m else ""
 def scalar(key):
     mm = re.search(rf'^{key}:\s*(.*)$', fm, re.M)
     if not mm: return ""
-    v = mm.group(1).strip().strip('"').strip("'")
+    v = mm.group(1).strip()
+    # Quoted value: take the quoted span (ignores any trailing inline comment).
+    if v and v[0] in "\"'":
+        q = v[0]
+        end = v.find(q, 1)
+        v = v[1:end] if end != -1 else v.strip(q)
+    else:
+        # Unquoted value: drop a trailing " # comment", then any stray quotes.
+        v = re.sub(r'\s+#.*$', '', v).strip().strip('"').strip("'")
     return "" if v in ("null", "~", "") else v
 def listval(key):
     mm = re.search(rf'^{key}:\s*\[(.*?)\]', fm, re.M)
@@ -79,8 +87,16 @@ META="$(read_meta)"
 mval() { echo "$META" | jq -r ".$1 // empty"; }
 
 # --- git diff range ---
+# Default base = parent of the commit that first added this change's proposal.md.
+# This yields the change's true footprint whether it was committed on a feature
+# branch OR directly on main (where `merge-base HEAD main` collapses to HEAD).
 if [ -z "$BASE_REF" ]; then
-  BASE_REF="$(git merge-base HEAD main 2>/dev/null || git merge-base HEAD origin/main 2>/dev/null || true)"
+  FIRST_COMMIT="$(git log --diff-filter=A --format=%H --reverse -- "$CHANGE_DIR/proposal.md" 2>/dev/null | head -1)"
+  if [ -n "$FIRST_COMMIT" ] && git rev-parse --verify --quiet "${FIRST_COMMIT}^" >/dev/null; then
+    BASE_REF="${FIRST_COMMIT}^"
+  else
+    BASE_REF="$(git merge-base HEAD main 2>/dev/null || git merge-base HEAD origin/main 2>/dev/null || true)"
+  fi
 fi
 COMMITS=0; ADDED=0; DELETED=0; FILES=0
 if [ -n "$BASE_REF" ]; then

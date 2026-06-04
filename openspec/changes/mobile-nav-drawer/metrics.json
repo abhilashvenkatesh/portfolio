@@ -1,0 +1,51 @@
+{
+  "change": "mobile-nav-drawer",
+  "generated_at": "2026-06-04T05:45:39Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-165",
+    "url": "https://linear.app/abhilash-projects/issue/POR-165/mobile-navigation-hamburgerdrawer"
+  },
+  "time": {
+    "started_at": "2026-06-04T05:27:05Z",
+    "finished_at": "2026-06-04T05:42:02Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-04T15:31:15+10:00",
+      "specs": "2026-06-04T15:31:15+10:00",
+      "design": "2026-06-04T15:31:15+10:00",
+      "tasks": "2026-06-04T15:31:15+10:00",
+      "verify": "2026-06-04T15:42:02+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "816a44187d60ac23fe7250be70a83fc7cc4ff405^",
+    "commits": 3,
+    "added": 587,
+    "deleted": 6,
+    "files": 11
+  },
+  "scope": {
+    "tasks_total": 17,
+    "tasks_done": 17,
+    "requirements": 2,
+    "scenarios": 9
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 574,
+    "output": 114713,
+    "cache_read": 22856597,
+    "cache_write_5m": 0,
+    "cache_write_1h": 538030,
+    "total_tokens": 23509914,
+    "cost_usd": 59.037881,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}
