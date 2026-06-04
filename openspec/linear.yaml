@@ -6,6 +6,7 @@ team:
   key: "POR"
   name: "Portfolio"
 project:
+  id: "ed60b72c-393a-4fd0-85b1-e594da965c89"
   name: "Portfolio Website"
 issue_label_filter:
   name: "" # leave empty for no filter
