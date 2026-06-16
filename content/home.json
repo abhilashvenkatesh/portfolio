@@ -1,12 +1,12 @@
 {
-  "roleBadge": "Lead Application Developer",
-  "headline": "Building systems that last.",
-  "subheading": "11+ years turning complex problems into clean, scalable software.",
-  "bio": "I build distributed systems, developer tooling, and data platforms. Currently at Fabric Group in Melbourne.",
+  "roleBadge": "Lead Application Developer · Melbourne",
+  "headline": "Hi, I'm Abhilash.",
+  "subheading": "I architect systems that scale to millions.",
+  "bio": "Lead Application Developer with 11+ years building distributed systems, cloud infrastructure, and engineering teams across Australia and India. Currently at Fabric Group, Melbourne.",
   "stats": [
-    { "value": "11+", "label": "Years experience" },
-    { "value": "20+", "label": "Projects shipped" },
-    { "value": "3", "label": "Domains mastered" }
+    { "value": "11+", "label": "years experience" },
+    { "value": "30+", "label": "microservices shipped" },
+    { "value": "3", "label": "countries worked in" }
   ],
   "suggestions": [
     "What have you built?",

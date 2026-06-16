@@ -45,6 +45,15 @@ async function verifyHome() {
   check("Nav: theme toggle button", has(html, /aria-label="Toggle theme"/));
   check("Nav: fixed z-50 class present", has(html, "z-50"));
 
+  // POR-166 — Hero content
+  check("Hero: role badge", has(html, "Lead Application Developer · Melbourne"));
+  check("Hero: headline", has(html, "Hi, I&#x27;m Abhilash.") || has(html, "Hi, I'm Abhilash."));
+  check("Hero: subheading accent clause", has(html, "scale to millions."));
+  check("Hero: bio", has(html, /11\+ years building distributed systems/));
+  check("Hero: stat 11+ years", has(html, "years experience"));
+  check("Hero: stat 30+ microservices", has(html, "microservices shipped"));
+  check("Hero: stat 3 countries", has(html, "countries worked in"));
+
   // 14.5 — Footer structure
   check("Footer: GitHub link present", has(html, /aria-label="GitHub"/));
   check("Footer: LinkedIn link present", has(html, /aria-label="LinkedIn"/));
