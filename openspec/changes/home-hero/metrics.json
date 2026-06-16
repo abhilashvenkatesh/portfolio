@@ -1,6 +1,6 @@
 {
   "change": "home-hero",
-  "generated_at": "2026-06-16T02:32:57Z",
+  "generated_at": "2026-06-16T02:36:08Z",
   "method": "sdd",
   "linear": {
     "id": "POR-166",
@@ -8,22 +8,22 @@
   },
   "time": {
     "started_at": "2026-06-16T02:08:17Z",
-    "finished_at": "",
+    "finished_at": "2026-06-16T02:35:49Z",
     "phase_timestamps": {
       "proposal": "2026-06-16T12:14:18+10:00",
       "specs": "2026-06-16T12:14:18+10:00",
       "design": "2026-06-16T12:14:18+10:00",
       "tasks": "2026-06-16T12:14:18+10:00",
       "verify": "2026-06-16T12:28:25+10:00",
-      "retrospective": ""
+      "retrospective": "2026-06-16T12:35:12+10:00"
     }
   },
   "size": {
     "base": "e53038cf313fa22ccc56a55ef67b221caa685426^",
-    "commits": 3,
-    "added": 522,
+    "commits": 4,
+    "added": 705,
     "deleted": 14,
-    "files": 13
+    "files": 16
   },
   "scope": {
     "tasks_total": 17,
@@ -38,13 +38,13 @@
     "openspec_validate": "pass"
   },
   "tokens": {
-    "input": 10330,
-    "output": 39622,
-    "cache_read": 7146906,
+    "input": 10827,
+    "output": 49247,
+    "cache_read": 9644411,
     "cache_write_5m": 0,
-    "cache_write_1h": 164167,
-    "total_tokens": 7361025,
-    "cost_usd": 18.771969,
+    "cache_write_1h": 181462,
+    "total_tokens": 9885947,
+    "cost_usd": 23.766407,
     "attribution": "exact",
     "sessions": 1
   }

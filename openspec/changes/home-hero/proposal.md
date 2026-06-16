@@ -4,7 +4,7 @@ linear_story_url: "https://linear.app/abhilash-projects/issue/POR-166/home-hero-
 # --- metrics (collected per change, proposal -> archive; flat keys, parsed by scripts/collect-metrics.sh) ---
 method: "sdd"          # sdd | human | vibe — label for your own analysis; not an experiment arm
 started_at: 2026-06-16T02:08:17Z
-finished_at: null      # ISO8601, set at archive
+finished_at: 2026-06-16T02:35:49Z
 session_ids: ["cd2e8387-b52c-40bf-b534-f992fd675a89"]
 ---
 
