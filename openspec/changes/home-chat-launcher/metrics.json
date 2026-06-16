@@ -1,0 +1,51 @@
+{
+  "change": "home-chat-launcher",
+  "generated_at": "2026-06-16T03:32:06Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-167",
+    "url": "https://linear.app/abhilash-projects/issue/POR-167/home-chat-launcher-input-chips-browse-hints-scroll-indicator"
+  },
+  "time": {
+    "started_at": "2026-06-16T03:04:00Z",
+    "finished_at": "2026-06-16T03:31:44Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T13:08:28+10:00",
+      "specs": "2026-06-16T13:08:28+10:00",
+      "design": "2026-06-16T13:08:28+10:00",
+      "tasks": "2026-06-16T13:08:28+10:00",
+      "verify": "2026-06-16T13:29:48+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "34e767b7923d33f58b7c61fa0fd45d46bc9f281b^",
+    "commits": 3,
+    "added": 684,
+    "deleted": 7,
+    "files": 15
+  },
+  "scope": {
+    "tasks_total": 19,
+    "tasks_done": 19,
+    "requirements": 4,
+    "scenarios": 13
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 11844,
+    "output": 61815,
+    "cache_read": 13417351,
+    "cache_write_5m": 0,
+    "cache_write_1h": 359260,
+    "total_tokens": 13850270,
+    "cost_usd": 35.717612,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}

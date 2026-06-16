@@ -3,8 +3,8 @@ linear_story_id: "POR-167"
 linear_story_url: "https://linear.app/abhilash-projects/issue/POR-167/home-chat-launcher-input-chips-browse-hints-scroll-indicator"
 # --- metrics (collected per change, proposal -> archive; flat keys, parsed by scripts/collect-metrics.sh) ---
 method: "sdd"          # sdd | human | vibe — label for your own analysis; not an experiment arm
-started_at: 2026-06-16T00:00:00Z
-finished_at:
+started_at: 2026-06-16T03:04:00Z
+finished_at: 2026-06-16T03:31:44Z
 session_ids: ["cd2e8387-b52c-40bf-b534-f992fd675a89"]
 ---
 
