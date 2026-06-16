@@ -22,3 +22,7 @@ archive_documents:
       id: "a32ca253-2af5-4f41-94ce-ec40a17a8b6d"
       url: "https://linear.app/abhilash-projects/document/openspec-home-hero-fb1be6fd6c69"
       title: "OpenSpec: home-hero"
+    "home-chat-launcher":
+      id: "67bb4bbd-9583-4aea-8612-b04254840c01"
+      url: "https://linear.app/abhilash-projects/document/openspec-home-chat-launcher-4222a505fc1a"
+      title: "OpenSpec: home-chat-launcher"
