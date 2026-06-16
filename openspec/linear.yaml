@@ -54,3 +54,7 @@ archive_documents:
       id: "d1956b6b-d620-40c3-96f3-f24d0c61558c"
       url: "https://linear.app/abhilash-projects/document/openspec-blog-listing-page-78da30d4153b"
       title: "OpenSpec: blog-listing-page"
+    "blog-post-page":
+      id: "5fa7531d-634b-46f9-9346-5e6ab007e108"
+      url: "https://linear.app/abhilash-projects/document/openspec-blog-post-page-1d83ca4ca9c9"
+      title: "OpenSpec: blog-post-page"
