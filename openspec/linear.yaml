@@ -44,5 +44,9 @@ archive_documents:
       title: "OpenSpec: project-detail-page"
     "projects-listing-bridge":
       id: "0a3ba838-4e29-47bf-b977-7c36a79a0401"
-      url: "https://linear.app/abhilash-projects/document/openspec-projects-listing-bridge-417b164f2a3c"
-      title: "OpenSpec: projects-listing-bridge"
+      url: "https://linear.app/abhilash-projects/document/openspec-projects-listing-bridge-superseded-417b164f2a3c"
+      title: "OpenSpec: projects-listing-bridge (superseded)"
+    "projects-listing-page":
+      id: "0edae6b9-8675-496a-a965-30c5e1e5e5c1"
+      url: "https://linear.app/abhilash-projects/document/openspec-projects-listing-page-68016c7b63f7"
+      title: "OpenSpec: projects-listing-page"

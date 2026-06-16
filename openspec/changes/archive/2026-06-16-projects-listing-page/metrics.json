@@ -1,0 +1,51 @@
+{
+  "change": "projects-listing-page",
+  "generated_at": "2026-06-16T13:45:43Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-170",
+    "url": "https://linear.app/abhilash-projects/issue/POR-170/projects-listing-page-cards-hover-links-scroll-animation"
+  },
+  "time": {
+    "started_at": "2026-06-16T13:18:38Z",
+    "finished_at": "",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T23:28:54+10:00",
+      "specs": "2026-06-16T23:28:54+10:00",
+      "design": "2026-06-16T23:28:54+10:00",
+      "tasks": "2026-06-16T23:28:54+10:00",
+      "verify": "",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "0824b9c02bcc2cc55b749050047c261c42e4be60^",
+    "commits": 2,
+    "added": 320,
+    "deleted": 16,
+    "files": 9
+  },
+  "scope": {
+    "tasks_total": 18,
+    "tasks_done": 18,
+    "requirements": 8,
+    "scenarios": 11
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 0,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 14527,
+    "output": 63112,
+    "cache_read": 12970551,
+    "cache_write_5m": 0,
+    "cache_write_1h": 776453,
+    "total_tokens": 13824643,
+    "cost_usd": 47.700722,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}

@@ -164,8 +164,8 @@ async function verifyExperience() {
 async function verifyProjects() {
   const list = await fetchHtml("/projects");
 
-  // POR-171 — listing bridge header (PROJ-1)
-  check("Projects: header label", has(list, ">Projects<"));
+  // POR-170 — full listing page header
+  check("Projects: header label", has(list, "Featured Projects"));
   check("Projects: header subtitle", has(list, "Things I&#x27;ve built") || has(list, "Things I've built"));
 
   // Cards link to detail pages
@@ -173,6 +173,9 @@ async function verifyProjects() {
   check("Projects: card links to Pulse CLI detail", has(list, 'href="/projects/pulse-cli"'));
   check("Projects: card name LedgerStream", has(list, "LedgerStream"));
   check("Projects: demo link present (project with demo)", has(list, /aria-label="LedgerStream live demo"/));
+  check("Projects: IMPACT callout present", has(list, ">IMPACT<"));
+  check("Projects: Problem label present", has(list, ">Problem<"));
+  check("Projects: stack tag present (Kotlin)", has(list, "Kotlin"));
 
   // Detail page with an MDX body
   const detail = await fetchHtml("/projects/ledger-stream");

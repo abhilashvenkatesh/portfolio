@@ -4,7 +4,7 @@ linear_story_url: "https://linear.app/abhilash-projects/issue/POR-170/projects-l
 # --- metrics (collected per change, proposal -> archive; flat keys, parsed by scripts/collect-metrics.sh) ---
 method: "sdd"
 started_at: 2026-06-16T13:18:38Z
-finished_at: null
+finished_at: 2026-06-16T13:45:43Z
 session_ids: ["30ff0e34-743c-4b9a-9988-e99b635f7565"]
 ---
 
