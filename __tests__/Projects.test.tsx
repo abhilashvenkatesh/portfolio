@@ -2,10 +2,10 @@ import { render, screen } from "@testing-library/react";
 import ProjectsPage from "@/app/projects/page";
 import { getProjects, projectSlug } from "@/lib/content";
 
-describe("ProjectsPage (listing bridge)", () => {
+describe("ProjectsPage", () => {
   it("renders the page header label and subtitle", () => {
     render(<ProjectsPage />);
-    expect(screen.getByText("Projects")).toBeInTheDocument();
+    expect(screen.getByText("Featured Projects")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 1, name: "Things I've built" })
     ).toBeInTheDocument();
@@ -42,6 +42,34 @@ describe("ProjectsPage (listing bridge)", () => {
       expect(
         screen.getByLabelText(`${project.name} on GitHub`)
       ).toHaveAttribute("href", project.github);
+    }
+  });
+
+  it("renders the problem text for each project", () => {
+    render(<ProjectsPage />);
+    for (const project of getProjects()) {
+      expect(screen.getByText(project.problem)).toBeInTheDocument();
+    }
+  });
+
+  it("renders an IMPACT callout with the impact text for each project", () => {
+    render(<ProjectsPage />);
+    for (const project of getProjects()) {
+      expect(screen.getByText(project.impact)).toBeInTheDocument();
+    }
+    // Each card should have an IMPACT label
+    const impactLabels = screen.getAllByText("IMPACT");
+    expect(impactLabels).toHaveLength(getProjects().length);
+  });
+
+  it("renders stack tags for each project", () => {
+    render(<ProjectsPage />);
+    for (const project of getProjects()) {
+      for (const tech of project.stack) {
+        // getAllByText because the same tech may appear on multiple cards
+        const tags = screen.getAllByText(tech);
+        expect(tags.length).toBeGreaterThan(0);
+      }
     }
   });
 });
