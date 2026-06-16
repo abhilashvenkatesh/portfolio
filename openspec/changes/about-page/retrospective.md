@@ -87,10 +87,10 @@ d9cfbec feat(POR-168): about page — header, bio, photo, résumé CTA, blog lin
 
 ## 6. Promote candidates
 
-- [ ] **Edit/Write tracked-file requirement: don't inspect via `cat`/`grep`**
+- [x] **Edit/Write tracked-file requirement: don't inspect via `cat`/`grep`** → memory `feedback_read_before_edit_not_cat`
   **Why:** Three first-attempt write/edit failures this cycle because files were viewed through Bash (`cat`, `grep`) which the harness doesn't count as a Read, so Edit/Write demanded a Read first.
   **How to apply:** When you intend to Edit or Write a file, open it with the Read tool (not `cat`/`grep` in Bash) so the harness tracks it; reserve Bash inspection for files you won't modify.
 
-- [ ] **On-main OpenSpec workflow breaks the verify commit-evidence precheck**
+- [x] **On-main OpenSpec workflow breaks the verify commit-evidence precheck** → memory `onmain_verify_commit_evidence_false_negative`
   **Why:** `git merge-base HEAD main == HEAD` ⇒ the "commits in range > 0" precheck returns 0 even though the change is fully committed (3-4 commits on main). Seen in both home-chat-launcher and about-page cycles.
   **How to apply:** When that precheck returns 0, don't treat it as "apply produced nothing" — verify real evidence instead: change commits exist (`git log --oneline <propose-sha>~1..HEAD`), tree clean, tasks 20/20. Links [[next_build_breaks_next_dev]] as another on-main gotcha.
