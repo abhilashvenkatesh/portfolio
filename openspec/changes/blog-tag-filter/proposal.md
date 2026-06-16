@@ -8,7 +8,7 @@ linear_team: "Portfolio"
 linear_project: "Portfolio Website"
 method: "sdd"
 started_at: "2026-06-17T00:00:00Z"
-finished_at: null
+finished_at: "2026-06-17T00:45:00Z"
 session_ids: ["3d57eb5f-4954-4dbc-85e0-a65cd8b7f65c"]
 ---
 

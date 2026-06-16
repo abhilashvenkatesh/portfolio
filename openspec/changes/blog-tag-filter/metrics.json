@@ -1,0 +1,51 @@
+{
+  "change": "blog-tag-filter",
+  "generated_at": "2026-06-16T23:02:06Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-174",
+    "url": "https://linear.app/abhilash-projects/issue/POR-174/blog-tag-filter"
+  },
+  "time": {
+    "started_at": "2026-06-17T00:00:00Z",
+    "finished_at": "2026-06-17T00:45:00Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-17T08:59:55+10:00",
+      "specs": "2026-06-17T08:59:55+10:00",
+      "design": "2026-06-17T08:59:55+10:00",
+      "tasks": "2026-06-17T08:59:55+10:00",
+      "verify": "",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "d83f3ca8e6e9353aa62aa667f417e62fba91c6a4^",
+    "commits": 1,
+    "added": 348,
+    "deleted": 39,
+    "files": 9
+  },
+  "scope": {
+    "tasks_total": 22,
+    "tasks_done": 22,
+    "requirements": 3,
+    "scenarios": 6
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 0,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 130,
+    "output": 32353,
+    "cache_read": 7167767,
+    "cache_write_5m": 0,
+    "cache_write_1h": 313091,
+    "total_tokens": 7513341,
+    "cost_usd": 22.572806,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}
