@@ -1,6 +1,6 @@
 {
   "change": "experience-page",
-  "generated_at": "2026-06-16T09:48:07Z",
+  "generated_at": "2026-06-16T09:50:09Z",
   "method": "sdd",
   "linear": {
     "id": "POR-172",
@@ -8,22 +8,22 @@
   },
   "time": {
     "started_at": "2026-06-16T09:33:37Z",
-    "finished_at": "# ISO8601, set at archive",
+    "finished_at": "2026-06-16T09:50:00Z",
     "phase_timestamps": {
       "proposal": "2026-06-16T19:45:56+10:00",
       "specs": "2026-06-16T19:45:56+10:00",
       "design": "2026-06-16T19:45:56+10:00",
       "tasks": "2026-06-16T19:45:56+10:00",
       "verify": "2026-06-16T19:47:14+10:00",
-      "retrospective": ""
+      "retrospective": "2026-06-16T19:49:41+10:00"
     }
   },
   "size": {
     "base": "4a0c58f57efb03051fbb3ea90b810c76922b7d95^",
-    "commits": 2,
-    "added": 585,
+    "commits": 3,
+    "added": 744,
     "deleted": 1,
-    "files": 10
+    "files": 12
   },
   "scope": {
     "tasks_total": 23,

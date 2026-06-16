@@ -9,8 +9,8 @@
 
 - **Method**: sdd
 - **Linear story**: `POR-172` (https://linear.app/abhilash-projects/issue/POR-172/experience-page-timeline-role-entries-resume-cta)
-- **Lead time**: ~14m (`started_at` 2026-06-16T09:33:37Z → `finished_at` set at archive)
-- **Diff size**: +585 / -1 across 10 files, 2 commits
+- **Lead time**: ~16m (`started_at` 2026-06-16T09:33:37Z → `finished_at` 2026-06-16T09:50:00Z)
+- **Diff size**: +744 / -1 across 12 files (cumulative through retro/metrics commits)
 - **Tasks done**: 23/23
 - **Requirements / Scenarios**: 5 / 9
 
