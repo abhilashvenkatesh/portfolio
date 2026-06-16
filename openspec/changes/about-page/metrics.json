@@ -1,0 +1,51 @@
+{
+  "change": "about-page",
+  "generated_at": "2026-06-16T05:53:34Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-168",
+    "url": "https://linear.app/abhilash-projects/issue/POR-168/about-page-header-bio-photo-resume-cta-blog-link"
+  },
+  "time": {
+    "started_at": "2026-06-16T03:49:17Z",
+    "finished_at": "2026-06-16T05:52:40Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T13:50:20+10:00",
+      "specs": "2026-06-16T13:54:18+10:00",
+      "design": "2026-06-16T13:54:18+10:00",
+      "tasks": "2026-06-16T13:54:18+10:00",
+      "verify": "2026-06-16T14:03:57+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "72fc3641a33fc28134391fab4e9e5a5209fe5b89^",
+    "commits": 4,
+    "added": 623,
+    "deleted": 1,
+    "files": 13
+  },
+  "scope": {
+    "tasks_total": 20,
+    "tasks_done": 20,
+    "requirements": 5,
+    "scenarios": 9
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 13973,
+    "output": 54929,
+    "cache_read": 9055081,
+    "cache_write_5m": 0,
+    "cache_write_1h": 326522,
+    "total_tokens": 9450505,
+    "cost_usd": 27.707552,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}
