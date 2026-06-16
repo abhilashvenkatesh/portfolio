@@ -1,6 +1,8 @@
 import { getHomeContent } from "@/lib/content";
 import HeroBackground from "./HeroBackground";
 import HeroStats from "./HeroStats";
+import ChatLauncher from "./ChatLauncher";
+import ScrollIndicator from "./ScrollIndicator";
 
 // Hardcoded accent clause (design decision 4): the trailing clause of the
 // subheading is emphasised in the accent colour. If the subheading wording in
@@ -8,7 +10,8 @@ import HeroStats from "./HeroStats";
 const ACCENT_CLAUSE = "scale to millions.";
 
 export default function Hero() {
-  const { roleBadge, headline, subheading, bio, stats } = getHomeContent();
+  const { roleBadge, headline, subheading, bio, stats, suggestions } =
+    getHomeContent();
 
   const accentIndex = subheading.lastIndexOf(ACCENT_CLAUSE);
   const subheadingLead =
@@ -39,12 +42,12 @@ export default function Hero() {
           {bio}
         </p>
 
-        {/* POR-167: chat launcher (input, chips, browse hints) mounts here. */}
+        <ChatLauncher suggestions={suggestions} />
 
         <HeroStats stats={stats} />
       </div>
 
-      {/* POR-167: scroll indicator anchors to the bottom edge of this section. */}
+      <ScrollIndicator />
     </section>
   );
 }

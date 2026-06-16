@@ -20,6 +20,26 @@
   --radius-card: 12px;
   --radius-xl: 14px;
   --radius-full: 100px;
+
+  --animate-scroll-dot: scroll-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes scroll-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
 }
 
 [data-theme="dark"] {

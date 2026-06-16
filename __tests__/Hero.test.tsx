@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import Hero from "@/components/home/Hero";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
 describe("Hero", () => {
   it("renders the role badge", () => {
     render(<Hero />);
@@ -47,5 +51,25 @@ describe("Hero", () => {
   it("marks decorative background layers as aria-hidden", () => {
     const { container } = render(<Hero />);
     expect(container.querySelectorAll('[aria-hidden="true"]').length).toBeGreaterThan(0);
+  });
+
+  it("mounts the chat launcher with chips from content", () => {
+    render(<Hero />);
+    expect(
+      screen.getByPlaceholderText("Ask me anything about Abhilash…")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "What are Abhilash's top skills?" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: "Tell me about his role at Fabric Group",
+      })
+    ).toBeInTheDocument();
+  });
+
+  it("mounts the scroll indicator", () => {
+    render(<Hero />);
+    expect(screen.getByText("scroll")).toBeInTheDocument();
   });
 });

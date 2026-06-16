@@ -54,6 +54,17 @@ async function verifyHome() {
   check("Hero: stat 30+ microservices", has(html, "microservices shipped"));
   check("Hero: stat 3 countries", has(html, "countries worked in"));
 
+  // POR-167 — Chat launcher + scroll indicator
+  check("Launcher: input placeholder", has(html, "Ask me anything about Abhilash"));
+  check("Launcher: chip — top skills", has(html, /What are Abhilash(&#x27;|')s top skills\?/));
+  check("Launcher: chip — Fabric Group", has(html, "Tell me about his role at Fabric Group"));
+  check("Launcher: chip — projects led", has(html, "Which projects has he led?"));
+  check("Launcher: chip — get in touch", has(html, "How can I get in touch?"));
+  check("Launcher: browse projects link", has(html, 'href="/projects"'));
+  check("Launcher: browse experience link", has(html, 'href="/experience"'));
+  check("Launcher: browse contact link", has(html, 'href="/contact"'));
+  check("Hero: scroll indicator label", has(html, ">scroll<"));
+
   // 14.5 — Footer structure
   check("Footer: GitHub link present", has(html, /aria-label="GitHub"/));
   check("Footer: LinkedIn link present", has(html, /aria-label="LinkedIn"/));
