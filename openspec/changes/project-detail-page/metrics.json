@@ -1,0 +1,51 @@
+{
+  "change": "project-detail-page",
+  "generated_at": "2026-06-16T13:07:26Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-171",
+    "url": "https://linear.app/abhilash-projects/issue/POR-171/projects-detail-page"
+  },
+  "time": {
+    "started_at": "2026-06-16T10:12:03Z",
+    "finished_at": "",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T20:21:47+10:00",
+      "specs": "2026-06-16T20:21:47+10:00",
+      "design": "2026-06-16T20:21:47+10:00",
+      "tasks": "2026-06-16T20:21:47+10:00",
+      "verify": "2026-06-16T23:01:50+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "1fd25ab0561d40e34fb092f0890048d94b4a379c^",
+    "commits": 3,
+    "added": 889,
+    "deleted": 1,
+    "files": 19
+  },
+  "scope": {
+    "tasks_total": 24,
+    "tasks_done": 24,
+    "requirements": 8,
+    "scenarios": 15
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 11899,
+    "output": 49208,
+    "cache_read": 7664411,
+    "cache_write_5m": 0,
+    "cache_write_1h": 433664,
+    "total_tokens": 8159182,
+    "cost_usd": 28.375622,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}
