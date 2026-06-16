@@ -1,0 +1,51 @@
+{
+  "change": "blog-listing-page",
+  "generated_at": "2026-06-16T14:06:28Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-173",
+    "url": "https://linear.app/abhilash-projects/issue/POR-173/blog-listing-page-post-cards-hover-scroll-animation"
+  },
+  "time": {
+    "started_at": "2026-06-16T23:50:00Z",
+    "finished_at": "2026-06-17T00:05:00Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T23:57:13+10:00",
+      "specs": "2026-06-16T23:57:13+10:00",
+      "design": "2026-06-16T23:57:13+10:00",
+      "tasks": "2026-06-16T23:57:13+10:00",
+      "verify": "",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "b21e82d2db2eca397046fd52d1b57dff66ddd5a4^",
+    "commits": 2,
+    "added": 369,
+    "deleted": 0,
+    "files": 8
+  },
+  "scope": {
+    "tasks_total": 22,
+    "tasks_done": 22,
+    "requirements": 5,
+    "scenarios": 6
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 0,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 11599,
+    "output": 56450,
+    "cache_read": 11805704,
+    "cache_write_5m": 0,
+    "cache_write_1h": 392471,
+    "total_tokens": 12266224,
+    "cost_usd": 33.890421,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}
