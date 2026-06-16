@@ -4,7 +4,7 @@ linear_story_url: "https://linear.app/abhilash-projects/issue/POR-175/blog-post-
 # --- metrics (collected per change, proposal -> archive; flat keys, parsed by scripts/collect-metrics.sh) ---
 method: "sdd"          # sdd | human | vibe — label for your own analysis; not an experiment arm
 started_at: "2026-06-16T23:14:52Z"
-finished_at: null      # ISO8601, set at archive
+finished_at: "2026-06-16T23:53:13Z"
 session_ids: ["9d42fb08-c46a-4fd7-b950-225f6b982035"]
 ---
 

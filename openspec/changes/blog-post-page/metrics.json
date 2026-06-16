@@ -1,0 +1,51 @@
+{
+  "change": "blog-post-page",
+  "generated_at": "2026-06-16T23:53:23Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-175",
+    "url": "https://linear.app/abhilash-projects/issue/POR-175/blog-post-page-reading-experience-author-card-more-posts"
+  },
+  "time": {
+    "started_at": "2026-06-16T23:14:52Z",
+    "finished_at": "2026-06-16T23:53:13Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-17T09:34:03+10:00",
+      "specs": "2026-06-17T09:34:03+10:00",
+      "design": "2026-06-17T09:34:03+10:00",
+      "tasks": "2026-06-17T09:34:03+10:00",
+      "verify": "",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "0b45a49b3d3d874f08820ef17e5dcb63becfdc02^",
+    "commits": 2,
+    "added": 732,
+    "deleted": 0,
+    "files": 12
+  },
+  "scope": {
+    "tasks_total": 36,
+    "tasks_done": 36,
+    "requirements": 7,
+    "scenarios": 17
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 0,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 121,
+    "output": 32228,
+    "cache_read": 6539799,
+    "cache_write_5m": 0,
+    "cache_write_1h": 423874,
+    "total_tokens": 6996022,
+    "cost_usd": 24.944834,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}

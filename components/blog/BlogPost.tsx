@@ -35,9 +35,12 @@ const mdxComponents = {
   pre: (props: { children?: ReactNode }) => (
     <pre className="mt-4 overflow-x-auto rounded-md bg-surface-alt px-4 py-3 font-mono text-sm text-primary" {...props} />
   ),
-  code: (props: { children?: ReactNode }) => (
-    <code className="rounded bg-accent-dim px-1.5 py-0.5 font-mono text-sm text-accent" {...props} />
-  ),
+  code: (props: { children?: ReactNode; className?: string }) => {
+    if (props.className?.startsWith("language-")) {
+      return <code className="font-mono" {...props} />;
+    }
+    return <code className="rounded bg-accent-dim px-1.5 py-0.5 font-mono text-sm text-accent" {...props} />;
+  },
   blockquote: (props: { children?: ReactNode }) => (
     <blockquote
       className="mt-4 border-l-4 border-accent bg-accent-dim px-4 py-2 text-[15px] leading-7 text-secondary"
