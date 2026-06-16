@@ -27,3 +27,10 @@ export function getBlogPosts(): BlogPostMeta[] {
 export function getBlogPostBySlug(slug: string): BlogPostMeta | undefined {
   return getBlogPosts().find((p) => p.slug === slug);
 }
+
+export function getBlogBody(slug: string): string | null {
+  const file = path.join(BLOG_DIR, `${slug}.mdx`);
+  if (!fs.existsSync(file)) return null;
+  const raw = fs.readFileSync(file, "utf8");
+  return matter(raw).content;
+}
