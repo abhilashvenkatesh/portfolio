@@ -1,0 +1,51 @@
+{
+  "change": "experience-page",
+  "generated_at": "2026-06-16T09:48:07Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-172",
+    "url": "https://linear.app/abhilash-projects/issue/POR-172/experience-page-timeline-role-entries-resume-cta"
+  },
+  "time": {
+    "started_at": "2026-06-16T09:33:37Z",
+    "finished_at": "# ISO8601, set at archive",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T19:45:56+10:00",
+      "specs": "2026-06-16T19:45:56+10:00",
+      "design": "2026-06-16T19:45:56+10:00",
+      "tasks": "2026-06-16T19:45:56+10:00",
+      "verify": "2026-06-16T19:47:14+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "4a0c58f57efb03051fbb3ea90b810c76922b7d95^",
+    "commits": 2,
+    "added": 585,
+    "deleted": 1,
+    "files": 10
+  },
+  "scope": {
+    "tasks_total": 23,
+    "tasks_done": 23,
+    "requirements": 5,
+    "scenarios": 9
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 12376,
+    "output": 34482,
+    "cache_read": 6208971,
+    "cache_write_5m": 0,
+    "cache_write_1h": 364004,
+    "total_tokens": 6619833,
+    "cost_usd": 23.005367,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}
