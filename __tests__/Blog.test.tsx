@@ -28,7 +28,8 @@ describe("BlogPage", () => {
   it("renders topic tag, date, and read time for each post", () => {
     render(<BlogPage />);
     for (const post of getBlogPosts()) {
-      expect(screen.getByText(post.tag)).toBeInTheDocument();
+      // tag appears in both filter bar button and card span — at least one in a card span
+      expect(screen.getAllByText(post.tag).length).toBeGreaterThanOrEqual(1);
       expect(screen.getByText(post.date)).toBeInTheDocument();
       expect(screen.getByText(`${post.readTime} min read`)).toBeInTheDocument();
     }
