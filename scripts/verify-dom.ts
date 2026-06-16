@@ -94,6 +94,36 @@ async function verifyHome() {
   );
 }
 
+async function verifyAbout() {
+  const html = await fetchHtml("/about");
+
+  // POR-168 — page header (ABOUT-1)
+  check("About: header label", has(html, ">About me<"));
+  check(
+    "About: header subtitle",
+    has(html, "11+ years building systems across 3 countries and 4 industries.")
+  );
+
+  // Bio (ABOUT-2) — employers must appear
+  check("About: bio employer ThoughtWorks", has(html, "ThoughtWorks"));
+  check("About: bio employer Rapido", has(html, "Rapido"));
+  check("About: bio employer Australia Post", has(html, "Australia Post"));
+  check("About: bio employer Fabric Group", has(html, "Fabric Group"));
+
+  // Photo placeholder (ABOUT-3)
+  check("About: photo placeholder caption", has(html, ">photo<"));
+
+  // Résumé CTA (ABOUT-4)
+  check(
+    "About: résumé download link",
+    has(html, /href="\/resume\.pdf"[^>]*download/) ||
+      has(html, /download[^>]*href="\/resume\.pdf"/)
+  );
+
+  // Blog cross-link (ABOUT-5)
+  check("About: blog link", has(html, 'href="/blog"'));
+}
+
 async function verifyNotFound() {
   // Verify the server is reachable
   const res = await fetch(`${BASE_URL}/nonexistent-page-xyz`);
@@ -105,6 +135,7 @@ async function main() {
 
   try {
     await verifyHome();
+    await verifyAbout();
     await verifyNotFound();
   } catch (err) {
     console.error(`Fatal: ${err}`);
