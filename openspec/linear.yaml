@@ -18,3 +18,7 @@ archive_documents:
       id: "ed8fbc47-2dc2-4efc-aa20-f8671207a20a"
       url: "https://linear.app/abhilash-projects/document/openspec-site-shell-22a91fafcb21"
       title: "OpenSpec: site-shell"
+    "home-hero":
+      id: "a32ca253-2af5-4f41-94ce-ec40a17a8b6d"
+      url: "https://linear.app/abhilash-projects/document/openspec-home-hero-fb1be6fd6c69"
+      title: "OpenSpec: home-hero"
