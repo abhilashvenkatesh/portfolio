@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "title": "Lead Application Developer",
+    "company": "Fabric Group",
+    "period": "2023 — Present",
+    "bullets": [
+      "Lead a team of 6 engineers delivering AWS serverless platforms for enterprise clients.",
+      "Own architecture and data-modelling decisions across multiple client engagements, balancing delivery speed against long-term maintainability.",
+      "Set engineering standards — CI/CD, observability, and infrastructure-as-code — adopted across the team."
+    ]
+  },
+  {
+    "title": "Senior Software Engineer",
+    "company": "Australia Post",
+    "period": "2021 — 2023",
+    "bullets": [
+      "Built and operated distributed services powering parcel logistics at national scale.",
+      "Drove migration of legacy workloads onto cloud-native, event-driven architectures.",
+      "Partnered with product and operations teams to ship reliability improvements measured in millions of deliveries."
+    ]
+  },
+  {
+    "title": "Software Engineer",
+    "company": "Rapido",
+    "period": "2018 — 2021",
+    "bullets": [
+      "Developed backend systems for India's largest bike-taxi platform, serving millions of rides.",
+      "Designed microservices for matching, pricing, and dispatch under heavy real-time load.",
+      "Tuned data stores and messaging pipelines to keep latency low during peak demand."
+    ]
+  },
+  {
+    "title": "Application Developer",
+    "company": "ThoughtWorks",
+    "period": "2014 — 2018",
+    "bullets": [
+      "Delivered software for insurance and enterprise clients using agile, test-driven practices.",
+      "Worked across the stack on distributed systems spanning multiple industries and geographies.",
+      "Grew from graduate developer into a technical lead role on client engagements."
+    ]
+  }
+]

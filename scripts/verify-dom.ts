@@ -131,6 +131,36 @@ async function verifyAbout() {
   check("About: skills category Cloud & DevOps", has(html, /Cloud &(amp;|) DevOps/));
 }
 
+async function verifyExperience() {
+  const html = await fetchHtml("/experience");
+
+  // POR-172 — page header (EXP-1)
+  check("Experience: header label", has(html, ">Experience<"));
+  check("Experience: header subtitle", has(html, "Where I&#x27;ve worked") || has(html, "Where I've worked"));
+
+  // Role entries (EXP-3) — current role + an earlier role
+  check("Experience: role Fabric Group", has(html, "Fabric Group"));
+  check("Experience: role Australia Post", has(html, "Australia Post"));
+  check("Experience: role Rapido", has(html, "Rapido"));
+  check("Experience: role ThoughtWorks", has(html, "ThoughtWorks"));
+  check("Experience: period pill present", has(html, "Present"));
+
+  // Current-role marker distinguished (EXP-2)
+  check(
+    "Experience: current-role marker ring",
+    has(html, /bg-accent[^"]*ring-4[^"]*ring-accent-dim/) ||
+      has(html, /ring-accent-dim/)
+  );
+
+  // Bottom CTA (EXP-5 / XC-4)
+  check("Experience: CTA heading", has(html, "Want the full picture?"));
+  check(
+    "Experience: résumé download link",
+    has(html, /href="\/resume\.pdf"[^>]*download/) ||
+      has(html, /download[^>]*href="\/resume\.pdf"/)
+  );
+}
+
 async function verifyNotFound() {
   // Verify the server is reachable
   const res = await fetch(`${BASE_URL}/nonexistent-page-xyz`);
@@ -143,6 +173,7 @@ async function main() {
   try {
     await verifyHome();
     await verifyAbout();
+    await verifyExperience();
     await verifyNotFound();
   } catch (err) {
     console.error(`Fatal: ${err}`);
