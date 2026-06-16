@@ -1,7 +1,7 @@
 # about-page Specification
 
 ## Purpose
-TBD - created by archiving change about-page. Update Purpose after archive.
+The `/about` route — page header, data-driven bio, profile photo placeholder, résumé download CTA, and blog cross-link. Lets visitors and recruiters learn who Abhilash is and grab his résumé. (Skills section is a separate capability.)
 ## Requirements
 ### Requirement: Page header
 
