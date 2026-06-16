@@ -1,0 +1,24 @@
+## The problem
+
+The billing platform settled balances in a nightly batch job. Any mismatch — a
+failed capture, a partial refund, a retried webhook — stayed invisible until the
+next morning's run. Finance worked from numbers that were always a day stale, and
+disputes piled up in a queue no one could trust.
+
+## Approach
+
+I modelled the ledger as an append-only event log. Every money movement becomes an
+immutable event; balances are a projection rebuilt from that log. Kafka carries the
+events, a Postgres projection serves reads, and gRPC exposes the query API to
+downstream services.
+
+- **Immutable events** make every balance reproducible and auditable.
+- **Streaming projections** keep the read model within seconds of the write log.
+- **Idempotent consumers** make webhook retries and replays safe by construction.
+
+## Outcome
+
+Reconciliation latency dropped from 24 hours to under two seconds. Because the log
+is the source of truth, an entire class of double-charge incidents — previously
+caused by races in the batch job — became impossible. Finance got a live exposure
+dashboard for the first time.

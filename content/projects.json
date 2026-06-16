@@ -1,1 +1,27 @@
-[]
+[
+  {
+    "id": "ledger-stream",
+    "name": "LedgerStream",
+    "tagline": "Event-sourced ledger processing 40M transactions/day",
+    "year": 2024,
+    "problem": "The billing platform reconciled balances in nightly batches, so disputes took up to 24 hours to surface and finance had no real-time view of exposure.",
+    "impact": "Cut reconciliation latency from 24 hours to under 2 seconds and eliminated a class of double-charge incidents entirely.",
+    "stack": ["Kotlin", "Kafka", "PostgreSQL", "gRPC", "Kubernetes"],
+    "github": "https://github.com/abhilashv/ledger-stream",
+    "demo": "https://ledger-stream.demo.dev",
+    "role": "Lead Application Developer",
+    "timeline": "2024 · 6 months"
+  },
+  {
+    "id": "pulse-cli",
+    "name": "Pulse CLI",
+    "tagline": "Developer tool that surfaces service health from the terminal",
+    "year": 2023,
+    "problem": "On-call engineers context-switched between five dashboards to triage an incident, losing minutes that mattered during outages.",
+    "impact": "Reduced mean time to acknowledge by 35% by collapsing health, logs, and recent deploys into a single terminal view.",
+    "stack": ["Rust", "Tokio", "OpenTelemetry"],
+    "github": "https://github.com/abhilashv/pulse-cli",
+    "role": "Creator & Maintainer",
+    "timeline": "2023 · nights and weekends"
+  }
+]

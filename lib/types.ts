@@ -15,6 +15,8 @@ export interface Project {
   stack: string[];
   github: string;
   demo?: string;
+  role?: string;
+  timeline?: string;
 }
 
 export interface SkillCategory {

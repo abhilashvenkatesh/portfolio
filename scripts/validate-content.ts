@@ -21,6 +21,8 @@ const ProjectSchema = z.object({
   stack: z.array(z.string()),
   github: z.string(),
   demo: z.string().optional(),
+  role: z.string().optional(),
+  timeline: z.string().optional(),
 });
 
 const SkillCategorySchema = z.object({

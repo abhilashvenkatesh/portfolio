@@ -161,6 +161,37 @@ async function verifyExperience() {
   );
 }
 
+async function verifyProjects() {
+  const list = await fetchHtml("/projects");
+
+  // POR-171 — listing bridge header (PROJ-1)
+  check("Projects: header label", has(list, ">Projects<"));
+  check("Projects: header subtitle", has(list, "Things I&#x27;ve built") || has(list, "Things I've built"));
+
+  // Cards link to detail pages
+  check("Projects: card links to LedgerStream detail", has(list, 'href="/projects/ledger-stream"'));
+  check("Projects: card links to Pulse CLI detail", has(list, 'href="/projects/pulse-cli"'));
+  check("Projects: card name LedgerStream", has(list, "LedgerStream"));
+  check("Projects: demo link present (project with demo)", has(list, /aria-label="LedgerStream live demo"/));
+
+  // Detail page with an MDX body
+  const detail = await fetchHtml("/projects/ledger-stream");
+  check("Detail: back link to /projects", has(detail, 'href="/projects"'));
+  check("Detail: project name heading", has(detail, "LedgerStream"));
+  check("Detail: Problem section", has(detail, ">Problem<"));
+  check("Detail: Impact section", has(detail, ">Impact<"));
+  check("Detail: Tech stack section", has(detail, "Tech stack"));
+  check("Detail: role rendered", has(detail, "Lead Application Developer"));
+  check("Detail: MDX body rendered", has(detail, "Approach") && has(detail, "append-only"));
+  check("Detail: live demo link present", has(detail, /href="https:\/\/ledger-stream\.demo\.dev"/));
+
+  // Detail page WITHOUT an MDX body still renders structured sections (graceful)
+  const bodyless = await fetchHtml("/projects/pulse-cli");
+  check("Detail (no body): structured Problem section", has(bodyless, ">Problem<"));
+  check("Detail (no body): tech stack present", has(bodyless, "Tech stack"));
+  check("Detail (no body): no live demo link", !has(bodyless, "Live demo"));
+}
+
 async function verifyNotFound() {
   // Verify the server is reachable
   const res = await fetch(`${BASE_URL}/nonexistent-page-xyz`);
@@ -174,6 +205,7 @@ async function main() {
     await verifyHome();
     await verifyAbout();
     await verifyExperience();
+    await verifyProjects();
     await verifyNotFound();
   } catch (err) {
     console.error(`Fatal: ${err}`);
