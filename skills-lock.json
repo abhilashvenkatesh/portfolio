@@ -13,6 +13,12 @@
       "skillPath": "skills/c4-architecture/SKILL.md",
       "computedHash": "f35f57420c35f2e8413e1e22934ca3950cae8286499f6fbe978cff604c35cfcd"
     },
+    "claude-code-bash-patterns": {
+      "source": "jackspace/claudeskillz",
+      "sourceType": "github",
+      "skillPath": "skills/claude-code-bash-patterns/SKILL.md",
+      "computedHash": "386efa424c1fe4dc8560fdaa5996888d73885b0d32c7a106efc4a12e0e3ec584"
+    },
     "finishing-a-development-branch": {
       "source": "obra/superpowers",
       "sourceType": "github",
