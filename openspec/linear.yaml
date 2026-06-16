@@ -38,3 +38,11 @@ archive_documents:
       id: "f7de0b1c-fab0-4c1c-b8f6-a04b1bfc0fe4"
       url: "https://linear.app/abhilash-projects/document/openspec-experience-page-5975a257b322"
       title: "OpenSpec: experience-page"
+    "project-detail-page":
+      id: "377f1a4f-9a68-4519-a665-03ee43e58a14"
+      url: "https://linear.app/abhilash-projects/document/openspec-project-detail-page-015851766e0e"
+      title: "OpenSpec: project-detail-page"
+    "projects-listing-bridge":
+      id: "0a3ba838-4e29-47bf-b977-7c36a79a0401"
+      url: "https://linear.app/abhilash-projects/document/openspec-projects-listing-bridge-417b164f2a3c"
+      title: "OpenSpec: projects-listing-bridge"
