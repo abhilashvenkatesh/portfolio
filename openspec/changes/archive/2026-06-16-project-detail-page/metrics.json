@@ -1,6 +1,6 @@
 {
   "change": "project-detail-page",
-  "generated_at": "2026-06-16T13:07:26Z",
+  "generated_at": "2026-06-16T13:11:33Z",
   "method": "sdd",
   "linear": {
     "id": "POR-171",
@@ -8,22 +8,22 @@
   },
   "time": {
     "started_at": "2026-06-16T10:12:03Z",
-    "finished_at": "",
+    "finished_at": "2026-06-16T13:11:18Z",
     "phase_timestamps": {
       "proposal": "2026-06-16T20:21:47+10:00",
       "specs": "2026-06-16T20:21:47+10:00",
       "design": "2026-06-16T20:21:47+10:00",
       "tasks": "2026-06-16T20:21:47+10:00",
       "verify": "2026-06-16T23:01:50+10:00",
-      "retrospective": ""
+      "retrospective": "2026-06-16T23:11:05+10:00"
     }
   },
   "size": {
     "base": "1fd25ab0561d40e34fb092f0890048d94b4a379c^",
-    "commits": 3,
-    "added": 889,
+    "commits": 4,
+    "added": 1029,
     "deleted": 1,
-    "files": 19
+    "files": 21
   },
   "scope": {
     "tasks_total": 24,
