@@ -34,3 +34,7 @@ archive_documents:
       id: "a3e1d54c-fd60-4148-8248-415d9a2c3fec"
       url: "https://linear.app/abhilash-projects/document/openspec-about-skills-b052fefafd16"
       title: "OpenSpec: about-skills"
+    "experience-page":
+      id: "f7de0b1c-fab0-4c1c-b8f6-a04b1bfc0fe4"
+      url: "https://linear.app/abhilash-projects/document/openspec-experience-page-5975a257b322"
+      title: "OpenSpec: experience-page"
