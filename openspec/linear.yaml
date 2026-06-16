@@ -30,3 +30,7 @@ archive_documents:
       id: "616386b3-c2db-40ab-8f57-74db71f34d47"
       url: "https://linear.app/abhilash-projects/document/openspec-about-page-d47555831b97"
       title: "OpenSpec: about-page"
+    "about-skills":
+      id: "a3e1d54c-fd60-4148-8248-415d9a2c3fec"
+      url: "https://linear.app/abhilash-projects/document/openspec-about-skills-b052fefafd16"
+      title: "OpenSpec: about-skills"
