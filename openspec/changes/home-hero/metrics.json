@@ -1,0 +1,51 @@
+{
+  "change": "home-hero",
+  "generated_at": "2026-06-16T02:32:57Z",
+  "method": "sdd",
+  "linear": {
+    "id": "POR-166",
+    "url": "https://linear.app/abhilash-projects/issue/POR-166/home-hero-headline-stats-bar-background-texture"
+  },
+  "time": {
+    "started_at": "2026-06-16T02:08:17Z",
+    "finished_at": "",
+    "phase_timestamps": {
+      "proposal": "2026-06-16T12:14:18+10:00",
+      "specs": "2026-06-16T12:14:18+10:00",
+      "design": "2026-06-16T12:14:18+10:00",
+      "tasks": "2026-06-16T12:14:18+10:00",
+      "verify": "2026-06-16T12:28:25+10:00",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "e53038cf313fa22ccc56a55ef67b221caa685426^",
+    "commits": 3,
+    "added": 522,
+    "deleted": 14,
+    "files": 13
+  },
+  "scope": {
+    "tasks_total": 17,
+    "tasks_done": 17,
+    "requirements": 4,
+    "scenarios": 7
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 1,
+    "openspec_validate": "pass"
+  },
+  "tokens": {
+    "input": 10330,
+    "output": 39622,
+    "cache_read": 7146906,
+    "cache_write_5m": 0,
+    "cache_write_1h": 164167,
+    "total_tokens": 7361025,
+    "cost_usd": 18.771969,
+    "attribution": "exact",
+    "sessions": 1
+  }
+}

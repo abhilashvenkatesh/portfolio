@@ -65,9 +65,29 @@ Home → Chat handoff: `ChatLauncher` navigates to `/chat?q=<encoded>`. On mount
 
 Enforced by `@google/design.md lint` on `documentation/DESIGN.md`. See `documentation/DESIGN.md` and `documentation/design/*.html` for the source-of-truth design system — tokens, WCAG contrast, component specs.
 
+## Code Intelligence
+
+Prefer LSP over Grep/Glob/Read for code navigation:
+
+- `goToDefinition` / `goToImplementation` — jump to source
+- `findReferences` — all usages across codebase
+- `workspaceSymbol` — find where something is defined
+- `documentSymbol` — list symbols in a file
+- `hover` — type info without reading the file
+- `incomingCalls` / `outgoingCalls` — call hierarchy
+
+Before renaming or changing a signature, run `findReferences` to find all call sites first.
+
+Use Grep/Glob only for text/pattern searches (comments, strings, config values) where LSP doesn't help.
+
+After writing or editing code, check LSP diagnostics before moving on. Fix type errors and missing imports immediately.
+
+After reading a file, reference it from context — do not re-read unless the file was modified since last read. Every redundant read re-ingests the file as input tokens; for large files (1K+ lines) this adds significant cost. The Read tool output note says "content unchanged since last read" when a re-read is wasteful — honor it.
+
 ## Known gotchas
 
 - **`npm run lint` runs `eslint .`** — `next lint` was removed in Next.js 16. Do not use `next lint` in scripts, docs, or CI.
 - **`lucide-react` v1.x has no brand icons** — `Github` and `Linkedin` exports were removed. Use the inline SVG components in `components/layout/Footer.tsx`.
 - **Theme init must check `prefers-color-scheme`** — both the anti-flash IIFE (`app/layout.tsx`) and `getInitialTheme()` (`ThemeProvider.tsx`) fall back to `window.matchMedia('(prefers-color-scheme: dark)')` when no `localStorage` value exists. Do not simplify this away.
 - **All social URLs live in `content/contact.json`** — `ContactInfo` type includes `github`, `linkedin`, `email`. Never hardcode URLs in components.
+- **`next build` poisons the next `next dev`** — a prod build can leave a stale `.next` that makes the dev server return HTTP 500 with "Could not find the module …/global-error.js#default in the React Client Manifest" (a Turbopack RSC-manifest artifact, not an app bug). Fix: `rm -rf .next` and restart `next dev` before debugging app code.
