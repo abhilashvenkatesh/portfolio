@@ -1,10 +1,12 @@
 import Link from "next/link";
 import PageHeader from "@/components/ui/PageHeader";
+import SectionLabel from "@/components/ui/SectionLabel";
 import FadeIn from "@/components/ui/FadeIn";
-import { getAboutBio } from "@/lib/content";
+import { getAboutBio, getSkills } from "@/lib/content";
 
 export default function AboutPage() {
   const bio = getAboutBio();
+  const skills = getSkills();
 
   return (
     <>
@@ -86,6 +88,33 @@ export default function AboutPage() {
               </span>
             </div>
           </FadeIn>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-24">
+        <FadeIn>
+          <SectionLabel>What I work with</SectionLabel>
+        </FadeIn>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
+          {skills.map((category, i) => (
+            <FadeIn key={category.name} delay={i * 60}>
+              <div className="rounded-[10px] border border-surface-alt bg-surface-alt p-5">
+                <div className="mb-3 font-mono text-[11px] uppercase tracking-[0.08em] text-accent">
+                  {category.name}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {category.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="rounded border border-surface-alt bg-surface px-2 py-0.5 text-xs text-secondary"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
+          ))}
         </div>
       </section>
     </>

@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "name": "Languages",
+    "skills": ["Java", "Node.js", "TypeScript", "JavaScript", "Ruby", "Python"]
+  },
+  {
+    "name": "Frameworks",
+    "skills": ["Spring Boot", "Vert.x", "React", "Vue.js", "Express", "Dropwizard", "RxJava"]
+  },
+  {
+    "name": "Data & Messaging",
+    "skills": ["MySQL", "MongoDB", "Elasticsearch", "Redis", "Kafka", "DynamoDB", "Cloud Spanner"]
+  },
+  {
+    "name": "Cloud & DevOps",
+    "skills": ["AWS", "GCP", "Docker", "Jenkins", "Ansible", "CI/CD", "Microservices"]
+  }
+]

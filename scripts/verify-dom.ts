@@ -122,6 +122,13 @@ async function verifyAbout() {
 
   // Blog cross-link (ABOUT-5)
   check("About: blog link", has(html, 'href="/blog"'));
+
+  // Skills section (POR-169)
+  check("About: skills section label", has(html, "What I work with"));
+  check("About: skills category Languages", has(html, ">Languages<"));
+  check("About: skills category Frameworks", has(html, ">Frameworks<"));
+  check("About: skills category Data & Messaging", has(html, /Data &(amp;|) Messaging/));
+  check("About: skills category Cloud & DevOps", has(html, /Cloud &(amp;|) DevOps/));
 }
 
 async function verifyNotFound() {

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import AboutPage from "@/app/about/page";
-import { getAboutBio } from "@/lib/content";
+import { getAboutBio, getSkills } from "@/lib/content";
 
 describe("AboutPage", () => {
   it("renders the page header label and subtitle", () => {
@@ -53,5 +53,34 @@ describe("AboutPage", () => {
     render(<AboutPage />);
     const blog = screen.getByText("Blog →").closest("a");
     expect(blog).toHaveAttribute("href", "/blog");
+  });
+
+  it("renders the skills section heading", () => {
+    render(<AboutPage />);
+    expect(screen.getByText("What I work with")).toBeInTheDocument();
+  });
+
+  it("renders the four skill category labels", () => {
+    render(<AboutPage />);
+    for (const category of [
+      "Languages",
+      "Frameworks",
+      "Data & Messaging",
+      "Cloud & DevOps",
+    ]) {
+      expect(screen.getByText(category)).toBeInTheDocument();
+    }
+  });
+
+  it("renders every category name and skill from content", () => {
+    render(<AboutPage />);
+    const skills = getSkills();
+    expect(skills.length).toBeGreaterThan(0);
+    for (const category of skills) {
+      expect(screen.getByText(category.name)).toBeInTheDocument();
+      for (const skill of category.skills) {
+        expect(screen.getAllByText(skill).length).toBeGreaterThan(0);
+      }
+    }
   });
 });
