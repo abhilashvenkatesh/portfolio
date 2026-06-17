@@ -1,4 +1,5 @@
 export interface Identity {
+  firstName: string;
   name: string;
   title: string;
   employer: string;

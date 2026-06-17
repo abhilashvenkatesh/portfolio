@@ -3,6 +3,7 @@ import { buildChatContext } from "@/lib/chat-context";
 
 const sample = {
   identity: {
+    firstName: "Abhilash",
     name: "Abhilash Venkatesh",
     title: "Lead Application Developer",
     employer: "Rapido",
