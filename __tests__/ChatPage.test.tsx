@@ -122,6 +122,7 @@ describe("UnsupportedFallback", () => {
       screen.getByRole("link", { name: "test@example.com" }),
     ).toHaveAttribute("href", "mailto:test@example.com");
     expect(screen.getByRole("link", { name: "LinkedIn" })).toBeInTheDocument();
+    expect(screen.getByText(/reach Abhilash directly/i)).toBeInTheDocument();
   });
 });
 
@@ -133,7 +134,7 @@ describe("ChatClient", () => {
   it("shows the welcome message and six suggestion chips on a fresh visit", async () => {
     renderWithProvider(<ChatClient {...props} />);
     expect(
-      await screen.findByText(/I'm a chat layer over Abhilash's resume/),
+      await screen.findByText(/I'm a chat layer over Abhilash Venkatesh's resume/),
     ).toBeInTheDocument();
     props.chips.forEach((chip) => {
       expect(screen.getByRole("button", { name: chip })).toBeInTheDocument();
@@ -160,7 +161,7 @@ describe("ChatClient", () => {
     expect(await screen.findByText("Tell me about Rapido")).toBeInTheDocument();
     expect(await screen.findByText("Here's the answer.")).toBeInTheDocument();
     expect(
-      screen.queryByText(/I'm a chat layer over Abhilash's resume/),
+      screen.queryByText(/I'm a chat layer over Abhilash Venkatesh's resume/),
     ).not.toBeInTheDocument();
   });
 

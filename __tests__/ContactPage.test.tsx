@@ -10,8 +10,15 @@ vi.mock("@/components/ui/FadeIn", () => ({
   default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
-// Mock getContactInfo for page-level smoke test
+// Mock getIdentity and getContactInfo for page-level smoke test
 vi.mock("@/lib/content", () => ({
+  getIdentity: () => ({
+    firstName: "Abhilash",
+    name: "Abhilash Venkatesh",
+    title: "Senior Engineer",
+    employer: "Fabric Group",
+    location: "Melbourne, Australia",
+  }),
   getContactInfo: () => ({
     email: "test@example.com",
     linkedin: "https://linkedin.com/in/test",

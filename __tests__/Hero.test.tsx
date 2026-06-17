@@ -56,14 +56,14 @@ describe("Hero", () => {
   it("mounts the chat launcher with chips from content", () => {
     render(<Hero />);
     expect(
-      screen.getByPlaceholderText("Ask me anything about Abhilash…")
+      screen.getByPlaceholderText("Ask me anything about Abhilash Venkatesh…")
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "What are Abhilash's top skills?" })
+      screen.getByRole("button", { name: "What are the top skills?" })
     ).toBeInTheDocument();
     expect(
       screen.getByRole("button", {
-        name: "Tell me about his role at Fabric Group",
+        name: "Tell me about the current role",
       })
     ).toBeInTheDocument();
   });
