@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.84",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "ai": "^6.0.207",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.17.0",

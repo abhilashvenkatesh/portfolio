@@ -4,6 +4,8 @@ import Providers from "@/components/providers/Providers";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import { getIdentity, getContactInfo } from "@/lib/content";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const identity = getIdentity();
 const contact = getContactInfo();
@@ -37,6 +39,8 @@ export default function RootLayout({
           <main className="flex-1 pt-15">{children}</main>
           <Footer email={contact.email} linkedin={contact.linkedin} github={contact.github} />
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

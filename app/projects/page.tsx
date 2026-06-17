@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import FadeIn from "@/components/ui/FadeIn";
-import { GithubIcon } from "@/components/ui/icons";
+import ProjectLinks from "@/components/projects/ProjectLinks";
 import { getProjects, projectSlug } from "@/lib/content";
 
 export const metadata = {
@@ -36,28 +35,7 @@ export default function ProjectsPage() {
                     <span className="rounded-full border border-surface-alt bg-surface-alt px-2.5 py-0.5 font-mono text-xs text-secondary">
                       {project.year}
                     </span>
-                    <div className="flex items-center gap-2.5 text-secondary">
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${project.name} on GitHub`}
-                        className="transition-colors hover:text-primary"
-                      >
-                        <GithubIcon />
-                      </a>
-                      {project.demo ? (
-                        <a
-                          href={project.demo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${project.name} live demo`}
-                          className="transition-colors hover:text-primary"
-                        >
-                          <ExternalLink size={16} />
-                        </a>
-                      ) : null}
-                    </div>
+                    <ProjectLinks name={project.name} github={project.github} demo={project.demo} />
                   </div>
 
                   {/* Name + tagline */}

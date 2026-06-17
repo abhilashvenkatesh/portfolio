@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { track } from "@vercel/analytics";
 import ChatProvider, {
   useChatContext,
   WELCOME,
@@ -88,6 +89,14 @@ function ChatInner({
   const modelLoading = modelState === "loading" || modelState === "idle";
   const isThinking = chatState === "thinking";
   const queued = pendingQueue !== null;
+
+  useEffect(() => {
+    if (modelState === "ready") track("chat_started");
+  }, [modelState]);
+
+  useEffect(() => {
+    if (modelState === "unsupported") track("chat_unsupported");
+  }, [modelState]);
 
   // Track if we have any real assistant response in thread yet.
   const hasAssistantReply = messages.some(

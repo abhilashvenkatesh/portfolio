@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { track } from "@vercel/analytics";
 import { useModelContext, useSetThinking } from "@/components/providers/ModelProvider";
 import type { ModelState } from "@/components/providers/ModelProvider";
 
@@ -117,6 +118,7 @@ export default function ChatProvider({
           return copy;
         });
       } catch {
+        track("chat_error");
         setMessages((prev) => {
           const copy = [...prev];
           copy[copy.length - 1] = {
@@ -148,6 +150,7 @@ export default function ChatProvider({
       }
 
       if (!getActiveEngine() || chatState === "thinking") return;
+      track("chat_message_sent");
       const history = messagesRef.current;
       setMessages((prev) => [...prev, { role: "user", text }]);
       void runCompletion(text, history);

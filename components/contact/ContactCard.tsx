@@ -1,4 +1,7 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { track } from "@vercel/analytics";
 
 interface ContactCardProps {
   label: string;
@@ -23,6 +26,7 @@ export default function ContactCard({
       {...(newTab
         ? { target: "_blank", rel: "noopener noreferrer" }
         : {})}
+      onClick={() => track("contact_link_clicked", { channel: label.toLowerCase() })}
       className="group flex items-center gap-5 rounded-xl border border-surface-alt bg-surface-alt/40 p-5 no-underline transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/30 hover:bg-accent/5"
     >
       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] border border-accent/30 bg-accent/10 text-accent">

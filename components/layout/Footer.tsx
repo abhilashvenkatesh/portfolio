@@ -1,4 +1,7 @@
+"use client";
+
 import { Mail } from "lucide-react";
+import { track } from "@vercel/analytics";
 
 interface FooterProps {
   email: string;
@@ -46,6 +49,7 @@ export default function Footer({ email, linkedin, github }: FooterProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
+            onClick={() => track("contact_link_clicked", { channel: "github" })}
             className="text-secondary hover:text-accent transition-colors"
           >
             <GithubIcon size={18} />
@@ -56,6 +60,7 @@ export default function Footer({ email, linkedin, github }: FooterProps) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
+            onClick={() => track("contact_link_clicked", { channel: "linkedin" })}
             className="text-secondary hover:text-accent transition-colors"
           >
             <LinkedinIcon size={18} />
@@ -64,6 +69,7 @@ export default function Footer({ email, linkedin, github }: FooterProps) {
           <a
             href={`mailto:${email}`}
             aria-label="Email"
+            onClick={() => track("contact_link_clicked", { channel: "email" })}
             className="text-secondary hover:text-accent transition-colors"
           >
             <Mail size={18} />
