@@ -19,7 +19,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getBlogPostBySlug(slug);
   if (!post) return {};
-  return { title: post.title, description: post.summary };
+  return {
+    title: post.title,
+    description: post.summary,
+    alternates: { canonical: `https://avbuild.dev/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      url: `https://avbuild.dev/blog/${slug}`,
+      title: post.title,
+      description: post.summary,
+      publishedTime: post.date,
+      authors: ["https://avbuild.dev"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.summary,
+    },
+  };
 }
 
 export default async function BlogPostPage({
@@ -41,8 +58,26 @@ export default async function BlogPostPage({
     .filter((p) => p.slug !== slug)
     .slice(0, 2);
 
+  const blogPostingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary,
+    datePublished: post.date,
+    url: `https://avbuild.dev/blog/${slug}`,
+    author: {
+      "@type": "Person",
+      name: identity.name,
+      url: "https://avbuild.dev",
+    },
+  };
+
   return (
     <article className="mx-auto max-w-[720px] px-6 pb-24 pt-28">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+      />
       <Link
         href="/blog"
         className="inline-block text-sm text-secondary transition-colors hover:text-accent"

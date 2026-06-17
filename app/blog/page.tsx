@@ -5,6 +5,12 @@ import { getBlogPosts } from "@/lib/blog";
 export const metadata = {
   title: "Writing",
   description: "Thoughts on distributed systems, backend engineering, and things learned in production.",
+  alternates: { canonical: "https://avbuild.dev/blog" },
+  openGraph: {
+    url: "https://avbuild.dev/blog",
+    title: "Writing | Abhilash Venkatesh",
+    description: "Thoughts on distributed systems, backend engineering, and things learned in production.",
+  },
 };
 
 export default function BlogPage() {

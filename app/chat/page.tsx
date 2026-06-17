@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   getChatChips,
   getContactInfo,
@@ -8,6 +9,10 @@ import {
 } from "@/lib/content";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/chat-context";
 import ChatClient from "@/components/chat/ChatClient";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 // Static shell: build-time data is read here and handed to the client island.
 // All WebLLM logic runs in the browser inside ChatClient.

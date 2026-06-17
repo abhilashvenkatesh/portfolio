@@ -11,8 +11,29 @@ const identity = getIdentity();
 const contact = getContactInfo();
 
 export const metadata: Metadata = {
-  title: `${identity.name} — ${identity.title}`,
-  description: `${identity.title} based in ${identity.location}`,
+  metadataBase: new URL("https://avbuild.dev"),
+  title: {
+    default: `${identity.name} — ${identity.title}`,
+    template: `%s | ${identity.name}`,
+  },
+  description: `${identity.title} with 11+ years building distributed systems, cloud infrastructure, and engineering teams. Based in ${identity.location}.`,
+  authors: [{ name: identity.name, url: "https://avbuild.dev" }],
+  openGraph: {
+    type: "website",
+    siteName: identity.name,
+    locale: "en_AU",
+    url: "https://avbuild.dev",
+    title: `${identity.name} — ${identity.title}`,
+    description: `${identity.title} with 11+ years building distributed systems, cloud infrastructure, and engineering teams. Based in ${identity.location}.`,
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: identity.name }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${identity.name} — ${identity.title}`,
+    description: `${identity.title} with 11+ years building distributed systems, cloud infrastructure, and engineering teams. Based in ${identity.location}.`,
+    images: ["/og-default.png"],
+  },
+  robots: { index: true, follow: true },
 };
 
 const ANTI_FLASH = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();`;

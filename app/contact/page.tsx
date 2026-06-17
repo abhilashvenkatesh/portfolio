@@ -10,6 +10,12 @@ const identity = getIdentity();
 export const metadata: Metadata = {
   title: "Contact",
   description: `Get in touch with ${identity.name} — open to full-time roles and select consulting engagements.`,
+  alternates: { canonical: "https://avbuild.dev/contact" },
+  openGraph: {
+    url: "https://avbuild.dev/contact",
+    title: `Contact | ${identity.name}`,
+    description: `Get in touch with ${identity.name} — open to full-time roles and select consulting engagements.`,
+  },
 };
 
 const EmailIcon = () => (

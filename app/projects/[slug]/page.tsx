@@ -24,7 +24,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
-  return { title: project.name, description: project.tagline };
+  return {
+    title: project.name,
+    description: project.tagline,
+    alternates: { canonical: `https://avbuild.dev/projects/${slug}` },
+    openGraph: {
+      url: `https://avbuild.dev/projects/${slug}`,
+      title: project.name,
+      description: project.tagline,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.name,
+      description: project.tagline,
+    },
+  };
 }
 
 /** MDX element styling — no typography plugin; map elements to design tokens. */

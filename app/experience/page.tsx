@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import PageHeader from "@/components/ui/PageHeader";
+
+export const metadata: Metadata = {
+  title: "Experience",
+  description:
+    "Career history across fintech, healthcare, retail, and consulting — distributed systems, cloud architecture, and engineering leadership.",
+  alternates: { canonical: "https://avbuild.dev/experience" },
+  openGraph: {
+    url: "https://avbuild.dev/experience",
+    title: "Experience | Abhilash Venkatesh",
+    description:
+      "Career history across fintech, healthcare, retail, and consulting — distributed systems, cloud architecture, and engineering leadership.",
+  },
+};
 import FadeIn from "@/components/ui/FadeIn";
 import { getExperience } from "@/lib/content";
 

@@ -1,4 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "11+ years building distributed systems across 3 countries and 4 industries. Lead Application Developer at Fabric Group, Melbourne.",
+  alternates: { canonical: "https://avbuild.dev/about" },
+  openGraph: {
+    url: "https://avbuild.dev/about",
+    title: "About | Abhilash Venkatesh",
+    description:
+      "11+ years building distributed systems across 3 countries and 4 industries. Lead Application Developer at Fabric Group, Melbourne.",
+  },
+};
 import PageHeader from "@/components/ui/PageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
 import FadeIn from "@/components/ui/FadeIn";

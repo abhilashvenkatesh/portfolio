@@ -7,6 +7,12 @@ import { getProjects, projectSlug } from "@/lib/content";
 export const metadata = {
   title: "Projects",
   description: "Things I've built — backend systems, developer tools, and infrastructure.",
+  alternates: { canonical: "https://avbuild.dev/projects" },
+  openGraph: {
+    url: "https://avbuild.dev/projects",
+    title: "Projects | Abhilash Venkatesh",
+    description: "Things I've built — backend systems, developer tools, and infrastructure.",
+  },
 };
 
 export default function ProjectsPage() {
