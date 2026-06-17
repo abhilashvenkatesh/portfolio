@@ -1,6 +1,12 @@
 import type { ChatMessageData } from "./ChatProvider";
 
-export default function ChatMessage({ msg }: { msg: ChatMessageData }) {
+export default function ChatMessage({
+  msg,
+  ownerFirstName,
+}: {
+  msg: ChatMessageData;
+  ownerFirstName: string;
+}) {
   const isUser = msg.role === "user";
 
   return (
@@ -26,7 +32,7 @@ export default function ChatMessage({ msg }: { msg: ChatMessageData }) {
             isUser ? "text-right" : "text-left"
           }`}
         >
-          {isUser ? "you" : "Abhilash"}
+          {isUser ? "you" : ownerFirstName}
         </div>
         <div
           className={`whitespace-pre-wrap break-words rounded-xl border px-4 py-3 text-[15px] leading-relaxed ${

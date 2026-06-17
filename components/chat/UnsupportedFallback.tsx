@@ -3,9 +3,11 @@ import Link from "next/link";
 export default function UnsupportedFallback({
   email,
   linkedin,
+  ownerName,
 }: {
   email: string;
   linkedin: string;
+  ownerName: string;
 }) {
   return (
     <div className="mx-auto flex max-w-md flex-col items-start gap-4 py-16">
@@ -15,7 +17,7 @@ export default function UnsupportedFallback({
       </h1>
       <p className="text-secondary">
         The chat runs entirely on-device and needs WebGPU (Chrome or Edge 113+).
-        In the meantime, reach Abhilash directly:
+        In the meantime, reach {ownerName} directly:
       </p>
       <div className="flex flex-col gap-2">
         <a

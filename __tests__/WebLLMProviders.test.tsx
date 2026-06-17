@@ -152,6 +152,7 @@ describe("ChatProvider — type-during-load queue", () => {
     render(
       <ModelProvider>
         <ChatProvider
+          ownerName="Abhilash Venkatesh"
           systemPrompt="SYSTEM"
           errorEmail="test@example.com"
           initialMessages={[{ role: "assistant", text: "Hey!" }]}

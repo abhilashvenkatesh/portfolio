@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { track } from "@vercel/analytics";
 import ChatProvider, {
   useChatContext,
-  WELCOME,
+  getWelcome,
   type ChatMessageData,
 } from "./ChatProvider";
 import { useModelContext } from "@/components/providers/ModelProvider";
@@ -15,6 +15,8 @@ import ChatLoadingContent, { type LoadingContent } from "./ChatLoadingContent";
 import UnsupportedFallback from "./UnsupportedFallback";
 
 interface ChatClientProps {
+  ownerName: string;
+  ownerFirstName: string;
   systemPrompt: string;
   chips: string[];
   email: string;
@@ -35,6 +37,8 @@ function ChatShell() {
 }
 
 function ChatExperience({
+  ownerName,
+  ownerFirstName,
   systemPrompt,
   chips,
   email,
@@ -48,17 +52,20 @@ function ChatExperience({
     () =>
       q
         ? [{ role: "user", text: q }]
-        : [{ role: "assistant", text: WELCOME }],
-    [q],
+        : [{ role: "assistant", text: getWelcome(ownerName) }],
+    [q, ownerName],
   );
 
   return (
     <ChatProvider
+      ownerName={ownerName}
       systemPrompt={systemPrompt}
       errorEmail={email}
       initialMessages={initialMessages}
     >
       <ChatInner
+        ownerName={ownerName}
+        ownerFirstName={ownerFirstName}
         chips={chips}
         email={email}
         linkedin={linkedin}
@@ -70,12 +77,16 @@ function ChatExperience({
 }
 
 function ChatInner({
+  ownerName,
+  ownerFirstName,
   chips,
   email,
   linkedin,
   loadingContent,
   handoffQuery,
 }: {
+  ownerName: string;
+  ownerFirstName: string;
   chips: string[];
   email: string;
   linkedin: string;
@@ -99,8 +110,9 @@ function ChatInner({
   }, [modelState]);
 
   // Track if we have any real assistant response in thread yet.
+  const welcomeText = getWelcome(ownerName);
   const hasAssistantReply = messages.some(
-    (m) => m.role === "assistant" && !m.pending && m.text !== WELCOME,
+    (m) => m.role === "assistant" && !m.pending && m.text !== welcomeText,
   );
 
   // API fallback for handoff query.
@@ -150,7 +162,7 @@ function ChatInner({
   if (modelState === "unsupported") {
     return (
       <div className="mx-auto max-w-3xl px-4">
-        <UnsupportedFallback email={email} linkedin={linkedin} />
+        <UnsupportedFallback email={email} linkedin={linkedin} ownerName={ownerName} />
       </div>
     );
   }
@@ -210,6 +222,7 @@ function ChatInner({
         }
         chips={chips}
         onPickChip={send}
+        ownerFirstName={ownerFirstName}
       />
 
       <ChatInput

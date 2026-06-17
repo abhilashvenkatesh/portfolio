@@ -36,15 +36,18 @@ export function useChatContext(): ChatContextValue {
   return ctx;
 }
 
-const WELCOME =
-  "Hey! I'm a chat layer over Abhilash's resume. Ask me about his experience, projects, skills, or how to get in touch.";
+export function getWelcome(ownerName: string): string {
+  return `Hey! I'm a chat layer over ${ownerName}'s resume. Ask me about his experience, projects, skills, or how to get in touch.`;
+}
 
 export default function ChatProvider({
+  ownerName,
   systemPrompt,
   errorEmail,
   initialMessages,
   children,
 }: {
+  ownerName: string;
   systemPrompt: string;
   errorEmail: string;
   initialMessages: ChatMessageData[];
@@ -123,7 +126,7 @@ export default function ChatProvider({
           const copy = [...prev];
           copy[copy.length - 1] = {
             role: "assistant",
-            text: `Sorry, I couldn't process that. Try rephrasing, or reach Abhilash directly at ${errorEmail}.`,
+            text: `Sorry, I couldn't process that. Try rephrasing, or reach ${ownerName} directly at ${errorEmail}.`,
           };
           return copy;
         });
@@ -132,7 +135,7 @@ export default function ChatProvider({
         setThinking(false);
       }
     },
-    [systemPrompt, errorEmail, getActiveEngine, setThinking],
+    [ownerName, systemPrompt, errorEmail, getActiveEngine, setThinking],
   );
 
   const send = useCallback(
@@ -194,4 +197,3 @@ export default function ChatProvider({
   );
 }
 
-export { WELCOME };

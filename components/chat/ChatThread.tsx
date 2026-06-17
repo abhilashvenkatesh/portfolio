@@ -9,10 +9,12 @@ export default function ChatThread({
   messages,
   chips,
   onPickChip,
+  ownerFirstName,
 }: {
   messages: ChatMessageData[];
   chips: string[];
   onPickChip: (chip: string) => void;
+  ownerFirstName: string;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +30,7 @@ export default function ChatThread({
   return (
     <div ref={scrollRef} className="flex-1 overflow-y-auto pb-4">
       {messages.map((m, i) => (
-        <ChatMessage key={i} msg={m} />
+        <ChatMessage key={i} msg={m} ownerFirstName={ownerFirstName} />
       ))}
       {showChips && <SuggestionChips chips={chips} onPick={onPickChip} />}
     </div>

@@ -34,6 +34,8 @@ function streamOf(text: string) {
 }
 
 const props = {
+  ownerName: "Abhilash Venkatesh",
+  ownerFirstName: "Abhilash",
   systemPrompt: "SYSTEM",
   chips: [
     "What are his top skills?",
@@ -77,20 +79,20 @@ afterEach(() => {
 
 describe("ChatMessage", () => {
   it("renders an assistant message left-aligned labelled Abhilash", () => {
-    render(<ChatMessage msg={{ role: "assistant", text: "Hello" }} />);
+    render(<ChatMessage msg={{ role: "assistant", text: "Hello" }} ownerFirstName="Abhilash" />);
     expect(screen.getByText("Abhilash")).toBeInTheDocument();
     expect(screen.getByText("Hello")).toBeInTheDocument();
   });
 
   it("shows a blinking cursor on a pending assistant message", () => {
     render(
-      <ChatMessage msg={{ role: "assistant", text: "", pending: true }} />,
+      <ChatMessage msg={{ role: "assistant", text: "", pending: true }} ownerFirstName="Abhilash" />,
     );
     expect(screen.getByText("▍")).toBeInTheDocument();
   });
 
   it("renders a visitor message labelled you", () => {
-    render(<ChatMessage msg={{ role: "user", text: "Hi" }} />);
+    render(<ChatMessage msg={{ role: "user", text: "Hi" }} ownerFirstName="Abhilash" />);
     expect(screen.getAllByText("you").length).toBeGreaterThan(0);
   });
 });
@@ -113,6 +115,7 @@ describe("UnsupportedFallback", () => {
       <UnsupportedFallback
         email="test@example.com"
         linkedin="https://linkedin.com/in/test"
+        ownerName="Abhilash"
       />,
     );
     expect(
