@@ -3,8 +3,8 @@ linear_story_id: "POR-177"
 linear_story_url: "https://linear.app/abhilash-projects/issue/POR-177/ai-chat-page-full-webllm-experience"
 # --- metrics (collected per change, proposal -> archive; flat keys, parsed by scripts/collect-metrics.sh) ---
 method: "sdd"          # sdd | human | vibe — label for your own analysis; not an experiment arm
-started_at: 2026-06-17T10:30:00Z
-finished_at: null      # ISO8601, set at archive
+started_at: 2026-06-17T01:00:00Z
+finished_at: 2026-06-17T01:37:00Z
 session_ids: ["63ec8105-fc44-43bf-a6a1-88207752fa57"]
 ---
 
