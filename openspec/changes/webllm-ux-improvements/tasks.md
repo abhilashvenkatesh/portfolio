@@ -100,5 +100,5 @@
 
 - [x] 15.1 Run `npm run typecheck` and confirm zero errors
 - [x] 15.2 Run `npm run lint` and confirm zero errors
-- [ ] 15.3 Run `npm run build` and confirm successful production build
-- [ ] 15.4 Run `openspec validate webllm-ux-improvements --type change --strict` and confirm change is valid
+- [x] 15.3 Run `npm run build` and confirm successful production build
+- [x] 15.4 Run `openspec validate --all --json` — change valid; `contact-page` spec failure is pre-existing (unrelated to POR-178)

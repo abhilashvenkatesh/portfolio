@@ -1,0 +1,44 @@
+{
+  "change": "webllm-ux-improvements",
+  "generated_at": "2026-06-17T06:37:18Z",
+  "method": "unknown",
+  "linear": {
+    "id": "",
+    "url": ""
+  },
+  "time": {
+    "started_at": "",
+    "finished_at": "",
+    "phase_timestamps": {
+      "proposal": "2026-06-17T16:04:45+10:00",
+      "specs": "2026-06-17T16:04:45+10:00",
+      "design": "2026-06-17T16:04:45+10:00",
+      "tasks": "2026-06-17T16:04:45+10:00",
+      "verify": "",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "4e44c759f4bade6d91b5eb6b424b7e9097824559^",
+    "commits": 2,
+    "added": 1849,
+    "deleted": 253,
+    "files": 29
+  },
+  "scope": {
+    "tasks_total": 60,
+    "tasks_done": 54,
+    "requirements": 11,
+    "scenarios": 32
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 0,
+    "openspec_validate": "fail"
+  },
+  "tokens": {
+    "attribution": "none",
+    "sessions": 0
+  }
+}
