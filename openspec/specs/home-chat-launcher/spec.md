@@ -8,14 +8,21 @@ Defines the home page chat launcher and browse navigation layered into the `home
 
 ### Requirement: Chat launcher input
 
-The home page hero SHALL present a text input below the bio that lets a visitor ask a question. Submitting the question — via the Enter key or the send button — SHALL navigate to the chat page with the question pre-filled and already sent.
+The home page hero SHALL present a text input below the bio that lets a visitor ask a question. Submitting the question — via the Enter key or the send button — SHALL navigate to the chat page with the question pre-filled and already sent. The input placeholder and aria-label MUST derive from `identity.name` sourced from `content/identity.json` — they MUST NOT be hardcoded.
 
 #### Scenario: Visitor sees the input with its placeholder
 
-GIVEN a visitor opens the home page
+GIVEN `content/identity.json` contains `name: "Abhilash Venkatesh"`
+AND a visitor opens the home page
 WHEN the hero renders
-THEN a text input appears below the bio with placeholder text "Ask me anything about Abhilash…"
+THEN a text input appears below the bio with placeholder text "Ask me anything about Abhilash Venkatesh…"
 AND a send button appears alongside it
+
+#### Scenario: Placeholder updates when identity changes
+
+GIVEN a site owner changes `name` in `content/identity.json`
+WHEN the site is rebuilt
+THEN the input placeholder uses the new name with no component code change
 
 #### Scenario: Visitor submits a question with the Enter key
 
