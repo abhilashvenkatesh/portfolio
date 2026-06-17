@@ -20,9 +20,10 @@ const NAV_LINKS = [
 
 interface NavProps {
   email: string;
+  firstName: string;
 }
 
-export default function Nav({ email }: NavProps) {
+export default function Nav({ email, firstName }: NavProps) {
   const pathname = usePathname();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [scrolled, setScrolled] = useState(false);
@@ -60,7 +61,7 @@ export default function Nav({ email }: NavProps) {
         href="/"
         className="font-mono text-sm text-accent tracking-tight mr-8 shrink-0"
       >
-        abhilash
+        {firstName.toLowerCase()}
       </Link>
 
       <div className="hidden sm:flex items-center gap-1 flex-1">
@@ -119,6 +120,7 @@ export default function Nav({ email }: NavProps) {
           email={email}
           theme={theme}
           toggleTheme={toggleTheme}
+          firstName={firstName}
         />
       </div>
     </nav>

@@ -18,6 +18,7 @@ interface MobileDrawerProps {
   email: string;
   theme: Theme;
   toggleTheme: () => void;
+  firstName: string;
 }
 
 const FOCUSABLE =
@@ -30,6 +31,7 @@ export default function MobileDrawer({
   email,
   theme,
   toggleTheme,
+  firstName,
 }: MobileDrawerProps) {
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -109,7 +111,7 @@ export default function MobileDrawer({
       >
         <div className="flex items-center justify-between mb-6">
           <span className="font-mono text-sm text-accent tracking-tight">
-            abhilash
+            {firstName.toLowerCase()}
           </span>
           <button
             onClick={onClose}

@@ -35,9 +35,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-surface text-primary">
         <Providers>
-          <Nav email={contact.email} />
+          <Nav email={contact.email} firstName={identity.firstName} />
           <main className="flex-1 pt-15">{children}</main>
-          <Footer email={contact.email} linkedin={contact.linkedin} github={contact.github} />
+          <Footer email={contact.email} linkedin={contact.linkedin} github={contact.github} firstName={identity.firstName} />
         </Providers>
         <Analytics />
         <SpeedInsights />

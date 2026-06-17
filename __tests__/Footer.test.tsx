@@ -6,6 +6,7 @@ describe("Footer", () => {
     email: "abhilashfeb30@gmail.com",
     linkedin: "https://linkedin.com/in/abhilash-venkatesh",
     github: "https://github.com/abhilash-venkatesh",
+    firstName: "Abhilash",
   };
 
   it("renders email link with mailto href", () => {
@@ -27,6 +28,7 @@ describe("Footer", () => {
 
   it("renders copyright text", () => {
     render(<Footer {...props} />);
-    expect(screen.getByText(/© 2025 Abhilash/)).toBeInTheDocument();
+    const currentYear = new Date().getFullYear();
+    expect(screen.getByText(`© ${currentYear} Abhilash`)).toBeInTheDocument();
   });
 });

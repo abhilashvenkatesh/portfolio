@@ -23,6 +23,7 @@ function renderDrawer(props: Partial<React.ComponentProps<typeof MobileDrawer>> 
       email="abhilashfeb30@gmail.com"
       theme="light"
       toggleTheme={toggleTheme}
+      firstName="Abhilash"
       {...props}
     />
   );
@@ -39,6 +40,7 @@ describe("MobileDrawer", () => {
         email="abhilashfeb30@gmail.com"
         theme="light"
         toggleTheme={() => {}}
+        firstName="Abhilash"
       />
     );
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

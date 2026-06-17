@@ -8,10 +8,10 @@ vi.mock("next/navigation", () => ({
   usePathname: () => "/",
 }));
 
-function renderNav(email = "abhilashfeb30@gmail.com") {
+function renderNav(email = "abhilashfeb30@gmail.com", firstName = "Abhilash") {
   return render(
     <ThemeProvider>
-      <Nav email={email} />
+      <Nav email={email} firstName={firstName} />
     </ThemeProvider>
   );
 }
