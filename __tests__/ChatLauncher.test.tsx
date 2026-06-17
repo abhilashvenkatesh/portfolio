@@ -8,27 +8,29 @@ vi.mock("next/navigation", () => ({
 }));
 
 const SUGGESTIONS = [
-  "What are Abhilash's top skills?",
-  "Tell me about his role at Fabric Group",
-  "Which projects has he led?",
+  "What are the top skills?",
+  "Tell me about the current role",
+  "Which projects stand out?",
   "How can I get in touch?",
 ];
+
+const OWNER_NAME = "Abhilash";
 
 describe("ChatLauncher", () => {
   beforeEach(() => push.mockClear());
 
   it("renders the input with its placeholder", () => {
-    render(<ChatLauncher suggestions={SUGGESTIONS} />);
+    render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
     expect(
-      screen.getByPlaceholderText("Ask me anything about Abhilash…")
+      screen.getByPlaceholderText(`Ask me anything about ${OWNER_NAME}…`)
     ).toBeInTheDocument();
   });
 
   it("navigates to the encoded chat URL when the question is submitted with Enter", async () => {
     const user = userEvent.setup();
-    render(<ChatLauncher suggestions={SUGGESTIONS} />);
+    render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
     await user.type(
-      screen.getByPlaceholderText("Ask me anything about Abhilash…"),
+      screen.getByPlaceholderText(`Ask me anything about ${OWNER_NAME}…`),
       "Who is Abhilash?{Enter}"
     );
     expect(push).toHaveBeenCalledWith("/chat?q=Who%20is%20Abhilash%3F");
@@ -36,9 +38,9 @@ describe("ChatLauncher", () => {
 
   it("navigates when the send button is clicked", async () => {
     const user = userEvent.setup();
-    render(<ChatLauncher suggestions={SUGGESTIONS} />);
+    render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
     await user.type(
-      screen.getByPlaceholderText("Ask me anything about Abhilash…"),
+      screen.getByPlaceholderText(`Ask me anything about ${OWNER_NAME}…`),
       "Hello"
     );
     await user.click(screen.getByRole("button", { name: /send/i }));
@@ -47,9 +49,9 @@ describe("ChatLauncher", () => {
 
   it("does not navigate when the input is empty or whitespace", async () => {
     const user = userEvent.setup();
-    render(<ChatLauncher suggestions={SUGGESTIONS} />);
+    render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
     await user.type(
-      screen.getByPlaceholderText("Ask me anything about Abhilash…"),
+      screen.getByPlaceholderText(`Ask me anything about ${OWNER_NAME}…`),
       "   {Enter}"
     );
     await user.click(screen.getByRole("button", { name: /send/i }));
@@ -58,20 +60,20 @@ describe("ChatLauncher", () => {
 
   it("renders all four suggestion chips and navigates on click", async () => {
     const user = userEvent.setup();
-    render(<ChatLauncher suggestions={SUGGESTIONS} />);
+    render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
     for (const s of SUGGESTIONS) {
       expect(screen.getByRole("button", { name: s })).toBeInTheDocument();
     }
     await user.click(
-      screen.getByRole("button", { name: "Which projects has he led?" })
+      screen.getByRole("button", { name: "Which projects stand out?" })
     );
     expect(push).toHaveBeenCalledWith(
-      "/chat?q=Which%20projects%20has%20he%20led%3F"
+      "/chat?q=Which%20projects%20stand%20out%3F"
     );
   });
 
   it("renders accent browse links to the section pages", () => {
-    render(<ChatLauncher suggestions={SUGGESTIONS} />);
+    render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
     expect(screen.getByRole("link", { name: "projects" })).toHaveAttribute(
       "href",
       "/projects"
@@ -93,7 +95,7 @@ describe("ChatLauncher", () => {
         configurable: true,
         writable: true,
       });
-      render(<ChatLauncher suggestions={SUGGESTIONS} />);
+      render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
       await waitFor(() =>
         expect(screen.getByText("Works in your browser")).toBeInTheDocument()
       );
@@ -105,7 +107,7 @@ describe("ChatLauncher", () => {
         configurable: true,
         writable: true,
       });
-      render(<ChatLauncher suggestions={SUGGESTIONS} />);
+      render(<ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />);
       await waitFor(() =>
         expect(
           screen.getByText("Requires Chrome or Edge 113+")
@@ -120,7 +122,9 @@ describe("ChatLauncher", () => {
         configurable: true,
         writable: true,
       });
-      const { container } = render(<ChatLauncher suggestions={SUGGESTIONS} />);
+      const { container } = render(
+        <ChatLauncher suggestions={SUGGESTIONS} ownerName={OWNER_NAME} />
+      );
       // Before any useEffect fires, no badge span should be in the snapshot
       // We can't truly block effects in jsdom, so just verify badge is text-based
       expect(container).toBeTruthy();

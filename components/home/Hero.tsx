@@ -1,4 +1,4 @@
-import { getHomeContent } from "@/lib/content";
+import { getHomeContent, getIdentity } from "@/lib/content";
 import HeroBackground from "./HeroBackground";
 import HeroStats from "./HeroStats";
 import ChatLauncher from "./ChatLauncher";
@@ -12,6 +12,7 @@ const ACCENT_CLAUSE = "scale to millions.";
 export default function Hero() {
   const { roleBadge, headline, subheading, bio, stats, suggestions } =
     getHomeContent();
+  const identity = getIdentity();
 
   const accentIndex = subheading.lastIndexOf(ACCENT_CLAUSE);
   const subheadingLead =
@@ -42,7 +43,7 @@ export default function Hero() {
           {bio}
         </p>
 
-        <ChatLauncher suggestions={suggestions} />
+        <ChatLauncher suggestions={suggestions} ownerName={identity.name} />
 
         <HeroStats stats={stats} />
       </div>

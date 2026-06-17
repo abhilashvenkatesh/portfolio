@@ -6,8 +6,10 @@ import { useState, useSyncExternalStore } from "react";
 
 export default function ChatLauncher({
   suggestions,
+  ownerName,
 }: {
   suggestions: string[];
+  ownerName: string;
 }) {
   const router = useRouter();
   const [value, setValue] = useState("");
@@ -52,8 +54,8 @@ export default function ChatLauncher({
         <input
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Ask me anything about Abhilash…"
-          aria-label="Ask me anything about Abhilash"
+          placeholder={`Ask me anything about ${ownerName}…`}
+          aria-label={`Ask me anything about ${ownerName}`}
           className="flex-1 bg-transparent py-2 text-base text-primary outline-none placeholder:text-secondary"
         />
         <button

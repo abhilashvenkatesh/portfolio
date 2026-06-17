@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { getContactInfo } from "@/lib/content";
+import { getContactInfo, getIdentity } from "@/lib/content";
 import PageHeader from "@/components/ui/PageHeader";
 import FadeIn from "@/components/ui/FadeIn";
 import ContactCard from "@/components/contact/ContactCard";
 import AvailabilityBanner from "@/components/contact/AvailabilityBanner";
 
+const identity = getIdentity();
+
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Get in touch with Abhilash — open to full-time roles and select consulting engagements.",
+  description: `Get in touch with ${identity.name} — open to full-time roles and select consulting engagements.`,
 };
 
 const EmailIcon = () => (
