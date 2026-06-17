@@ -1,4 +1,4 @@
-import type { ChatMessageData } from "./WebLLMProvider";
+import type { ChatMessageData } from "./ChatProvider";
 
 export default function ChatMessage({ msg }: { msg: ChatMessageData }) {
   const isUser = msg.role === "user";

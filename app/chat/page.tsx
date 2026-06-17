@@ -1,4 +1,10 @@
-import { getChatChips, getContactInfo } from "@/lib/content";
+import {
+  getChatChips,
+  getContactInfo,
+  getExperience,
+  getProjects,
+  getSkills,
+} from "@/lib/content";
 import { CHAT_SYSTEM_PROMPT } from "@/lib/chat-context";
 import ChatClient from "@/components/chat/ChatClient";
 
@@ -6,6 +12,17 @@ import ChatClient from "@/components/chat/ChatClient";
 // All WebLLM logic runs in the browser inside ChatClient.
 export default function ChatPage() {
   const contact = getContactInfo();
+  const experience = getExperience();
+  const projects = getProjects();
+  const skills = getSkills();
+
+  const loadingContent = {
+    currentRole: experience[0]?.bullets[0] ?? "",
+    latestProject: projects[0]
+      ? `${projects[0].name} — ${projects[0].tagline}`
+      : "",
+    topSkills: skills[0]?.skills.slice(0, 4).join(", ") ?? "",
+  };
 
   return (
     <ChatClient
@@ -13,6 +30,7 @@ export default function ChatPage() {
       chips={getChatChips()}
       email={contact.email}
       linkedin={contact.linkedin}
+      loadingContent={loadingContent}
     />
   );
 }

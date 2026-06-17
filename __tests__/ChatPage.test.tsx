@@ -5,6 +5,7 @@ import ChatMessage from "@/components/chat/ChatMessage";
 import ChatInput from "@/components/chat/ChatInput";
 import UnsupportedFallback from "@/components/chat/UnsupportedFallback";
 import ChatClient from "@/components/chat/ChatClient";
+import ModelProvider from "@/components/providers/ModelProvider";
 
 // ---- Mock next/navigation useSearchParams ----
 let currentQuery = "";
@@ -18,9 +19,9 @@ vi.mock("@mlc-ai/web-llm", () => ({
   CreateMLCEngine: vi.fn(
     async (
       _id: string,
-      opts: { initProgressCallback?: (r: { progress: number }) => void },
+      opts: { initProgressCallback?: (r: { progress: number; text: string; timeElapsed: number }) => void },
     ) => {
-      opts.initProgressCallback?.({ progress: 1 });
+      opts.initProgressCallback?.({ progress: 1, text: "Ready", timeElapsed: 0 });
       return { chat: { completions: { create } } };
     },
   ),
@@ -44,7 +45,16 @@ const props = {
   ],
   email: "test@example.com",
   linkedin: "https://linkedin.com/in/test",
+  loadingContent: {
+    currentRole: "Lead engineer at Fabric Group",
+    latestProject: "LedgerStream — Event-sourced ledger",
+    topSkills: "Java, Node.js, TypeScript, JavaScript",
+  },
 };
+
+function renderWithProvider(ui: React.ReactElement) {
+  return render(<ModelProvider>{ui}</ModelProvider>);
+}
 
 beforeEach(() => {
   currentQuery = "";
@@ -87,12 +97,12 @@ describe("ChatMessage", () => {
 
 describe("ChatInput", () => {
   it("disables send when the input is empty", () => {
-    render(<ChatInput disabled={false} thinking={false} onSend={() => {}} />);
+    render(<ChatInput modelLoading={false} thinking={false} queued={false} onSend={() => {}} />);
     expect(screen.getByLabelText("Send")).toBeDisabled();
   });
 
   it("shows the Thinking… placeholder while generating", () => {
-    render(<ChatInput disabled thinking onSend={() => {}} />);
+    render(<ChatInput modelLoading={false} thinking={true} queued={false} onSend={() => {}} />);
     expect(screen.getByPlaceholderText("Thinking…")).toBeInTheDocument();
   });
 });
@@ -118,7 +128,7 @@ describe("UnsupportedFallback", () => {
 
 describe("ChatClient", () => {
   it("shows the welcome message and six suggestion chips on a fresh visit", async () => {
-    render(<ChatClient {...props} />);
+    renderWithProvider(<ChatClient {...props} />);
     expect(
       await screen.findByText(/I'm a chat layer over Abhilash's resume/),
     ).toBeInTheDocument();
@@ -128,7 +138,7 @@ describe("ChatClient", () => {
   });
 
   it("hides chips and answers after a chip is clicked", async () => {
-    render(<ChatClient {...props} />);
+    renderWithProvider(<ChatClient {...props} />);
     const chip = await screen.findByRole("button", {
       name: "What are his top skills?",
     });
@@ -142,7 +152,7 @@ describe("ChatClient", () => {
 
   it("seeds the question and skips the welcome on home handoff", async () => {
     currentQuery = "q=Tell%20me%20about%20Rapido";
-    render(<ChatClient {...props} />);
+    renderWithProvider(<ChatClient {...props} />);
 
     expect(await screen.findByText("Tell me about Rapido")).toBeInTheDocument();
     expect(await screen.findByText("Here's the answer.")).toBeInTheDocument();
@@ -153,7 +163,7 @@ describe("ChatClient", () => {
 
   it("shows the error fallback when generation fails", async () => {
     create.mockRejectedValue(new Error("boom"));
-    render(<ChatClient {...props} />);
+    renderWithProvider(<ChatClient {...props} />);
     const chip = await screen.findByRole("button", {
       name: "How can I get in touch?",
     });
@@ -168,7 +178,7 @@ describe("ChatClient", () => {
   it("falls back to contact links when WebGPU is unavailable", async () => {
     // @ts-expect-error remove stub to simulate unsupported browser
     delete navigator.gpu;
-    render(<ChatClient {...props} />);
+    renderWithProvider(<ChatClient {...props} />);
     await waitFor(() =>
       expect(
         screen.getByRole("link", { name: "test@example.com" }),

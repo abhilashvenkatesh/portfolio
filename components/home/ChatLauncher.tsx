@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 export default function ChatLauncher({
   suggestions,
@@ -11,6 +11,14 @@ export default function ChatLauncher({
 }) {
   const router = useRouter();
   const [value, setValue] = useState("");
+
+  // useSyncExternalStore: returns null on server (no hydration mismatch),
+  // real value on client — avoids setState-in-effect.
+  const gpuSupported = useSyncExternalStore(
+    () => () => {},
+    () => !!(navigator as Navigator & { gpu?: unknown }).gpu,
+    () => null,
+  );
 
   const go = (q: string) => {
     const trimmed = q.trim();
@@ -81,6 +89,21 @@ export default function ChatLauncher({
           </button>
         ))}
       </div>
+
+      {gpuSupported === true && (
+        <p className="mt-3 text-center font-mono text-[11px] uppercase tracking-wider">
+          <span className="rounded-full bg-accent-dim px-2.5 py-1 text-accent">
+            Works in your browser
+          </span>
+        </p>
+      )}
+      {gpuSupported === false && (
+        <p className="mt-3 text-center font-mono text-[11px] uppercase tracking-wider">
+          <span className="rounded-full bg-surface-alt px-2.5 py-1 text-secondary">
+            Requires Chrome or Edge 113+
+          </span>
+        </p>
+      )}
 
       <p className="mt-3.5 font-mono text-xs tracking-wide text-secondary">
         or browse ·{" "}

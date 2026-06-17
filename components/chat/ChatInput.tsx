@@ -3,16 +3,27 @@
 import { useState } from "react";
 
 export default function ChatInput({
-  disabled,
+  modelLoading,
   thinking,
+  queued,
   onSend,
 }: {
-  disabled: boolean;
+  modelLoading: boolean;
   thinking: boolean;
+  queued: boolean;
   onSend: (text: string) => void;
 }) {
   const [value, setValue] = useState("");
-  const canSend = !disabled && value.trim().length > 0;
+
+  const canSend = !thinking && !queued && value.trim().length > 0;
+
+  const placeholder = thinking
+    ? "Thinking…"
+    : queued
+      ? "Message queued — waiting for model…"
+      : modelLoading
+        ? "Ask a question (will send when model is ready)…"
+        : "Ask another question…";
 
   const submit = () => {
     if (!canSend) return;
@@ -31,8 +42,8 @@ export default function ChatInput({
       <input
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        disabled={disabled}
-        placeholder={thinking ? "Thinking…" : "Ask another question…"}
+        disabled={thinking || queued}
+        placeholder={placeholder}
         aria-label="Ask a question"
         className="flex-1 bg-transparent py-2.5 text-[15px] text-primary outline-none placeholder:text-secondary disabled:cursor-not-allowed"
       />

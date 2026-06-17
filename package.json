@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@mlc-ai/web-llm": "^0.2.84",
+    "ai": "^6.0.207",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.17.0",
     "next": "16.2.7",

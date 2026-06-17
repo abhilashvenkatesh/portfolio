@@ -1,23 +1,24 @@
 "use client";
 
-import { Suspense, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import WebLLMProvider, {
-  useWebLLM,
+import ChatProvider, {
+  useChatContext,
+  WELCOME,
   type ChatMessageData,
-} from "./WebLLMProvider";
+} from "./ChatProvider";
+import { useModelContext } from "@/components/providers/ModelProvider";
 import ChatThread from "./ChatThread";
 import ChatInput from "./ChatInput";
+import ChatLoadingContent, { type LoadingContent } from "./ChatLoadingContent";
 import UnsupportedFallback from "./UnsupportedFallback";
-
-const WELCOME =
-  "Hey! I'm a chat layer over Abhilash's resume. Ask me about his experience, projects, skills, or how to get in touch.";
 
 interface ChatClientProps {
   systemPrompt: string;
   chips: string[];
   email: string;
   linkedin: string;
+  loadingContent: LoadingContent;
 }
 
 export default function ChatClient(props: ChatClientProps) {
@@ -28,16 +29,20 @@ export default function ChatClient(props: ChatClientProps) {
   );
 }
 
-// Empty shell rendered while useSearchParams suspends.
 function ChatShell() {
   return <div className="h-[calc(100dvh-60px)]" aria-hidden="true" />;
 }
 
-function ChatExperience({ systemPrompt, chips, email, linkedin }: ChatClientProps) {
+function ChatExperience({
+  systemPrompt,
+  chips,
+  email,
+  linkedin,
+  loadingContent,
+}: ChatClientProps) {
   const searchParams = useSearchParams();
   const q = searchParams.get("q")?.trim() ?? "";
 
-  // Handoff seeds the visitor's question (welcome skipped); otherwise welcome only.
   const initialMessages = useMemo<ChatMessageData[]>(
     () =>
       q
@@ -47,13 +52,19 @@ function ChatExperience({ systemPrompt, chips, email, linkedin }: ChatClientProp
   );
 
   return (
-    <WebLLMProvider
+    <ChatProvider
       systemPrompt={systemPrompt}
       errorEmail={email}
       initialMessages={initialMessages}
     >
-      <ChatInner chips={chips} email={email} linkedin={linkedin} />
-    </WebLLMProvider>
+      <ChatInner
+        chips={chips}
+        email={email}
+        linkedin={linkedin}
+        loadingContent={loadingContent}
+        handoffQuery={q}
+      />
+    </ChatProvider>
   );
 }
 
@@ -61,22 +72,79 @@ function ChatInner({
   chips,
   email,
   linkedin,
+  loadingContent,
+  handoffQuery,
 }: {
   chips: string[];
   email: string;
   linkedin: string;
+  loadingContent: LoadingContent;
+  handoffQuery: string;
 }) {
-  const { state, progress, messages, send } = useWebLLM();
+  const { modelState, progress, progressText } = useModelContext();
+  const { chatState, messages, pendingQueue, send, markApiAnswered } =
+    useChatContext();
 
-  if (state === "unsupported") {
+  const modelLoading = modelState === "loading" || modelState === "idle";
+  const isThinking = chatState === "thinking";
+  const queued = pendingQueue !== null;
+
+  // Track if we have any real assistant response in thread yet.
+  const hasAssistantReply = messages.some(
+    (m) => m.role === "assistant" && !m.pending && m.text !== WELCOME,
+  );
+
+  // API fallback for handoff query.
+  const apiFiredRef = useRef(false);
+  const [apiStreaming, setApiStreaming] = useState(false);
+  const [apiReply, setApiReply] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!handoffQuery || !modelLoading || apiFiredRef.current) return;
+    apiFiredRef.current = true;
+
+    setApiStreaming(true);
+
+    (async () => {
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: handoffQuery }),
+        });
+
+        if (!res.ok || !res.body) {
+          setApiStreaming(false);
+          return;
+        }
+
+        markApiAnswered();
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let acc = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          acc += decoder.decode(value, { stream: true });
+          setApiReply(acc);
+        }
+      } catch {
+        // silent failure — normal queue-and-wait takes over
+      } finally {
+        setApiStreaming(false);
+      }
+    })();
+  }, [handoffQuery, modelLoading, markApiAnswered]);
+
+  if (modelState === "unsupported") {
     return (
       <div className="mx-auto max-w-3xl px-4">
         <UnsupportedFallback email={email} linkedin={linkedin} />
       </div>
     );
   }
-
-  const loading = state === "loading" || state === "idle";
 
   return (
     <div className="mx-auto flex h-[calc(100dvh-60px)] w-full max-w-3xl flex-col px-4 pt-8 sm:px-6">
@@ -97,11 +165,11 @@ function ChatInner({
         </p>
       </div>
 
-      {/* Model load progress */}
-      {loading && (
+      {/* Model load progress (task 6.1–6.2) */}
+      {modelLoading && (
         <div className="mb-4" role="status" aria-live="polite">
           <div className="mb-1.5 flex justify-between font-mono text-[11px] uppercase tracking-wider text-secondary">
-            <span>Loading model…</span>
+            <span>{progressText || "Loading model…"}</span>
             <span>{progress}%</span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-alt">
@@ -113,11 +181,32 @@ function ChatInner({
         </div>
       )}
 
-      <ChatThread messages={messages} chips={chips} onPickChip={send} />
+      {/* Loading content cards (task 8.2) */}
+      {modelLoading && !hasAssistantReply && !apiStreaming && (
+        <ChatLoadingContent content={loadingContent} />
+      )}
+
+      <ChatThread
+        messages={
+          apiReply !== null
+            ? [
+                ...messages,
+                {
+                  role: "assistant" as const,
+                  text: apiReply,
+                  pending: apiStreaming,
+                },
+              ]
+            : messages
+        }
+        chips={chips}
+        onPickChip={send}
+      />
 
       <ChatInput
-        disabled={state !== "ready"}
-        thinking={state === "thinking"}
+        modelLoading={modelLoading}
+        thinking={isThinking}
+        queued={queued}
         onSend={send}
       />
     </div>

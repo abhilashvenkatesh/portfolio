@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Providers from "@/components/providers/Providers";
 import Nav from "@/components/layout/Nav";
 import Footer from "@/components/layout/Footer";
 import { getIdentity, getContactInfo } from "@/lib/content";
@@ -32,11 +32,11 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-primary">
-        <ThemeProvider>
+        <Providers>
           <Nav email={contact.email} />
           <main className="flex-1 pt-15">{children}</main>
           <Footer email={contact.email} linkedin={contact.linkedin} github={contact.github} />
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

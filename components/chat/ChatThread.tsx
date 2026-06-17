@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import ChatMessage from "./ChatMessage";
 import SuggestionChips from "./SuggestionChips";
-import type { ChatMessageData } from "./WebLLMProvider";
+import type { ChatMessageData } from "./ChatProvider";
 
 export default function ChatThread({
   messages,
