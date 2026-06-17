@@ -62,3 +62,7 @@ archive_documents:
       id: "0f28d2a0-c56f-41be-9b70-a4841bd95e8b"
       url: "https://linear.app/abhilash-projects/document/openspec-contact-page-9fb9c948543c"
       title: "OpenSpec: contact-page"
+    "chat-page":
+      id: "fe4d76f5-dc46-412d-a4d0-eee6e9f9353e"
+      url: "https://linear.app/abhilash-projects/document/openspec-chat-page-df73248e4be4"
+      title: "OpenSpec: chat-page"
