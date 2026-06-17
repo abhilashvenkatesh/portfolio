@@ -69,6 +69,13 @@ export default function WebLLMProvider({
   const initStartedRef = useRef(false);
   const handoffDoneRef = useRef(false);
 
+  // Mirror committed messages so `send` can read the prior thread without
+  // relying on a setState-updater side effect (which may run stale or twice).
+  const messagesRef = useRef<ChatMessageData[]>(initialMessages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
   // Stream a reply for `userText`, given the thread state that preceded it.
   const runCompletion = useCallback(
     async (userText: string, history: ChatMessageData[]) => {
@@ -134,11 +141,8 @@ export default function WebLLMProvider({
     (raw: string) => {
       const text = raw.trim();
       if (!text || !engineRef.current) return;
-      let history: ChatMessageData[] = [];
-      setMessages((prev) => {
-        history = prev;
-        return [...prev, { role: "user", text }];
-      });
+      const history = messagesRef.current;
+      setMessages((prev) => [...prev, { role: "user", text }]);
       void runCompletion(text, history);
     },
     [runCompletion],
@@ -150,7 +154,10 @@ export default function WebLLMProvider({
     initStartedRef.current = true;
 
     // WebGPU gate — never import the heavy engine on unsupported browsers.
-    if (typeof navigator === "undefined" || !("gpu" in navigator)) {
+    const hasWebGPU =
+      typeof navigator !== "undefined" &&
+      !!(navigator as Navigator & { gpu?: unknown }).gpu;
+    if (!hasWebGPU) {
       queueMicrotask(() => setState("unsupported"));
       return;
     }
