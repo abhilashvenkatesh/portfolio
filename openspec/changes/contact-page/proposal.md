@@ -1,6 +1,7 @@
 ---
 linear_story_id: POR-176
 linear_story_url: https://linear.app/abhilash-projects/issue/POR-176/contact-page-header-opening-statement-cards-availability-banner
+finished_at: 2026-06-17T00:20:00Z
 ---
 
 # Proposal: contact-page

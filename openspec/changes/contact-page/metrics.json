@@ -1,0 +1,44 @@
+{
+  "change": "contact-page",
+  "generated_at": "2026-06-17T00:14:43Z",
+  "method": "unknown",
+  "linear": {
+    "id": "POR-176",
+    "url": "https://linear.app/abhilash-projects/issue/POR-176/contact-page-header-opening-statement-cards-availability-banner"
+  },
+  "time": {
+    "started_at": "",
+    "finished_at": "2026-06-17T00:20:00Z",
+    "phase_timestamps": {
+      "proposal": "2026-06-17T10:05:14+10:00",
+      "specs": "2026-06-17T10:05:14+10:00",
+      "design": "2026-06-17T10:05:14+10:00",
+      "tasks": "2026-06-17T10:05:14+10:00",
+      "verify": "",
+      "retrospective": ""
+    }
+  },
+  "size": {
+    "base": "b589c47e2351a99df0c9b08c52f002576729c18d^",
+    "commits": 1,
+    "added": 279,
+    "deleted": 0,
+    "files": 5
+  },
+  "scope": {
+    "tasks_total": 23,
+    "tasks_done": 19,
+    "requirements": 5,
+    "scenarios": 11
+  },
+  "quality": {
+    "verify_present": true,
+    "verify_fail": false,
+    "verify_rewrites": 0,
+    "openspec_validate": "fail"
+  },
+  "tokens": {
+    "attribution": "none",
+    "sessions": 0
+  }
+}
